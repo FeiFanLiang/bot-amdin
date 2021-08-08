@@ -57,15 +57,59 @@ export const constantRoutes = [
   {
     path:'/user',
     name:'user',
+    meta:{
+      title:'用户管理'
+    },
     component:Layout,
     children:[
       {
         path:'userList',
         name:'userList',
         meta:{
-          title:'用户管理'
+          title:'后台用户'
         },
         component:() => import('@/views/user-list')
+      },
+      {
+        path:'accountList',
+        name:"accountList",
+        meta:{
+          title:'机器人用户'
+        },
+        component:() => import('@/views/account-list')
+      }
+    ]
+  },
+  {
+    path:'/rechargeAddress',
+    name:"rechargeAddress",
+    component:Layout,
+    meta:{
+      title:"充值账号管理"
+    },
+    children:[
+      {
+        path:'alipay',
+        name:'alipay',
+        meta:{
+          title:"支付宝账号"
+        },
+        component:() => import('@/views/recharge-address')
+      }
+    ]
+  },
+  {
+    path:'/address',
+    name:'address',
+    component:Layout,
+    children:[
+      {
+        path:"/addressList",
+        name:'addressList',
+        meta:{
+          title:"地址管理"
+        },
+        component:() => import('@/views/address-list')
       }
     ]
   },
@@ -78,20 +122,12 @@ export const constantRoutes = [
     component:Layout,
     children:[
       {
-        path:'commandList',
-        name:'commandList',
-        meta:{
-          title:'命令列表'
-        },
-        component:() => import('@/views/command-list')
-      },
-      {
         path:'keyList',
         name:'keyList',
         meta:{
-          title:'变量列表'
+          title:'变量管理'
         },
-        component:() => import('@/views/key-list')
+        component:() => import('@/views/command-list')
       },
       {
         path:'templateList',

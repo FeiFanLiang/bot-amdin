@@ -52,13 +52,7 @@ import { validUsername } from '@/utils/validate'
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
+   
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('The password can not be less than 6 digits'))
@@ -68,11 +62,16 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
+        username: '',
         password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        username: [{ required: true, trigger: 'blur', type:'string',message:'请输入用户名' },
+        {
+          min:6,
+          message:'输入6位数以上用户名',
+          trigger: 'blur'
+        }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
