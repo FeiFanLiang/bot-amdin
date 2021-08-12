@@ -14,3 +14,11 @@ export const updateAlipayAddressApi = (data) => {
         data
     })
 }
+
+export const getRechargeListApi = (data) => {
+    return axios({
+        url:"/api/getRechargeList",
+        method:"post",
+        data
+    })
+}

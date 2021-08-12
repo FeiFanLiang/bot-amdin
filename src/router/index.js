@@ -81,6 +81,23 @@ export const constantRoutes = [
     ]
   },
   {
+    path:'/cunntasan',
+    name:'流水记录',
+    component:Layout,
+    meta:{
+      title:"流水记录"
+    },
+    children:[
+      {
+        path:'bill',
+        meta:{
+          title:'流水记录'
+        },
+        component:() =>import('@/views/bill-list')
+      }
+    ]
+  },
+  {
     path:'/rechargeAddress',
     name:"rechargeAddress",
     component:Layout,

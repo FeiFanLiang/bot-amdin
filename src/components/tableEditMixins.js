@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 export default {
   data() {
     return {
@@ -18,6 +19,9 @@ export default {
     this.fetchData();
   },
   methods: {
+    timeFormatter(row,column,value){
+      return dayjs(value).format('YYYY-MM-DD HH:mm:ss')
+    },
     handleCurrentChange(val) {
       this.pagination.currentPage = val;
       this.fetchData();

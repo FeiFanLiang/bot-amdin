@@ -24,6 +24,7 @@
               <el-table-column label="USDT余额" prop="usdt_balance" :formatter="amountFormatter"></el-table-column>
               <el-table-column label="操作">
                   <template v-slot="scope">
+                      <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
                       <el-button type="success" @click="handleEditAmount('1',scope.row)">充值</el-button>
                       <el-button type="warning" @click="handleEditAmount('0',scope.row)" >提现</el-button>
                   </template>
@@ -54,13 +55,19 @@
                 <el-button>取消操作</el-button>
             </template>
         </el-dialog>
+        <account-dialog :visible.sync="accountDialogShow" :userId="userId"></account-dialog>
     </div>
 </template>
 <script>
 import {getAccountListApi,editAccountAmountApi} from '@/api/account'
+import AccountDialog from './components/accountDialog'
 export default {
+    components:{
+        AccountDialog
+    },
     data(){
         return {
+            accountDialogShow:false,
             dialogVisible:false,
             typeOptions:[
                 {
@@ -92,6 +99,7 @@ export default {
             },
             tableList:[],
             editUser:{},
+            userId:"",
             editType:"",
             form:{
                 userId:"",
@@ -130,6 +138,10 @@ export default {
         this.fetchData()
     },
     methods:{
+        handleShowBill(row){
+            this.userId = row.userId
+            this.accountDialogShow = true;
+        },
         amountFormatter(row,column,value){
             return Math.ceil(value / 100)
         },
