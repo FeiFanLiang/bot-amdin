@@ -16,3 +16,20 @@ export const editAccountAmountApi = (data) => {
     })
 }
 
+
+export const getRateApi = (data) => {
+    return axios({
+        url:'/api/getRate',
+        method:'get',
+        data
+    })
+}
+
+
+export const updateRateApi = (data) => {
+    return axios({
+        url:'/api/updateRate',
+        method:'post',
+        data
+    })
+}

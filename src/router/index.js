@@ -81,6 +81,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path:"/rate",
+    name:"rate",
+    component:Layout,
+    children:[
+      {
+        path:'rate-list',
+        meta:{
+          title:'汇率管理'
+        },
+        component:() => import('@/views/rate-list')
+      }
+    ]
+  },
+  {
     path:'/cunntasan',
     name:'流水记录',
     component:Layout,
