@@ -1,9 +1,10 @@
 import axios from '@/utils/request'
 
-export const getAlipayAddressApi = () => {
+export const getAlipayAddressApi = (params) => {
     return axios({
         url:'/api/getAlipayAddress',
-        method:'get'
+        method:'get',
+        params
     })
 }
 
