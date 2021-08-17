@@ -116,16 +116,24 @@ export const constantRoutes = [
     name:"rechargeAddress",
     component:Layout,
     meta:{
-      title:"充值账号管理"
+      title:"充值设置"
     },
     children:[
       {
         path:'alipay',
         name:'alipay',
         meta:{
-          title:"支付宝账号"
+          title:"支付设置"
         },
         component:() => import('@/views/recharge-address')
+      },
+      {
+        path:'redpack',
+        name:'redpack',
+        meta:{
+          title:'红包设置'
+        },
+        component:() => import('@/views/redpack/index.vue')
       }
     ]
   },

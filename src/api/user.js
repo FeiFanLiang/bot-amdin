@@ -30,3 +30,18 @@ export function logout() {
     method: 'get'
   })
 }
+
+export function getRedpackConfigApi () {
+  return request({
+    url:'/api/getRedpackConfig',
+    method:"get"
+  })
+}
+
+export function updateRedpackConfigApi (data) {
+  return request({
+    url:'/api/updateRedpackConfig',
+    method:"post",
+    data
+  })
+}
