@@ -41,6 +41,13 @@
         </el-table-column>
         <el-table-column label="货币类型" prop="type"></el-table-column>
         <el-table-column label="金额" prop="amount"></el-table-column>
+         <el-table-column label="操作前金额" prop="beforeAmount"></el-table-column>
+        <el-table-column label="操作后金额" prop="afterAmount"></el-table-column>
+        <el-table-column label="红包创建人ID" prop="fromUserId"></el-table-column>
+        <el-table-column label="红包创建人用户名" prop="fromUserName"></el-table-column>
+        <el-table-column label="转账接收人ID" prop="toUserId"></el-table-column>
+        <el-table-column label="转账接收人用户名" prop="toUserName"></el-table-column>
+        <el-table-column label="备注" prop="remark" show-overflow-tooltip ></el-table-column>
         <el-table-column label="是否成功" prop="success">
             <template v-slot="scope">
                 {{scope.row.success ? '成功' : '未完成'}}
@@ -100,6 +107,18 @@ export default {
         {
           label: "转账",
           value: "trans"
+        },
+        {
+          label:'兑换',
+          value:'exchange'
+        },
+        {
+          label:'pack_out',
+          value:'发红包'
+        },
+        {
+          label:'pack_in',
+          value:'收红包'
         }
       ],
       filters: {

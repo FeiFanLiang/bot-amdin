@@ -19,6 +19,10 @@ export default {
     this.fetchData();
   },
   methods: {
+    search(){
+      this.pagination.currentPage = 1;
+      this.fetchData()
+    },
     timeFormatter(row,column,value){
       return dayjs(value).format('YYYY-MM-DD HH:mm:ss')
     },

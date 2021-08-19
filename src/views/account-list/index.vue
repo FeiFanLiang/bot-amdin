@@ -9,7 +9,7 @@
                     <el-input clearable v-model="filters.accountName" placeholder="用户名"></el-input>
                 </el-col>
                 <el-col :span="8">
-                    <el-button type="primary" @click="fetchData">搜索</el-button>
+                    <el-button type="primary" @click="search">搜索</el-button>
                     <el-button @click="resetFilter">重置</el-button>
                 </el-col>
             </el-row>
