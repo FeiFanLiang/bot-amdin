@@ -119,12 +119,12 @@ export default {
           value:'exchange'
         },
         {
-          label:'pack_out',
-          value:'发红包'
+          value:'pack_out',
+          label:'发红包'
         },
         {
-          label:'pack_in',
-          value:'收红包'
+          value:'pack_in',
+          label:'收红包'
         }
       ],
       filters: {

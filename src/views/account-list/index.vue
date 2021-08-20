@@ -138,6 +138,10 @@ export default {
         this.fetchData()
     },
     methods:{
+        search(){
+            this.pagination.currentPage = 0;
+            this.fetchData()
+        },
         handleShowBill(row){
             this.userId = row.userId
             this.accountDialogShow = true;
