@@ -90,12 +90,18 @@ export default {
     submit() {
       this.$refs["form"].validate().then(() => {
         const { form } = this;
-        updateRateApi(form).then(() => {
+        this.$confirm(`确认设置兑换货币（${form.fromType}）到 目标货币（${form.toType}）的汇率：${form.rate}`, '确认操作', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+           updateRateApi(form).then(() => {
           this.$message.success("操作成功");
           this.dialogVisible = false;
           this.$refs["form"].resetFields();
           this.fetchData()
         });
+        })
       });
     }
   }

@@ -43,8 +43,8 @@
         <el-table-column label="金额" prop="amount"></el-table-column>
          <el-table-column label="操作前金额" prop="beforeAmount"></el-table-column>
         <el-table-column label="操作后金额" prop="afterAmount"></el-table-column>
-        <el-table-column label="红包创建人ID" prop="fromUserId"></el-table-column>
-        <el-table-column label="红包创建人用户名" prop="fromUserName"></el-table-column>
+        <el-table-column label="(红包创建人/转账发起人)ID" prop="fromUserId"></el-table-column>
+        <el-table-column label="(红包创建人/转账发起人)用户名" prop="fromUserName"></el-table-column>
         <el-table-column label="转账接收人ID" prop="toUserId"></el-table-column>
         <el-table-column label="转账接收人用户名" prop="toUserName"></el-table-column>
         <el-table-column label="备注" prop="remark" show-overflow-tooltip ></el-table-column>

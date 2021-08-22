@@ -2,7 +2,11 @@
   <div class="app-container">
     <div class="table-box">
       <el-table :data="tableList">
-        <el-table-column label="模板内容" prop="context"></el-table-column>
+        <el-table-column label="模板内容" prop="context">
+          <template v-slot="scope">
+            <pre><code>{{scope.row.context}}</code></pre>
+          </template>
+        </el-table-column>
         <el-table-column label="模板key" prop="key"></el-table-column>
         <el-table-column label="备注" prop="remark"></el-table-column>
         <el-table-column label="操作">
@@ -66,11 +70,12 @@
         <el-form-item label="文本内容" prop="context">
           <el-input
             type="textarea"
+            autosize
             v-model="form.context"
             placeholder="请输入文本内容"
           ></el-input>
         </el-form-item>
-        <el-form-item label="附加按钮" prop="buttons">
+        <el-form-item label="附加按钮" prop="buttons" v-if="form.hasButtons">
           <el-button
             type="primary"
             style="margin-bottom:20px"
@@ -79,6 +84,7 @@
           >
           <el-form-item v-for="(item, index) of form.buttons" :key="index">
             <el-select
+              class="select"
               multiple
               v-model="form.buttons[index]"
               value-key="_id"
@@ -87,7 +93,7 @@
               <el-option
                 v-for="button of buttons"
                 :key="button.value"
-                :label="`${button.key} (${button.remark})`"
+                :label="`${button.key} (${button.text})`"
                 :value="button"
               ></el-option>
             </el-select>
@@ -102,6 +108,7 @@
         <el-form-item label="备注" prop="remark">
           <el-input
             type="textarea"
+            autosize
             v-model="form.remark"
             placeholder="请输入"
           ></el-input>
@@ -196,3 +203,8 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.select {
+  width: 80%;
+}
+</style>

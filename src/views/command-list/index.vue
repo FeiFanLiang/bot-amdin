@@ -34,7 +34,6 @@
           :formatter="typeFormatter"
         ></el-table-column>
         <el-table-column label="key值" prop="key"></el-table-column>
-        <el-table-column label="命令" prop="command"></el-table-column>
         <el-table-column label="按钮回调" prop="callback_data">
         </el-table-column>
         <el-table-column label="按钮链接" prop="url"></el-table-column>
@@ -67,7 +66,7 @@
     <el-dialog title="按钮详情" :visible.sync="dialogVisible">
       <el-form
         label-position="left"
-        label-width="100px"
+        label-width="200px"
         :rules="rules"
         :model="form"
         ref="form"
@@ -90,16 +89,16 @@
           </el-select>
         </el-form-item>
        
-        <el-form-item label="按钮回调" prop="callback_data">
+        <el-form-item label="按钮回调(设置回调后URL不再生效)" prop="callback_data" v-if="form.type === 'button'" >
           <el-input
             v-model="form.callback_data"
             placeholder="请以/字符开头"
           ></el-input>
         </el-form-item>
-        <el-form-item label="按钮分享URL" prop="url">
+        <el-form-item label="按钮分享URL" prop="url" v-if="form.type === 'button'">
           <el-input v-model="form.url" placeholder="输入分享的URL"></el-input>
         </el-form-item>
-        <el-form-item label="按钮文本" prop="text" :required="form.type === 'button'">
+        <el-form-item label="按钮文本" prop="text" :required="form.type === 'button'" v-if="form.type === 'button'">
           <el-input v-model="form.text" placeholder="输入按钮文本"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -184,7 +183,7 @@ export default {
             validator: (rule, value, callback) => {
               if (
                 value &&
-                !/^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*([\?&]\w+=\w*)*$/.test(
+                !/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/.test(
                   value
                 )
               ) {
