@@ -125,7 +125,7 @@ export default {
                 data = {...this.usdForm,type:'usd'}
             }
             if(number === 5){
-                data = {...this.usdForm,type:'rm'}
+                data = {...this.rmForm,type:'rm'}
             }
             if(number === 6){
                 data = {...this.phpForm,type:"php"}
