@@ -51,17 +51,36 @@
         </el-table-column>
         <el-table-column label="货币类型" prop="type"></el-table-column>
         <el-table-column label="金额" prop="amount"></el-table-column>
-        <el-table-column label="操作前金额" prop="beforeAmount"></el-table-column>
-        <el-table-column label="操作后金额" prop="afterAmount"></el-table-column>
-        <el-table-column label="红包创建人ID" prop="fromUserId"></el-table-column>
-        <el-table-column label="红包创建人用户名" prop="fromUserName"></el-table-column>
+        <el-table-column
+          label="操作前金额"
+          prop="beforeAmount"
+        ></el-table-column>
+        <el-table-column
+          label="操作后金额"
+          prop="afterAmount"
+        ></el-table-column>
+        <el-table-column
+          label="红包创建人ID"
+          prop="fromUserId"
+        ></el-table-column>
+        <el-table-column
+          label="红包创建人用户名"
+          prop="fromUserName"
+        ></el-table-column>
         <el-table-column label="转账接收人ID" prop="toUserId"></el-table-column>
-        <el-table-column label="转账接收人用户名" prop="toUserName"></el-table-column>
-        <el-table-column label="备注" prop="remark" show-overflow-tooltip ></el-table-column>
+        <el-table-column
+          label="转账接收人用户名"
+          prop="toUserName"
+        ></el-table-column>
+        <el-table-column
+          label="备注"
+          prop="remark"
+          show-overflow-tooltip
+        ></el-table-column>
         <el-table-column label="是否成功" prop="success">
-            <template v-slot="scope">
-                {{scope.row.success ? '成功' : '未完成'}}
-            </template>
+          <template v-slot="scope">
+            {{ scope.row.success ? "成功" : "未完成" }}
+          </template>
         </el-table-column>
         <el-table-column
           label="操作人ID"
@@ -71,8 +90,11 @@
           label="操作人用户名"
           prop="confirmUserName"
         ></el-table-column>
-        <el-table-column label="创建时间" prop="createTime" :formatter="timeFormatter"></el-table-column>
-
+        <el-table-column
+          label="创建时间"
+          prop="createTime"
+          :formatter="timeFormatter"
+        ></el-table-column>
       </el-table>
     </div>
     <div class="pagination-box">
@@ -94,13 +116,16 @@ export default {
   mixins: [TableEditMixins],
   data() {
     return {
-         successOptions:[{
-            label:"成功",
-            value:'true'
-        },{
-            label:'未完成',
-            value:'false'
-        }],
+      successOptions: [
+        {
+          label: "成功",
+          value: "true"
+        },
+        {
+          label: "未完成",
+          value: "false"
+        }
+      ],
       typeOptions: [
         {
           label: "充值",
@@ -115,22 +140,22 @@ export default {
           value: "trans"
         },
         {
-          label:'兑换',
-          value:'exchange'
+          label: "兑换",
+          value: "exchange"
         },
         {
-          value:'pack_out',
-          label:'发红包'
+          value: "pack_out",
+          label: "发红包"
         },
         {
-          value:'pack_in',
-          label:'收红包'
+          value: "pack_in",
+          label: "收红包"
         }
       ],
       filters: {
         userId: "",
         type: "",
-        success:'',
+        success: "",
         userName: ""
       }
     };
@@ -143,6 +168,7 @@ export default {
       this.filters = {
         userId: "",
         type: "",
+        success: "",
         userName: ""
       };
       this.pagination = {
@@ -150,9 +176,9 @@ export default {
         total: 0
       };
     },
-    search(){
-      this.reset()
-      this.fetchData()
+    search() {
+      this.pagination.currentPage = 1;
+      this.fetchData();
     },
     fetchData() {
       const { query } = this;

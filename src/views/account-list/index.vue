@@ -14,6 +14,26 @@
                 </el-col>
             </el-row>
         </div>
+        <div class="count">
+            <span>
+                人民币总计:{{countData.cny}}
+            </span>
+            <span>
+                usdt总计:{{countData.usdt}}
+            </span>
+            <span>
+                美金总计:{{countData.usd}}
+            </span>
+            <span>
+                披索总计:{{countData.php}}
+            </span>
+             <span>
+                令吉总计:{{countData.rm}}
+            </span>
+            <span>
+                迪拉姆总计:{{countData.aed}}
+            </span>
+        </div>
         <div class="table-box">
             <el-table :data="tableList">
               <el-table-column label="用户名" prop="accountName"></el-table-column>
@@ -22,6 +42,16 @@
                
               </el-table-column>
               <el-table-column label="USDT余额" prop="usdt_balance" :formatter="amountFormatter"></el-table-column>
+              <el-table-column label="USD余额" prop="usd_balance" :formatter="amountFormatter"></el-table-column>
+              <el-table-column label="令吉余额" prop="rm_balance" :formatter="amountFormatter"></el-table-column>
+               <el-table-column label="披索余额" prop="php_balance" :formatter="amountFormatter"></el-table-column>
+               <el-table-column label="迪拉姆余额" prop="aed_balance" :formatter="amountFormatter"></el-table-column>
+               <el-table-column label="黑名单状态">
+                   <template v-slot="scope">
+                       <el-switch :value="scope.row.inBlack" @change="handleChange(scope.row)"></el-switch>
+                   </template>
+                   
+               </el-table-column>
               <el-table-column label="操作">
                   <template v-slot="scope">
                       <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
@@ -59,7 +89,7 @@
     </div>
 </template>
 <script>
-import {getAccountListApi,editAccountAmountApi} from '@/api/account'
+import {getAccountListApi,editAccountAmountApi,getAmountCountApi,updateAccessApi} from '@/api/account'
 import AccountDialog from './components/accountDialog'
 export default {
     components:{
@@ -96,6 +126,14 @@ export default {
             pagination:{
                 currentPage:1,
                 total:0
+            },
+            countData:{
+                cny:'',
+                usdt:'',
+                usd:'',
+                aed:'',
+                php:"",
+                rm:''
             },
             tableList:[],
             editUser:{},
@@ -136,8 +174,33 @@ export default {
     },
     created(){
         this.fetchData()
+        this.getAmount()
     },
     methods:{
+        handleChange(row){
+            const data = {
+                userId:row.userId,
+                inBlack:!row.inBlack
+            }
+            updateAccessApi(data).then(() => {
+                this.fetchData()
+            })
+        },
+        getAmount(){
+            getAmountCountApi().then((res) => {
+                const data = res[0]
+                if(res[0]){
+                    this.countData = {
+                        cny:res[0].cny_total / 100,
+                        usdt:res[0].usdt_total / 100,
+                        usd:res[0].usd_total  / 100,
+                        rm:res[0].rm_total / 100,
+                        php:res[0].php_total / 100,
+                        aed:res[0].aed_total / 100
+                    }
+                }
+            })
+        },
         search(){
             this.pagination.currentPage = 0;
             this.fetchData()
@@ -147,6 +210,9 @@ export default {
             this.accountDialogShow = true;
         },
         amountFormatter(row,column,value){
+            if(!value){
+                return 0
+            }
             return Math.ceil(value / 100)
         },
         handleCurrentChange(val){
@@ -196,3 +262,14 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.count {
+    margin: 15px 0;
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+    &>span {
+        margin-left: 25px;
+    }
+}
+</style>

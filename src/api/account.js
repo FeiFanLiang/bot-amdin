@@ -33,3 +33,46 @@ export const updateRateApi = (data) => {
         data
     })
 }
+
+export const getAmountCountApi = () => {
+    return axios({
+        url:'/api/amountCount',
+        method:'get'
+    })
+}
+
+export const updateAccessApi = (data) => {
+    return axios({
+        url:'/api/updateAccess',
+        method:'post',
+        data
+    })
+}
+export const getWhiteApi = () => {
+    return axios({
+        url:'/api/getWhite',
+        method:"get"
+    })
+}
+
+export const getFilterRuleApi = () => {
+    return axios({
+        url:'/api/getFilterRule',
+        method:'get'
+    })
+}
+
+export const updateWhiteApi = (data) => {
+    return axios({
+        url:'/api/updateWhite',
+        method:'post',
+        data
+    })
+}
+export const updateFilterRuleApi = (data) => {
+    return axios({
+        url:"/api/updateFilterRule",
+        method:"post",
+        data
+    })
+}

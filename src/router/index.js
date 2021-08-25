@@ -77,6 +77,14 @@ export const constantRoutes = [
           title:'机器人用户'
         },
         component:() => import('@/views/account-list')
+      },
+      {
+        path:"access",
+        name:"access",
+        meta:{
+          title:"机器人过滤设置"
+        },
+        component:() => import('@/views/access-config')
       }
     ]
   },
