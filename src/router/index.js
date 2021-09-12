@@ -91,6 +91,9 @@ export const constantRoutes = [
   {
     path:"/rate",
     name:"rate",
+    meta:{
+      title:'汇率管理'
+    },
     component:Layout,
     children:[
       {
@@ -99,7 +102,14 @@ export const constantRoutes = [
           title:'汇率管理'
         },
         component:() => import('@/views/rate-list')
-      }
+      },
+      {
+        path:"enery-list",
+        meta:{
+          title:'USDT能量汇率/手续费',
+        },
+        component:() => import('@/views/enery-list')
+      },
     ]
   },
   {

@@ -76,3 +76,32 @@ export const updateFilterRuleApi = (data) => {
         data
     })
 }
+
+export const getEnergyApi = () => {
+    return axios({
+        url:"/api/getEnergy",
+        method:"get"
+    })
+}
+export const updateEnergyApi = (data) => {
+    return axios({
+        url:'/api/updateEnergy',
+        method:"post",
+        data
+    })
+}
+
+export const getHandingFeeApi = () => {
+    return axios({
+        url:'/api/usdtRate',
+        method:"get"
+    })
+}
+
+export const updateHandingFeeApi = (data) => {
+    return axios({
+        url:'/api/updateUsdtRate',
+        method:"post",
+        data
+    })
+}
