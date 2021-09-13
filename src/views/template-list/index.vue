@@ -142,8 +142,8 @@ export default {
           label: "文本模板"
         },
         {
-          value: "Photo",
-          label: "图文模板"
+          value: "Callback",
+          label: "回调模板"
         }
       ],
       tableList: [],
