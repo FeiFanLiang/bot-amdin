@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <div class="table-box">
+      <el-button type="primary" @click="add">新增模板</el-button>
       <el-table :data="tableList">
         <el-table-column label="模板内容" prop="context">
           <template v-slot="scope">
@@ -34,8 +35,8 @@
         :model="form"
         ref="form"
       >
-        <el-form-item label="模板key值" prop="key">
-          <el-input v-model="form.key" disabled placeholder="请输入"></el-input>
+        <el-form-item label="模板key值" prop="key" required>
+          <el-input v-model="form.key" :disabled="!!form.id" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="类型" prop="type" required>
           <el-select v-model="form.type" placeholder="选择">
@@ -140,14 +141,11 @@ export default {
         {
           value: "Text",
           label: "文本模板"
-        },
-        {
-          value: "Callback",
-          label: "回调模板"
         }
       ],
       tableList: [],
       form: {
+        id:"",
         type: "",
         photoUrl: "",
         photoCaption: "",
@@ -166,6 +164,21 @@ export default {
     this.fetchData();
   },
   methods: {
+    add(){
+      this.form = {
+        id:"",
+        type: "",
+        photoUrl: "",
+        photoCaption: "",
+        remark: "",
+         hasButtons:true,
+        buttons: [],
+        key: "",
+        context: ""
+      }
+      debugger
+      this.dialogVisible = true;
+    },
     handleCurrentChange(val) {
       this.pagination.currentPage = val;
       this.fetchData();

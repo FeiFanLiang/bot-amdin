@@ -89,16 +89,16 @@
           </el-select>
         </el-form-item>
        
-        <el-form-item label="按钮回调(设置回调后URL不再生效)" prop="callback_data" v-if="form.type === 'button'" >
+        <el-form-item label="按钮回调(设置回调后URL不再生效)" prop="callback_data" v-if="form.type === 'button' || form.type === 'callbackButton'" >
           <el-input
             v-model="form.callback_data"
             placeholder="请以/字符开头"
           ></el-input>
         </el-form-item>
-        <el-form-item label="按钮分享URL" prop="url" v-if="form.type === 'button'">
+        <el-form-item label="按钮分享URL" prop="url" v-if="form.type === 'button' || form.type === 'callbackButton'">
           <el-input v-model="form.url" placeholder="输入分享的URL"></el-input>
         </el-form-item>
-        <el-form-item label="按钮文本" prop="text" :required="form.type === 'button'" v-if="form.type === 'button'">
+        <el-form-item label="按钮文本" prop="text" :required="form.type === 'button' " v-if="form.type === 'button' || form.type === 'callbackButton'">
           <el-input v-model="form.text" placeholder="输入按钮文本"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -126,8 +126,8 @@ export default {
       isEdit: false,
       typeOptions: [
         {
-          label: "占位符",
-          value: "placeholder",
+          label: "回调按钮",
+          value: "callbackButton",
         },
         {
           label: "命令",
@@ -263,6 +263,14 @@ export default {
     },
     handleAdd() {
       this.isEdit = false;
+      this.form = {id: "",
+        key: "",
+        command: "",
+        callback_data: "",
+        text: "",
+        url: "",
+        remark: "",
+        type: "button"}
       this.dialogVisible = true;
     },
   },
