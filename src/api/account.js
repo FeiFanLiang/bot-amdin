@@ -105,3 +105,9 @@ export const updateHandingFeeApi = (data) => {
         data
     })
 }
+export const restartBotApi = () => {
+    return axios({
+        url:"/api/restart",
+        method:"get"
+    })
+}

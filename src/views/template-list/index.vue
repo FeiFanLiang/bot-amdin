@@ -2,6 +2,7 @@
   <div class="app-container">
     <div class="table-box">
       <el-button type="primary" @click="add">新增模板</el-button>
+      <el-button type="primary" @click="restart">机器人重启</el-button>
       <el-table :data="tableList">
         <el-table-column label="模板内容" prop="context">
           <template v-slot="scope">
@@ -128,7 +129,7 @@ import {
   updateTemplateApi,
   getAllButtonApi
 } from "@/api/template";
-
+import {restartBotApi} from '@/api/account'
 export default {
   data() {
     return {
@@ -164,6 +165,11 @@ export default {
     this.fetchData();
   },
   methods: {
+    restart(){
+      restartBotApi().then(() => {
+        this.$message.success('机器人重启成功')
+      })
+    },
     add(){
       this.form = {
         id:"",
