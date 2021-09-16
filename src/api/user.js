@@ -10,7 +10,7 @@ export function login(data) {
 
 export const updatePasswordApi = (data) => {
   return request({
-    url:"/api/updatePassword",
+    url:"/api/updatePass",
     method:"post",
     data
   })
@@ -41,6 +41,14 @@ export function getRedpackConfigApi () {
 export function updateRedpackConfigApi (data) {
   return request({
     url:'/api/updateRedpackConfig',
+    method:"post",
+    data
+  })
+}
+
+export function updateBotApi(data){
+  return request({
+    url:'/api/bot',
     method:"post",
     data
   })
