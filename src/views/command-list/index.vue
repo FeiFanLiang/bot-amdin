@@ -33,7 +33,7 @@
           prop="type"
           :formatter="typeFormatter"
         ></el-table-column>
-        <el-table-column label="key值" prop="key"></el-table-column>
+        <el-table-column label="key值" prop="key" ></el-table-column>
         <el-table-column label="按钮回调" prop="callback_data">
         </el-table-column>
         <el-table-column label="按钮链接" prop="url"></el-table-column>
@@ -71,7 +71,7 @@
         :model="form"
         ref="form"
       >
-        <el-form-item label="key值" prop="type">
+        <el-form-item label="key值" prop="key" required >
           <el-input v-model="form.key" placeholder="key值" :disabled="isEdit"></el-input>
         </el-form-item>
         <el-form-item label="变量类型" prop="type">
