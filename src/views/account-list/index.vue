@@ -111,13 +111,32 @@ export default {
             ],
             accountTypeOptions:[
                 {
-                    label:'支付宝',
-                    value:'CNY'
+                    label:'人民币',
+                    value:'cny'
                 },
                 {
                     label:'USDT',
-                    value:'USDT'
-                }
+                    value:'usdt'
+                },
+                {
+                    label:'美元',
+                    value:'usd'
+                },
+                {
+                    label:'PHP',
+                    value:'php'
+                },
+                {
+                    label:'RM',
+                    value:'rm'
+                },
+                {
+                    label:'AED',
+                    value:'aed'
+                },
+
+
+
             ],
             filters:{
                 userId:"",
