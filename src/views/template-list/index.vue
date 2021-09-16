@@ -9,6 +9,11 @@
             <pre><code>{{scope.row.context}}</code></pre>
           </template>
         </el-table-column>
+        <el-table-column label="是否有按钮" prop="hasButtons">
+          <template v-slot="scope">
+            {{scope.row.hasButtons ? '是' : '否'}}
+          </template>
+        </el-table-column>
         <el-table-column label="模板key" prop="key"></el-table-column>
         <el-table-column label="备注" prop="remark"></el-table-column>
         <el-table-column label="操作">
