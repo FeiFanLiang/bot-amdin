@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
         <el-form :model="form">
-            <el-form-item label="支付宝收款账号" required prop="address">
+            <el-form-item label="支付宝收款账号"  prop="address">
                 <el-input v-model="form.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
@@ -9,7 +9,7 @@
             </el-form-item>
         </el-form>
         <el-form :model="trcForm">
-            <el-form-item label="trc20收款地址" required prop="address">
+            <el-form-item label="trc20收款地址"  prop="address">
                 <el-input v-model="trcForm.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
@@ -17,7 +17,7 @@
             </el-form-item>
         </el-form>
         <el-form :model="ercForm">
-            <el-form-item label="erc20收款地址" required prop="address">
+            <el-form-item label="erc20收款地址"  prop="address">
                 <el-input v-model="ercForm.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
@@ -25,7 +25,7 @@
             </el-form-item>
         </el-form>
         <el-form :model="usdForm">
-            <el-form-item label="美元收款地址" required prop="address">
+            <el-form-item label="美元收款地址"  prop="address">
                 <el-input v-model="usdForm.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
@@ -33,7 +33,7 @@
             </el-form-item>
         </el-form>
         <el-form :model="rmForm">
-            <el-form-item label="马来西亚令吉收款地址" required prop="address">
+            <el-form-item label="马来西亚令吉收款地址"  prop="address">
                 <el-input v-model="rmForm.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
@@ -41,7 +41,7 @@
             </el-form-item>
         </el-form>
         <el-form :model="phpForm">
-            <el-form-item label="菲律宾比索收款地址" required prop="address">
+            <el-form-item label="菲律宾比索收款地址"  prop="address">
                 <el-input v-model="phpForm.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
@@ -49,7 +49,7 @@
             </el-form-item>
         </el-form>
         <el-form :model="aedForm">
-            <el-form-item label="迪拜迪拉姆收款地址" required prop="address">
+            <el-form-item label="迪拜迪拉姆收款地址"  prop="address">
                 <el-input v-model="aedForm.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
