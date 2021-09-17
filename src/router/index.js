@@ -36,13 +36,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -58,7 +56,10 @@ export const constantRoutes = [
     path:'/user',
     name:'user',
     meta:{
-      title:'用户管理'
+      title:'用户管理',
+      meta:{
+        role:['admin','cw']
+      },
     },
     component:Layout,
     children:[
@@ -66,7 +67,8 @@ export const constantRoutes = [
         path:'userList',
         name:'userList',
         meta:{
-          title:'后台用户'
+          title:'后台用户',
+          role:['admin','cw']
         },
         component:() => import('@/views/user-list')
       },
@@ -74,7 +76,8 @@ export const constantRoutes = [
         path:'accountList',
         name:"accountList",
         meta:{
-          title:'机器人用户'
+          title:'机器人用户',
+          role:['admin','cw']
         },
         component:() => import('@/views/account-list')
       },
@@ -82,7 +85,8 @@ export const constantRoutes = [
         path:"access",
         name:"access",
         meta:{
-          title:"机器人过滤设置"
+          title:"机器人过滤设置",
+          role:['admin']
         },
         component:() => import('@/views/access-config')
       }
@@ -92,14 +96,16 @@ export const constantRoutes = [
     path:"/rate",
     name:"rate",
     meta:{
-      title:'汇率管理'
+      title:'汇率管理',
+      role:['admin']
     },
     component:Layout,
     children:[
       {
         path:'rate-list',
         meta:{
-          title:'汇率管理'
+          title:'汇率管理',
+          role:['admin']
         },
         component:() => import('@/views/rate-list')
       },
@@ -107,6 +113,7 @@ export const constantRoutes = [
         path:"enery-list",
         meta:{
           title:'USDT能量汇率/手续费',
+          role:['admin']
         },
         component:() => import('@/views/enery-list')
       },
@@ -117,13 +124,15 @@ export const constantRoutes = [
     name:'流水记录',
     component:Layout,
     meta:{
-      title:"流水记录"
+      title:"流水记录",
+      role:['admin','cw']
     },
     children:[
       {
         path:'bill',
         meta:{
-          title:'流水记录'
+          title:'流水记录',
+          role:['admin','cw']
         },
         component:() =>import('@/views/bill-list')
       }
@@ -134,14 +143,16 @@ export const constantRoutes = [
     name:"rechargeAddress",
     component:Layout,
     meta:{
-      title:"充值设置"
+      title:"充值设置",
+      role:['admin']
     },
     children:[
       {
         path:'alipay',
         name:'alipay',
         meta:{
-          title:"支付设置"
+          title:"支付设置",
+          role:['admin']
         },
         component:() => import('@/views/recharge-address')
       },
@@ -149,7 +160,8 @@ export const constantRoutes = [
         path:'redpack',
         name:'redpack',
         meta:{
-          title:'红包设置'
+          title:'红包设置',
+          role:['admin']
         },
         component:() => import('@/views/redpack/index.vue')
       }
@@ -159,12 +171,16 @@ export const constantRoutes = [
     path:'/address',
     name:'address',
     component:Layout,
+    meta:{
+      role:['admin']
+    },
     children:[
       {
         path:"/addressList",
         name:'addressList',
         meta:{
-          title:"地址管理"
+          title:"地址管理",
+          role:['admin']
         },
         component:() => import('@/views/address-list')
       }
@@ -174,7 +190,8 @@ export const constantRoutes = [
     path:'/messageTemplate',
     name:"messageTemplate",
     meta:{
-      title:'机器人管理'
+      title:'机器人管理',
+      role:['admin']
     },
     component:Layout,
     children:[
@@ -182,7 +199,8 @@ export const constantRoutes = [
         path:'keyList',
         name:'keyList',
         meta:{
-          title:'变量管理'
+          title:'变量管理',
+          role:['admin']
         },
         component:() => import('@/views/command-list')
       },
@@ -190,9 +208,27 @@ export const constantRoutes = [
         path:'templateList',
         name:'templateList',
         meta:{
-          title:'消息模板'
+          title:'消息模板',
+          role:['admin']
         },
         component:() => import('@/views/template-list')
+      }
+    ]
+  },
+  {
+    path:"/noauth",
+    name:'noAuth',
+    hidden: true,
+    meta:{
+      title:'暂无页面',
+      role:['amdin','cw']
+    },
+    component:Layout,
+    children:[
+      {
+        name:'dd',
+        path:'/index',
+        component: () => import('@/views/noauth')
       }
     ]
   },

@@ -26,24 +26,35 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      next()
-      // const hasGetUserInfo = store.getters.name
-      // if (hasGetUserInfo) {
-      //   next()
-      // } else {
-      //   try {
-      //     // get user info
-      //     await store.dispatch('user/getInfo')
-
-      //     next()
-      //   } catch (error) {
-      //     // remove token and go to login page to re-login
-      //     await store.dispatch('user/resetToken')
-      //     Message.error(error || 'Has Error')
-      //     next(`/login?redirect=${to.path}`)
-      //     NProgress.done()
-      //   }
-      // }
+      const role = store.getters.role
+      
+      if(!role){
+        try {
+          // get user info
+          await store.dispatch('user/getInfo')
+        } catch (error) {
+          console.log(error)
+          
+          // remove token and go to login page to re-login
+          await store.dispatch('user/resetToken')
+          Message.error(error || 'Has Error')
+          next(`/login?redirect=${to.path}`)
+          NProgress.done()
+        }
+      }
+      if (store.getters.role) {
+        if(store.getters.role === 'admin'){
+          next()
+        }else {
+          if((!to.meta || !to.meta.role) || (to.meta &&  to.meta.role && to.meta.role.includes(store.getters.role))){
+            next()
+          }else {
+            next({
+              name:'noAuth'
+            })
+          }
+        }
+      }
     }
   } else {
     /* has no token*/

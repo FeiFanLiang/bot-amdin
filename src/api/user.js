@@ -16,11 +16,10 @@ export const updatePasswordApi = (data) => {
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/vue-element-admin/user/info',
-    method: 'get',
-    params: { token }
+    url: '/api/getRole',
+    method: 'get'
   })
 }
 

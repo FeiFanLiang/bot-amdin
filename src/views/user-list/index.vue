@@ -1,8 +1,8 @@
 <template>
     <div class="app-container">
         <el-button type="primary" @click="dialogVisible = true">密码修改</el-button>
-        <el-button type="primary" @click="close">关闭机器人</el-button>
-        <el-button type="primary" @click="start">启动机器人</el-button>
+        <el-button type="primary" @click="close" v-if="$store.getters.role === 'admin'">关闭机器人</el-button>
+        <el-button type="primary" @click="start" v-if="$store.getters.role === 'admin'">启动机器人</el-button>
         <el-dialog title="修改密码" :visible.sync="dialogVisible" >
             <el-form :model="form" ref="form">
               <el-form-item label="旧密码" prop="password" required>
