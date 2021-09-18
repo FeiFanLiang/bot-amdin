@@ -52,11 +52,11 @@
                    </template>
                    
                </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" width="300">
                   <template v-slot="scope">
                       <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
-                      <el-button type="success" @click="handleEditAmount('1',scope.row)">充值</el-button>
-                      <el-button type="warning" @click="handleEditAmount('0',scope.row)" >提现</el-button>
+                      <el-button type="success" @click="handleEditAmount('1',scope.row)" v-if="$store.getters.role === 'admin'">充值</el-button>
+                      <el-button type="warning" @click="handleEditAmount('0',scope.row)" v-if="$store.getters.role === 'admin'">提现</el-button>
                   </template>
               </el-table-column>
             </el-table>
