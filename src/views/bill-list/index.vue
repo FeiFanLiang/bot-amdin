@@ -243,6 +243,7 @@ export default {
                 { key: "handingFee", header: "手续费" },
                 { key: "beforeAmount", header: "交易前金额" },
                 { key: "afterAmount", header: "交易后金额" },
+                {key:'confirmNickName',header:'操作人昵称'},
                 { key: "createTime", header: "创建时间" }
               ]
             },
