@@ -97,7 +97,7 @@ export const constantRoutes = [
     name:"rate",
     meta:{
       title:'汇率管理',
-      role:['admin']
+      role:['admin','cw']
     },
     component:Layout,
     children:[
@@ -105,7 +105,7 @@ export const constantRoutes = [
         path:'rate-list',
         meta:{
           title:'汇率管理',
-          role:['admin']
+          role:['admin','cw']
         },
         component:() => import('@/views/rate-list')
       },
@@ -113,7 +113,7 @@ export const constantRoutes = [
         path:"enery-list",
         meta:{
           title:'USDT能量汇率/手续费',
-          role:['admin']
+          role:['admin','cw']
         },
         component:() => import('@/views/enery-list')
       },
@@ -144,7 +144,7 @@ export const constantRoutes = [
     component:Layout,
     meta:{
       title:"充值设置",
-      role:['admin']
+      role:['admin','cw']
     },
     children:[
       {
@@ -152,7 +152,7 @@ export const constantRoutes = [
         name:'alipay',
         meta:{
           title:"支付设置",
-          role:['admin']
+          role:['admin','cw']
         },
         component:() => import('@/views/recharge-address')
       },
@@ -180,7 +180,7 @@ export const constantRoutes = [
         name:'addressList',
         meta:{
           title:"地址管理",
-          role:['admin']
+          role:['admin','cw']
         },
         component:() => import('@/views/address-list')
       }
