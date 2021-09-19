@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column label="是否有按钮" prop="hasButtons">
           <template v-slot="scope">
-            {{scope.row.hasButtons ? '是' : '否'}}
+            {{ scope.row.hasButtons ? "是" : "否" }}
           </template>
         </el-table-column>
         <el-table-column label="模板key" prop="key"></el-table-column>
@@ -42,7 +42,11 @@
         ref="form"
       >
         <el-form-item label="模板key值" prop="key" required>
-          <el-input v-model="form.key" :disabled="!!form.id" placeholder="请输入"></el-input>
+          <el-input
+            v-model="form.key"
+            :disabled="!!form.id"
+            placeholder="请输入"
+          ></el-input>
         </el-form-item>
         <el-form-item label="类型" prop="type" required>
           <el-select v-model="form.type" placeholder="选择">
@@ -134,7 +138,7 @@ import {
   updateTemplateApi,
   getAllButtonApi
 } from "@/api/template";
-import {restartBotApi} from '@/api/account'
+import { restartBotApi } from "@/api/account";
 export default {
   data() {
     return {
@@ -151,7 +155,7 @@ export default {
       ],
       tableList: [],
       form: {
-        id:"",
+        id: "",
         type: "",
         photoUrl: "",
         photoCaption: "",
@@ -170,24 +174,24 @@ export default {
     this.fetchData();
   },
   methods: {
-    restart(){
+    restart() {
       restartBotApi().then(() => {
-        this.$message.success('机器人重启成功')
-      })
+        this.$message.success("机器人重启成功");
+      });
     },
-    add(){
+    add() {
       this.form = {
-        id:"",
+        id: "",
         type: "",
         photoUrl: "",
         photoCaption: "",
         remark: "",
-         hasButtons:true,
+        hasButtons: true,
         buttons: [],
         key: "",
         context: ""
-      }
-      
+      };
+
       this.dialogVisible = true;
     },
     handleCurrentChange(val) {
@@ -195,13 +199,23 @@ export default {
       this.fetchData();
     },
     fetchData() {
-      const { pagination } = this;
-      getTemplateListApi(pagination).then(res => {
-        const { docs, page, totalDocs } = res;
-        this.pagination.total = totalDocs;
-        this.tableList = docs;
-        this.pagination.currentPage = page;
+      const loading = this.$loading({
+        lock: true,
+        text: "正在搜索.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
       });
+      const { pagination } = this;
+      getTemplateListApi(pagination)
+        .then(res => {
+          const { docs, page, totalDocs } = res;
+          this.pagination.total = totalDocs;
+          this.tableList = docs;
+          this.pagination.currentPage = page;
+        })
+        .finally(() => {
+          loading.close();
+        });
     },
     handleEdit(row) {
       this.form = { ...row };
@@ -220,7 +234,7 @@ export default {
           this.$message.success("操作成功");
           this.dialogVisible = false;
           this.$refs["form"].resetFields();
-          this.fetchData()
+          this.fetchData();
         });
       });
     }

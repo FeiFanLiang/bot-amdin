@@ -35,6 +35,9 @@
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
           <el-button @click="resetFilter">重置</el-button>
+          <el-button type="warning" @click="dialogShow = true"
+            >导出表格</el-button
+          >
         </el-col>
       </el-row>
     </div>
@@ -90,16 +93,38 @@
         layout="total, prev, pager, next, jumper"
       ></el-pagination>
     </div>
+    <el-dialog title="导出表格" :visible.sync="dialogShow">
+      <el-form :model="downForm">
+        <el-form-item label="开始时间">
+          <el-date-picker
+            v-model="downForm.start"
+            placeholder="开始时间"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="结束时间">
+          <el-date-picker
+            v-model="downForm.end"
+            placeholder="结束时间"
+          ></el-date-picker>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="downLoad">导出</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script>
 import TableEditMixins from "@/components/tableEditMixins";
 import { getRechargeListApi } from "@/api/recharge";
-
+import dayjs from "dayjs";
+import { downLoadApi } from "@/api/account";
+import stringify from "csv-stringify";
 export default {
   mixins: [TableEditMixins],
   data() {
     return {
+      dialogShow: false,
       successOptions: [
         {
           label: "成功",
@@ -141,10 +166,109 @@ export default {
         type: "",
         success: "",
         userName: ""
+      },
+      downForm: {
+        start: "",
+        end: ""
       }
     };
   },
   methods: {
+    getRecordType(value) {
+      switch (value) {
+        case "add":
+          return "充值";
+        case "sub":
+          return "提现";
+        case "trans":
+          return "转账";
+        case "exchange":
+          return "兑换";
+        case "pack_in":
+          return "领红包";
+        case "pack_out":
+          return "发红包";
+        default:
+          return "";
+      }
+    },
+    getAmountType(value) {
+      switch (value) {
+        case "usd":
+          return "美元(USD)";
+        case "rm":
+          return "马来亚令吉(RM)";
+        case "cny":
+          return "人民币(CNY)";
+        case "php":
+          return "菲律宾披索(PHP)";
+        case "aed":
+          return "迪拜迪拉姆(AED)";
+        case "usdt":
+          return "USDT";
+        case "trc":
+          return "USDT-TRC";
+        case "erc":
+          return "USDT-ERC";
+        default:
+          return "";
+      }
+    },
+
+    downLoad() {
+      const loading = this.$loading({
+        lock: true,
+        text: "正在下载.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      downLoadApi(this.downForm)
+        .then(list => {
+          list.forEach(el => {
+            el.updateType = this.getRecordType(el.updateType);
+            el.type = this.getAmountType(el.type);
+            el.createTime = dayjs(el.createTime).format("YYYY/MM/DD HH:mm:ss");
+          });
+          stringify(
+            list,
+            {
+              header: true,
+              columns: [
+                { key: "userId", header: "用户ID" },
+                { key: "userName", header: "用户名" },
+                { key: "nickName", header: "用户昵称" },
+                { key: "amount", header: "金额" },
+                { key: "type", header: "货币类型" },
+                { key: "updateType", header: "交易类型" },
+                { key: "handingFee", header: "手续费" },
+                { key: "beforeAmount", header: "交易前金额" },
+                { key: "afterAmount", header: "交易后金额" },
+                { key: "createTime", header: "创建时间" }
+              ]
+            },
+            function(err, output) {
+              if (err) {
+                loading.close();
+              }
+              loading.close();
+              const dataBlob = new Blob([`\ufeff${output}`], {
+                type: "text/plain;charset=utf-8"
+              });
+              const url = window.URL.createObjectURL(dataBlob);
+              let a = document.createElement("a");
+              a.href = url;
+              a.download = `${dayjs().format("YYYY-MM-DD导出数据")}.csv`;
+              a.click();
+              setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+              });
+            }
+          );
+        })
+        .finally(() => {
+          loading.close();
+        });
+    },
     typeFormatter(row, column, value) {
       return this.typeOptions.find(el => el.value === value)?.label;
     },

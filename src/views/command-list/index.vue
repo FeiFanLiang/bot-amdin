@@ -3,7 +3,11 @@
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input v-model.trim="filters.key" clearable placeholder="key值"></el-input>
+          <el-input
+            v-model.trim="filters.key"
+            clearable
+            placeholder="key值"
+          ></el-input>
         </el-col>
         <el-col :span="4">
           <el-select v-model="filters.type" clearable placeholder="类型">
@@ -22,18 +26,18 @@
       </el-row>
     </div>
     <div class="table-box">
-        <el-row style="margin:20px 0;">
-          <el-col :span="24">
-              <el-button type="success" @click="handleAdd">添加</el-button>
-          </el-col>
-        </el-row>
+      <el-row style="margin:20px 0;">
+        <el-col :span="24">
+          <el-button type="success" @click="handleAdd">添加</el-button>
+        </el-col>
+      </el-row>
       <el-table :data="tableList">
         <el-table-column
           label="变量类型"
           prop="type"
           :formatter="typeFormatter"
         ></el-table-column>
-        <el-table-column label="key值" prop="key" ></el-table-column>
+        <el-table-column label="key值" prop="key"></el-table-column>
         <el-table-column label="按钮回调" prop="callback_data">
         </el-table-column>
         <el-table-column label="按钮链接" prop="url"></el-table-column>
@@ -71,8 +75,12 @@
         :model="form"
         ref="form"
       >
-        <el-form-item label="key值" prop="key" required >
-          <el-input v-model="form.key" placeholder="key值" :disabled="isEdit"></el-input>
+        <el-form-item label="key值" prop="key" required>
+          <el-input
+            v-model="form.key"
+            placeholder="key值"
+            :disabled="isEdit"
+          ></el-input>
         </el-form-item>
         <el-form-item label="变量类型" prop="type">
           <el-select
@@ -88,17 +96,30 @@
             ></el-option>
           </el-select>
         </el-form-item>
-       
-        <el-form-item label="按钮回调(设置回调后URL不再生效)" prop="callback_data" v-if="form.type === 'button' || form.type === 'callbackButton'" >
+
+        <el-form-item
+          label="按钮回调(设置回调后URL不再生效)"
+          prop="callback_data"
+          v-if="form.type === 'button' || form.type === 'callbackButton'"
+        >
           <el-input
             v-model="form.callback_data"
             placeholder="请以/字符开头"
           ></el-input>
         </el-form-item>
-        <el-form-item label="按钮分享URL" prop="url" v-if="form.type === 'button' || form.type === 'callbackButton'">
+        <el-form-item
+          label="按钮分享URL"
+          prop="url"
+          v-if="form.type === 'button' || form.type === 'callbackButton'"
+        >
           <el-input v-model="form.url" placeholder="输入分享的URL"></el-input>
         </el-form-item>
-        <el-form-item label="按钮文本" prop="text" :required="form.type === 'button' " v-if="form.type === 'button' || form.type === 'callbackButton'">
+        <el-form-item
+          label="按钮文本"
+          prop="text"
+          :required="form.type === 'button'"
+          v-if="form.type === 'button' || form.type === 'callbackButton'"
+        >
           <el-input v-model="form.text" placeholder="输入按钮文本"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -118,7 +139,7 @@
 </template>
 <script>
 import TableEditMixins from "@/components/tableEditMixins";
-import { getKeysListApi, updateKeyApi,deleteKeyApi } from "@/api/keys";
+import { getKeysListApi, updateKeyApi, deleteKeyApi } from "@/api/keys";
 export default {
   mixins: [TableEditMixins],
   data() {
@@ -127,20 +148,20 @@ export default {
       typeOptions: [
         {
           label: "回调按钮",
-          value: "callbackButton",
+          value: "callbackButton"
         },
         {
           label: "命令",
-          value: "command",
+          value: "command"
         },
         {
           label: "按钮",
-          value: "button",
-        },
+          value: "button"
+        }
       ],
       filters: {
         key: "",
-        type: "",
+        type: ""
       },
       form: {
         id: "",
@@ -150,32 +171,32 @@ export default {
         text: "",
         url: "",
         remark: "",
-        type: "button",
+        type: "button"
       },
       rules: {
-          key:{
-              required:true,
-              message:'变量的key值必填',
-              trigger:'blur'
-          },
+        key: {
+          required: true,
+          message: "变量的key值必填",
+          trigger: "blur"
+        },
         callback_data: [
           {
             required: false,
             validator: (rule, value, callback) => {
-              if (value &&  !value.startsWith("/")) {
+              if (value && !value.startsWith("/")) {
                 callback(new Error("回调必须以/开头"));
               } else {
                 callback();
               }
             },
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         text: [
           {
             message: "按钮文本必填",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         url: [
           {
@@ -183,68 +204,76 @@ export default {
             validator: (rule, value, callback) => {
               if (
                 value &&
-                !/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/.test(
-                  value
-                )
+                !/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/.test(value)
               ) {
                 callback(new Error("请输入合法的URL地址"));
               } else {
                 callback();
               }
-            },
-          },
+            }
+          }
         ],
         remark: [
           {
             required: false,
-            max: 300,
-          },
-        ],
-      },
+            max: 300
+          }
+        ]
+      }
     };
   },
   methods: {
     typeFormatter(row, column, value) {
-      return this.typeOptions.find((el) => el.value === value)?.label;
+      return this.typeOptions.find(el => el.value === value)?.label;
     },
     reset() {
       this.filters = {
         key: "",
-        type: "",
+        type: ""
       };
       this.pagination = {
         currentPage: 1,
-        total: 0,
+        total: 0
       };
     },
     fetchData() {
-      const { query } = this;
-      getKeysListApi(query).then((res) => {
-        const { docs, page, totalDocs } = res;
-        this.pagination.total = totalDocs;
-        this.tableList = docs;
-        this.pagination.currentPage = page;
+      const loading = this.$loading({
+        lock: true,
+        text: "正在搜索.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
       });
+      const { query } = this;
+      getKeysListApi(query)
+        .then(res => {
+          const { docs, page, totalDocs } = res;
+          this.pagination.total = totalDocs;
+          this.tableList = docs;
+          this.pagination.currentPage = page;
+        })
+        .finally(() => {
+          loading.close();
+        });
     },
     handleEdit(row) {
-        this.isEdit = true;
-        this.form = {...row}
-        this.dialogVisible = true;
+      this.isEdit = true;
+      this.form = { ...row };
+      this.dialogVisible = true;
     },
     handleDelete(row) {
-        const data = {
-            id:row.id
-        }
-        deleteKeyApi(data).then(() => {
-            this.$message.success('删除成功')
-            this.fetchData()
-        })
+      const data = {
+        id: row.id
+      };
+      deleteKeyApi(data).then(() => {
+        this.$message.success("删除成功");
+        this.fetchData();
+      });
     },
     submit() {
       this.$refs["form"].validate().then(() => {
         const { form } = this;
         updateKeyApi(form).then(() => {
-            this.fetchData()
+          this.fetchData();
           this.$message.success("操作成功");
           this.dialogVisible = false;
           this.form = {
@@ -255,7 +284,7 @@ export default {
             text: "",
             url: "",
             remark: "",
-            type: "button",
+            type: "button"
           };
           this.$refs["form"]?.resetFields();
         });
@@ -263,16 +292,18 @@ export default {
     },
     handleAdd() {
       this.isEdit = false;
-      this.form = {id: "",
+      this.form = {
+        id: "",
         key: "",
         command: "",
         callback_data: "",
         text: "",
         url: "",
         remark: "",
-        type: "button"}
+        type: "button"
+      };
       this.dialogVisible = true;
-    },
-  },
+    }
+  }
 };
 </script>

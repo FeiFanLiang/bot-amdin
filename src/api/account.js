@@ -16,6 +16,13 @@ export const editAccountAmountApi = (data) => {
     })
 }
 
+export const downLoadApi = (data) => {
+    return axios({
+        url:"/api/downloadCsv",
+        method:'post',
+        data
+    })
+}
 
 export const getRateApi = (data) => {
     return axios({
