@@ -59,14 +59,6 @@
           label="操作后金额"
           prop="afterAmount"
         ></el-table-column>
-        <el-table-column
-          label="红包创建人ID"
-          prop="fromUserId"
-        ></el-table-column>
-        <el-table-column
-          label="红包创建人用户名"
-          prop="fromUserName"
-        ></el-table-column>
         <el-table-column label="转账接收人ID" prop="toUserId"></el-table-column>
         <el-table-column
           label="转账接收人用户名"
@@ -82,14 +74,6 @@
             {{ scope.row.success ? "成功" : "未完成" }}
           </template>
         </el-table-column>
-        <el-table-column
-          label="操作人ID"
-          prop="confirmUserId"
-        ></el-table-column>
-        <el-table-column
-          label="操作人用户名"
-          prop="confirmUserName"
-        ></el-table-column>
         <el-table-column
           label="创建时间"
           prop="createTime"
