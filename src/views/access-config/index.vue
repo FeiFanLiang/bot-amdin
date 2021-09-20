@@ -2,8 +2,8 @@
     <div class="app-container">
         <h3>屏蔽ID字段</h3>
         <el-form :model="ruleForm">
-          <el-form-item label="过滤字段" prop="rule" >
-              <el-input type="number" v-model="ruleForm.rule" placeholder="过滤字段"></el-input>
+          <el-form-item label="过滤字段" prop="values" >
+              <el-input type="number" v-model="ruleForm.values" placeholder="过滤字段"></el-input>
           </el-form-item>
           <el-button type="primary" @click="submitRule">保存</el-button>
         </el-form>
@@ -22,7 +22,7 @@ export default {
     data(){
         return {
             ruleForm:{
-                rule:''
+                values:''
             },
             whiteForm:{
                 values:''
@@ -35,7 +35,7 @@ export default {
             
         })
         getFilterRuleApi().then((res) => {
-            this.ruleForm.rule = res?.rule
+            this.ruleForm.values = res[0]?.rules?.join('\n')
         })
     },
     methods:{
@@ -46,7 +46,8 @@ export default {
             })
         },
         submitRule(){
-            updateFilterRuleApi({...this.ruleForm}).then(() => {
+            const rules = this.ruleForm.values.split('\n').map(el => el.replace(/\s/g,'')).filter(el => el)
+            updateFilterRuleApi({rules}).then(() => {
                 this.$message.success('保存成功')
             })
         }

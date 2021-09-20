@@ -43,9 +43,9 @@
     </div>
     <div class="table-box">
       <el-table :data="tableList">
-        <el-table-column label="用户ID" prop="userId"></el-table-column>
+        <!-- <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
-        <el-table-column label="用户昵称" prop="nickName"></el-table-column>
+        <el-table-column label="用户昵称" prop="nickName"></el-table-column> -->
         <el-table-column
           label="流水类型"
           prop="updateType"
@@ -62,11 +62,15 @@
           label="操作后金额"
           prop="afterAmount"
         ></el-table-column>
-        <el-table-column label="转账接收人ID" prop="toUserId"></el-table-column>
+        <el-table-column label="收款人ID" prop="toUserId"></el-table-column>
         <el-table-column
-          label="转账接收人用户名"
+          label="收款人用户名"
           prop="toUserName"
         ></el-table-column>
+        <el-table-column label="收款人昵称" prop="toUserNickName"></el-table-column>
+        <el-table-column label="付款人ID" prop="fromUserId"></el-table-column>
+        <el-table-column label="付款人用户名" prop="fromUserName"></el-table-column>
+        <el-table-column label="付款人昵称" prop="fromUserNickName"></el-table-column>
         <el-table-column
           label="备注"
           prop="remark"
