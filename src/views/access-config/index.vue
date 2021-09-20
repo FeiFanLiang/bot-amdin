@@ -3,7 +3,7 @@
         <h3>屏蔽ID字段</h3>
         <el-form :model="ruleForm">
           <el-form-item label="过滤字段" prop="values" >
-              <el-input type="number" v-model="ruleForm.values" placeholder="过滤字段"></el-input>
+              <el-input type="textarea" v-model="ruleForm.values" placeholder="过滤字段"></el-input>
           </el-form-item>
           <el-button type="primary" @click="submitRule">保存</el-button>
         </el-form>
