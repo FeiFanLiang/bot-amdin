@@ -22,3 +22,11 @@ export function deleteUserApi(params){
         params
     })
 }
+
+export function resetPassApi (data) {
+  return request({
+    url:'/api/resetPass',
+    method:"post",
+    data
+  })
+}

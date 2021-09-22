@@ -45,13 +45,16 @@ router.beforeEach(async(to, from, next) => {
       if (store.getters.role) {
         if(store.getters.role === 'admin'){
           next()
+          NProgress.done()
         }else {
-          if((!to.meta || !to.meta.role) || (to.meta &&  to.meta.role && to.meta.role.includes(store.getters.role))){
+          if((!to.meta || !to.meta.role) || (to.meta &&  to.meta.role && to.meta.role.some(role => store.getters.permission.includes(role)))){
             next()
+            NProgress.done()
           }else {
             next({
               name:'noAuth'
             })
+            NProgress.done()
           }
         }
       }

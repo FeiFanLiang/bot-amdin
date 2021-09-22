@@ -43,9 +43,9 @@
     </div>
     <div class="table-box">
       <el-table :data="tableList">
-        <!-- <el-table-column label="用户ID" prop="userId"></el-table-column>
+        <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
-        <el-table-column label="用户昵称" prop="nickName"></el-table-column> -->
+        <el-table-column label="用户昵称" prop="nickName"></el-table-column>
         <el-table-column
           label="流水类型"
           prop="updateType"

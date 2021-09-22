@@ -81,13 +81,13 @@
             <el-button
               type="success"
               @click="handleEditAmount('1', scope.row)"
-              v-if="$store.getters.role === 'admin'"
+              v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
               >充值</el-button
             >
             <el-button
               type="warning"
               @click="handleEditAmount('0', scope.row)"
-              v-if="$store.getters.role === 'admin'"
+              v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
               >提现</el-button
             >
           </template>

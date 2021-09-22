@@ -58,7 +58,7 @@ export const constantRoutes = [
     meta:{
       title:'用户管理',
       meta:{
-        role:['admin','cw']
+        role:['user_list']
       },
     },
     component:Layout,
@@ -67,8 +67,8 @@ export const constantRoutes = [
         path:'userList',
         name:'userList',
         meta:{
-          title:'后台用户',
-          role:['admin','cw']
+          title:'用户设置',
+          role:['user_list']
         },
         component:() => import('@/views/user-list')
       },
@@ -77,7 +77,7 @@ export const constantRoutes = [
         name:"accountList",
         meta:{
           title:'机器人用户',
-          role:['admin','cw']
+          role:['user_list']
         },
         component:() => import('@/views/account-list')
       },
@@ -86,14 +86,17 @@ export const constantRoutes = [
         name:"access",
         meta:{
           title:"机器人过滤设置",
-          role:['admin']
+          role:['white_list']
         },
         component:() => import('@/views/access-config')
       },
       {
         path:"role",
         name:'role',
-        meta:{},
+        meta:{
+          title:"后台权限",
+          role:['admin']
+        },
         component:() => import('@/views/role')
       }
     ]
@@ -103,7 +106,7 @@ export const constantRoutes = [
     name:"rate",
     meta:{
       title:'汇率管理',
-      role:['admin','cw']
+      role:['rate']
     },
     component:Layout,
     children:[
@@ -111,7 +114,7 @@ export const constantRoutes = [
         path:'rate-list',
         meta:{
           title:'汇率管理',
-          role:['admin','cw']
+          role:['rate']
         },
         component:() => import('@/views/rate-list')
       },
@@ -119,7 +122,7 @@ export const constantRoutes = [
         path:"enery-list",
         meta:{
           title:'USDT能量汇率/手续费',
-          role:['admin','cw']
+          role:['rate']
         },
         component:() => import('@/views/enery-list')
       },
@@ -131,14 +134,14 @@ export const constantRoutes = [
     component:Layout,
     meta:{
       title:"流水记录",
-      role:['admin','cw']
+      role:['bill']
     },
     children:[
       {
         path:'bill',
         meta:{
           title:'流水记录',
-          role:['admin','cw']
+          role:['bill']
         },
         component:() =>import('@/views/bill-list')
       }
@@ -150,7 +153,7 @@ export const constantRoutes = [
     component:Layout,
     meta:{
       title:"充值设置",
-      role:['admin','cw']
+      role:['rate']
     },
     children:[
       {
@@ -158,7 +161,7 @@ export const constantRoutes = [
         name:'alipay',
         meta:{
           title:"支付设置",
-          role:['admin','cw']
+          role:['rate']
         },
         component:() => import('@/views/recharge-address')
       },
@@ -167,7 +170,7 @@ export const constantRoutes = [
         name:'redpack',
         meta:{
           title:'红包设置',
-          role:['admin']
+          role:['rate']
         },
         component:() => import('@/views/redpack/index.vue')
       }
@@ -178,7 +181,7 @@ export const constantRoutes = [
     name:'address',
     component:Layout,
     meta:{
-      role:['admin']
+      role:['rate']
     },
     children:[
       {
@@ -186,7 +189,7 @@ export const constantRoutes = [
         name:'addressList',
         meta:{
           title:"地址管理",
-          role:['admin','cw']
+          role:['rate']
         },
         component:() => import('@/views/address-list')
       }
@@ -197,7 +200,7 @@ export const constantRoutes = [
     name:"messageTemplate",
     meta:{
       title:'机器人管理',
-      role:['admin']
+      role:['template']
     },
     component:Layout,
     children:[
@@ -206,7 +209,7 @@ export const constantRoutes = [
         name:'keyList',
         meta:{
           title:'变量管理',
-          role:['admin']
+          role:['template']
         },
         component:() => import('@/views/command-list')
       },
@@ -215,7 +218,7 @@ export const constantRoutes = [
         name:'templateList',
         meta:{
           title:'消息模板',
-          role:['admin']
+          role:['template']
         },
         component:() => import('@/views/template-list')
       }
@@ -226,8 +229,7 @@ export const constantRoutes = [
     name:'noAuth',
     hidden: true,
     meta:{
-      title:'暂无页面',
-      role:['amdin','cw']
+      title:'暂无页面'
     },
     component:Layout,
     children:[

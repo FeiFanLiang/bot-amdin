@@ -7,6 +7,7 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
+    permission:[],
     avatar: '',
     role:''
   }
@@ -26,6 +27,9 @@ const mutations = {
   },
   SET_ROLE:(state,role) => {
     state.role = role
+  },
+  SET_PER:(state,permission) => {
+    state.permission = permission
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -51,10 +55,9 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
-        if (!response) {
-          return reject('Verification failed, please Login again.')
-        }
-        commit('SET_ROLE', response)
+        const {role,permission} = response
+        commit('SET_ROLE', role)
+        commit('SET_PER',permission)
         resolve(response)
       }).catch(error => {
         reject(error)
