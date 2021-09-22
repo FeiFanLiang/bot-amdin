@@ -89,6 +89,12 @@ export const constantRoutes = [
           role:['admin']
         },
         component:() => import('@/views/access-config')
+      },
+      {
+        path:"role",
+        name:'role',
+        meta:{},
+        component:() => import('@/views/role')
       }
     ]
   },
