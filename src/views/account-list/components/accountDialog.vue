@@ -1,5 +1,5 @@
 <template>
- <el-dialog title="流水信息" width="80%" :visible.sync="popVisible" >
+  <el-dialog title="流水信息" width="80%" :visible.sync="popVisible">
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
@@ -12,7 +12,7 @@
             ></el-option>
           </el-select>
         </el-col>
-         <el-col :span="4">
+        <el-col :span="4">
           <el-select v-model="filters.success" clearable placeholder="是否成功">
             <el-option
               v-for="item of successOptions"
@@ -33,23 +33,19 @@
         <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="用户昵称" prop="nickName"></el-table-column>
-        <el-table-column
-          label="流水类型"
-          prop="updateType"
-          :formatter="typeFormatter"
-        >
-        </el-table-column>
+        <el-table-column label="流水类型" prop="updateType" :formatter="typeFormatter"></el-table-column>
         <el-table-column label="货币类型" prop="type"></el-table-column>
         <el-table-column label="金额" prop="amount"></el-table-column>
-         <el-table-column label="操作前金额" prop="beforeAmount"></el-table-column>
+        <el-table-column label="操作前金额" prop="beforeAmount"></el-table-column>
         <el-table-column label="操作后金额" prop="afterAmount"></el-table-column>
         <el-table-column label="转账接收人ID" prop="toUserId"></el-table-column>
         <el-table-column label="转账接收人用户名" prop="toUserName"></el-table-column>
-        <el-table-column label="备注" prop="remark" show-overflow-tooltip ></el-table-column>
+        <el-table-column label="备注" prop="remark" show-overflow-tooltip></el-table-column>
+        <el-table-column label="汇率" prop="rate"></el-table-column>
+        <el-table-column label="目标货币" prop="exchangeType"></el-table-column>
+        <el-table-column label="兑换目标金额" prop="exchangeAmount"></el-table-column>
         <el-table-column label="是否成功" prop="success">
-            <template v-slot="scope">
-                {{scope.row.success ? '成功' : '未完成'}}
-            </template>
+          <template v-slot="scope">{{ scope.row.success ? '成功' : '未完成' }}</template>
         </el-table-column>
         <el-table-column label="创建时间" prop="createTime" :formatter="timeFormatter"></el-table-column>
       </el-table>
@@ -63,8 +59,7 @@
         layout="total, prev, pager, next, jumper"
       ></el-pagination>
     </div>
- </el-dialog>
-  
+  </el-dialog>
 </template>
 <script>
 import TableEditMixins from "@/components/tableEditMixins";
@@ -72,19 +67,19 @@ import { getRechargeListApi } from "@/api/recharge";
 
 export default {
   mixins: [TableEditMixins],
-  props:{
-      userId:{},
-      visible:Boolean
+  props: {
+    userId: {},
+    visible: Boolean
   },
   data() {
     return {
-        successOptions:[{
-            label:"成功",
-            value:'true'
-        },{
-            label:'未完成',
-            value:'false'
-        }],
+      successOptions: [{
+        label: "成功",
+        value: 'true'
+      }, {
+        label: '未完成',
+        value: 'false'
+      }],
       typeOptions: [
         {
           label: "充值",
@@ -99,42 +94,42 @@ export default {
           value: "trans"
         },
         {
-          label:'兑换',
-          value:'exchange'
+          label: '兑换',
+          value: 'exchange'
         },
         {
-          value:'pack_out',
-          label:'发红包'
+          value: 'pack_out',
+          label: '发红包'
         },
         {
-          value:'pack_in',
-          label:'收红包'
+          value: 'pack_in',
+          label: '收红包'
         }
       ],
       filters: {
         type: "",
-        success:''
+        success: ''
       }
     };
   },
-  computed:{
-      popVisible:{
-          get({visible}){
-              return visible
-          },
-          set(val){
-              this.$emit('update:visible',val)
-          }
+  computed: {
+    popVisible: {
+      get({ visible }) {
+        return visible
+      },
+      set(val) {
+        this.$emit('update:visible', val)
       }
+    }
   },
-  watch:{
-      popVisible(val){
-          if(val){
-              this.fetchData()
-          }else {
-              this.reset()
-          }
+  watch: {
+    popVisible(val) {
+      if (val) {
+        this.fetchData()
+      } else {
+        this.reset()
       }
+    }
   },
   methods: {
     typeFormatter(row, column, value) {
@@ -151,8 +146,8 @@ export default {
     },
     fetchData() {
       const { query } = this;
-      const {userId} = this;
-      const filters = {...query,userId}
+      const { userId } = this;
+      const filters = { ...query, userId }
       getRechargeListApi(filters).then(res => {
         const { docs, page, totalDocs } = res;
         this.pagination.total = totalDocs;

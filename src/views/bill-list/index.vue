@@ -3,11 +3,7 @@
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input
-            v-model.trim="filters.userId"
-            clearable
-            placeholder="用户ID"
-          ></el-input>
+          <el-input v-model.trim="filters.userId" clearable placeholder="用户ID"></el-input>
         </el-col>
         <el-col :span="4">
           <el-input v-model="filters.userName" placeholder="用户名"></el-input>
@@ -35,9 +31,7 @@
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
           <el-button @click="resetFilter">重置</el-button>
-          <el-button type="warning" @click="dialogShow = true"
-            >导出表格</el-button
-          >
+          <el-button type="warning" @click="dialogShow = true">导出表格</el-button>
         </el-col>
       </el-row>
     </div>
@@ -46,46 +40,25 @@
         <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="用户昵称" prop="nickName"></el-table-column>
-        <el-table-column
-          label="流水类型"
-          prop="updateType"
-          :formatter="typeFormatter"
-        >
-        </el-table-column>
+        <el-table-column label="流水类型" prop="updateType" :formatter="typeFormatter"></el-table-column>
         <el-table-column label="货币类型" prop="type"></el-table-column>
         <el-table-column label="金额" prop="amount"></el-table-column>
-        <el-table-column
-          label="操作前金额"
-          prop="beforeAmount"
-        ></el-table-column>
-        <el-table-column
-          label="操作后金额"
-          prop="afterAmount"
-        ></el-table-column>
+        <el-table-column label="操作前金额" prop="beforeAmount"></el-table-column>
+        <el-table-column label="操作后金额" prop="afterAmount"></el-table-column>
         <el-table-column label="收款人ID" prop="toUserId"></el-table-column>
-        <el-table-column
-          label="收款人用户名"
-          prop="toUserName"
-        ></el-table-column>
+        <el-table-column label="收款人用户名" prop="toUserName"></el-table-column>
         <el-table-column label="收款人昵称" prop="toUserNickName"></el-table-column>
         <el-table-column label="付款人ID" prop="fromUserId"></el-table-column>
         <el-table-column label="付款人用户名" prop="fromUserName"></el-table-column>
         <el-table-column label="付款人昵称" prop="fromUserNickName"></el-table-column>
-        <el-table-column
-          label="备注"
-          prop="remark"
-          show-overflow-tooltip
-        ></el-table-column>
+        <el-table-column label="汇率" prop="rate"></el-table-column>
+        <el-table-column label="目标货币" prop="exchangeType"></el-table-column>
+        <el-table-column label="兑换目标金额" prop="exchangeAmount"></el-table-column>
+        <el-table-column label="备注" prop="remark" show-overflow-tooltip></el-table-column>
         <el-table-column label="是否成功" prop="success">
-          <template v-slot="scope">
-            {{ scope.row.success ? "成功" : "未完成" }}
-          </template>
+          <template v-slot="scope">{{ scope.row.success ? "成功" : "未完成" }}</template>
         </el-table-column>
-        <el-table-column
-          label="创建时间"
-          prop="createTime"
-          :formatter="timeFormatter"
-        ></el-table-column>
+        <el-table-column label="创建时间" prop="createTime" :formatter="timeFormatter"></el-table-column>
       </el-table>
     </div>
     <div class="pagination-box">
@@ -100,16 +73,10 @@
     <el-dialog title="导出表格" :visible.sync="dialogShow">
       <el-form :model="downForm">
         <el-form-item label="开始时间">
-          <el-date-picker
-            v-model="downForm.start"
-            placeholder="开始时间"
-          ></el-date-picker>
+          <el-date-picker v-model="downForm.start" placeholder="开始时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间">
-          <el-date-picker
-            v-model="downForm.end"
-            placeholder="结束时间"
-          ></el-date-picker>
+          <el-date-picker v-model="downForm.end" placeholder="结束时间"></el-date-picker>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -247,11 +214,11 @@ export default {
                 { key: "handingFee", header: "手续费" },
                 { key: "beforeAmount", header: "交易前金额" },
                 { key: "afterAmount", header: "交易后金额" },
-                {key:'confirmNickName',header:'操作人昵称'},
+                { key: 'confirmNickName', header: '操作人昵称' },
                 { key: "createTime", header: "创建时间" }
               ]
             },
-            function(err, output) {
+            function (err, output) {
               if (err) {
                 loading.close();
               }
