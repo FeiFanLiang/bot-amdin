@@ -119,7 +119,7 @@ export const restartBotApi = () => {
     })
 }
 
-export const getCertApi = () => {
+export const getXbUserApi = () => {
     return axios({
         url:"/api/xbUser",
         method:'get'

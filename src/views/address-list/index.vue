@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { getCertApi, updateXbUserApi } from '@/api/account'
+import { getXbUserApi, updateXbUserApi } from '@/api/account'
 export default {
   data() {
     return {
@@ -19,10 +19,10 @@ export default {
     }
   },
   created() {
-    getCertApi().then(res => {
-      if (res[0]) {
+    getXbUserApi().then(res => {
+      if (res) {
         this.form = {
-          list: res[0]?.list.join('\n')
+          list: res?.list.join('\n')
         }
       }
     })

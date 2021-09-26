@@ -33,19 +33,16 @@
         <el-table-column label="披索余额" prop="php_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="迪拉姆余额" prop="aed_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="新币余额" prop="xb_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="认证标签" prop="title" show-overflow-tooltip></el-table-column>
         <el-table-column label="黑名单状态">
           <template v-slot="scope">
             <el-switch :value="scope.row.inBlack" @change="handleChange(scope.row)"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="认证状态">
-          <template v-slot="scope">
-            <el-switch :value="scope.row.certification" @change="handleAuth(scope.row)"></el-switch>
-          </template>
-        </el-table-column>
         <el-table-column label="操作" width="300">
           <template v-slot="scope">
             <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
+            <el-button type="primary" @click="handleChangeTitle(scope.row)">认证</el-button>
             <el-button
               type="success"
               @click="handleEditAmount('1', scope.row)"
@@ -100,6 +97,10 @@
         <el-button>取消操作</el-button>
       </template>
     </el-dialog>
+    <el-dialog title="用户认证信息" :visible.sync="titleDialogVisible">
+      <el-input v-model="userTitle.title" type="textarea" placeholder="输入认证信息"></el-input>
+      <el-button style="margin-top:20px"  @click="titleSubmit">保存</el-button>
+    </el-dialog>
     <account-dialog :visible.sync="accountDialogShow" :userId="userId"></account-dialog>
   </div>
 </template>
@@ -119,7 +120,12 @@ export default {
   data() {
     return {
       accountDialogShow: false,
+      titleDialogVisible:false,
       dialogVisible: false,
+      userTitle:{
+        userId:'',
+        title:""
+      },
       typeOptions: [
         {
           label: "充值",
@@ -243,14 +249,18 @@ export default {
         }
       });
     },
-    handleAuth(row) {
-      const data = {
-        userId: row.userId,
-        certification: !row.certification
+    handleChangeTitle(row){
+      this.userTitle = {
+        userId:row.userId,
+        title:row.title
       }
-      updateCertApi(data).then(() => {
+      this.titleDialogVisible = true
+    },
+    titleSubmit() {
+      updateCertApi(this.userTitle).then(() => {
         this.$message.success('操作成功')
         this.fetchData()
+        this.titleDialogVisible = false;
       })
     },
     search() {
