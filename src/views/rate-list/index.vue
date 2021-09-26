@@ -51,8 +51,9 @@ export default {
             trigger: 'blur'
           },
           {
+
             type: 'number',
-            min: 0.0001,
+            min: 0,
             message: '请输入要求的汇率',
             trigger: 'blur'
           }
