@@ -118,3 +118,26 @@ export const restartBotApi = () => {
         method:"get"
     })
 }
+
+export const getCertApi = () => {
+    return axios({
+        url:"/api/xbUser",
+        method:'get'
+    })
+}
+
+export const updateXbUserApi = (data) => {
+    return axios({
+        url:'/api/updateXbUser',
+        method:"post",
+        data
+    })
+}
+
+export const updateCertApi = (data) => {
+    return axios({
+        url:"/api/updateUserCert",
+        method:"post",
+        data
+    })
+}

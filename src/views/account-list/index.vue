@@ -3,18 +3,10 @@
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input
-            clearable
-            v-model.trim="filters.userId"
-            placeholder="用户ID"
-          ></el-input>
+          <el-input clearable v-model.trim="filters.userId" placeholder="用户ID"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-input
-            clearable
-            v-model="filters.accountName"
-            placeholder="用户名"
-          ></el-input>
+          <el-input clearable v-model="filters.accountName" placeholder="用户名"></el-input>
         </el-col>
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
@@ -23,73 +15,47 @@
       </el-row>
     </div>
     <div class="count">
-      <span> 人民币总计:{{ countData.cny }} </span>
-      <span> usdt总计:{{ countData.usdt }} </span>
-      <span> 美金总计:{{ countData.usd }} </span>
-      <span> 披索总计:{{ countData.php }} </span>
-      <span> 令吉总计:{{ countData.rm }} </span>
-      <span> 迪拉姆总计:{{ countData.aed }} </span>
+      <span>人民币总计:{{ countData.cny }}</span>
+      <span>usdt总计:{{ countData.usdt }}</span>
+      <span>美金总计:{{ countData.usd }}</span>
+      <span>披索总计:{{ countData.php }}</span>
+      <span>令吉总计:{{ countData.rm }}</span>
+      <span>迪拉姆总计:{{ countData.aed }}</span>
     </div>
     <div class="table-box">
       <el-table :data="tableList">
         <el-table-column label="用户名" prop="accountName"></el-table-column>
         <el-table-column label="用户ID" prop="userId"></el-table-column>
-        <el-table-column
-          label="人民币余额"
-          prop="cny_balance"
-          :formatter="amountFormatter"
-        >
-        </el-table-column>
-        <el-table-column
-          label="USDT余额"
-          prop="usdt_balance"
-          :formatter="amountFormatter"
-        ></el-table-column>
-        <el-table-column
-          label="USD余额"
-          prop="usd_balance"
-          :formatter="amountFormatter"
-        ></el-table-column>
-        <el-table-column
-          label="令吉余额"
-          prop="rm_balance"
-          :formatter="amountFormatter"
-        ></el-table-column>
-        <el-table-column
-          label="披索余额"
-          prop="php_balance"
-          :formatter="amountFormatter"
-        ></el-table-column>
-        <el-table-column
-          label="迪拉姆余额"
-          prop="aed_balance"
-          :formatter="amountFormatter"
-        ></el-table-column>
+        <el-table-column label="人民币余额" prop="cny_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="USDT余额" prop="usdt_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="USD余额" prop="usd_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="令吉余额" prop="rm_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="披索余额" prop="php_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="迪拉姆余额" prop="aed_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="新币余额" prop="xb_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="黑名单状态">
           <template v-slot="scope">
-            <el-switch
-              :value="scope.row.inBlack"
-              @change="handleChange(scope.row)"
-            ></el-switch>
+            <el-switch :value="scope.row.inBlack" @change="handleChange(scope.row)"></el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="认证状态">
+          <template v-slot="scope">
+            <el-switch :value="scope.row.certification" @change="handleAuth(scope.row)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="300">
           <template v-slot="scope">
-            <el-button type="primary" @click="handleShowBill(scope.row)"
-              >流水信息</el-button
-            >
+            <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
             <el-button
               type="success"
               @click="handleEditAmount('1', scope.row)"
               v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
-              >充值</el-button
-            >
+            >充值</el-button>
             <el-button
               type="warning"
               @click="handleEditAmount('0', scope.row)"
               v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
-              >提现</el-button
-            >
+            >提现</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -104,13 +70,7 @@
       ></el-pagination>
     </div>
     <el-dialog title="余额变动" :visible.sync="dialogVisible">
-      <el-form
-        label-position="left"
-        label-width="100px"
-        :rules="rules"
-        :model="form"
-        ref="form"
-      >
+      <el-form label-position="left" label-width="100px" :rules="rules" :model="form" ref="form">
         <el-form-item label="余额操作" prop="type">
           <el-select v-model="form.type" disabled placeholder="请选择">
             <el-option
@@ -132,12 +92,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="金额" prop="amount">
-          <el-input-number
-            :min="0.01"
-            :precision="2"
-            v-model="form.amount"
-            placeholder="输入金额"
-          ></el-input-number>
+          <el-input-number :min="0.01" :precision="2" v-model="form.amount" placeholder="输入金额"></el-input-number>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -145,10 +100,7 @@
         <el-button>取消操作</el-button>
       </template>
     </el-dialog>
-    <account-dialog
-      :visible.sync="accountDialogShow"
-      :userId="userId"
-    ></account-dialog>
+    <account-dialog :visible.sync="accountDialogShow" :userId="userId"></account-dialog>
   </div>
 </template>
 <script>
@@ -156,7 +108,8 @@ import {
   getAccountListApi,
   editAccountAmountApi,
   getAmountCountApi,
-  updateAccessApi
+  updateAccessApi,
+  updateCertApi
 } from "@/api/account";
 import AccountDialog from "./components/accountDialog";
 export default {
@@ -201,6 +154,10 @@ export default {
         {
           label: "AED",
           value: "aed"
+        },
+        {
+          label: "XB",
+          value: 'xb'
         }
       ],
       filters: {
@@ -267,12 +224,12 @@ export default {
         inBlack: !row.inBlack
       };
       updateAccessApi(data).then(() => {
+        this.$message.success('操作成功')
         this.fetchData();
       });
     },
     getAmount() {
       getAmountCountApi().then(res => {
-        const data = res[0];
         if (res[0]) {
           this.countData = {
             cny: res[0].cny_total / 100,
@@ -280,10 +237,21 @@ export default {
             usd: res[0].usd_total / 100,
             rm: res[0].rm_total / 100,
             php: res[0].php_total / 100,
-            aed: res[0].aed_total / 100
+            aed: res[0].aed_total / 100,
+            xb: res[0].xb_total / 100
           };
         }
       });
+    },
+    handleAuth(row) {
+      const data = {
+        userId: row.userId,
+        certification: !row.certification
+      }
+      updateCertApi(data).then(() => {
+        this.$message.success('操作成功')
+        this.fetchData()
+      })
     },
     search() {
       this.pagination.currentPage = 0;

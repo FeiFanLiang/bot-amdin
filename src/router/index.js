@@ -188,7 +188,7 @@ export const constantRoutes = [
         path:"/addressList",
         name:'addressList',
         meta:{
-          title:"地址管理",
+          title:"新币客服",
           role:['rate']
         },
         component:() => import('@/views/address-list')
