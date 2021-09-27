@@ -38,14 +38,18 @@
         <el-table-column label="金额" prop="amount"></el-table-column>
         <el-table-column label="操作前金额" prop="beforeAmount"></el-table-column>
         <el-table-column label="操作后金额" prop="afterAmount"></el-table-column>
-        <el-table-column label="转账接收人ID" prop="toUserId"></el-table-column>
-        <el-table-column label="转账接收人用户名" prop="toUserName"></el-table-column>
-        <el-table-column label="备注" prop="remark" show-overflow-tooltip></el-table-column>
+        <el-table-column label="收款人ID" prop="toUserId"></el-table-column>
+        <el-table-column label="收款人用户名" prop="toUserName"></el-table-column>
+        <el-table-column label="收款人昵称" prop="toUserNickName"></el-table-column>
+        <el-table-column label="付款人ID" prop="fromUserId"></el-table-column>
+        <el-table-column label="付款人用户名" prop="fromUserName"></el-table-column>
+        <el-table-column label="付款人昵称" prop="fromUserNickName"></el-table-column>
         <el-table-column label="汇率" prop="rate"></el-table-column>
         <el-table-column label="目标货币" prop="exchangeType"></el-table-column>
         <el-table-column label="兑换目标金额" prop="exchangeAmount"></el-table-column>
+        <el-table-column label="备注" prop="remark" show-overflow-tooltip></el-table-column>
         <el-table-column label="是否成功" prop="success">
-          <template v-slot="scope">{{ scope.row.success ? '成功' : '未完成' }}</template>
+          <template v-slot="scope">{{ scope.row.success ? "成功" : "未完成" }}</template>
         </el-table-column>
         <el-table-column label="创建时间" prop="createTime" :formatter="timeFormatter"></el-table-column>
       </el-table>
