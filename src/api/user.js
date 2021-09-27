@@ -52,3 +52,18 @@ export function updateBotApi(data){
     data
   })
 }
+
+export function getIndexImgApi() {
+  return request({
+    url:'/api/getIndexImg',
+    method:'get'
+  })
+}
+
+export function updateIndexImgApi(data){
+  return request({
+    url:"/api/updateIndexImg",
+    method:'post',
+    data
+  })
+}

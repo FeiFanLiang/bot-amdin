@@ -12,10 +12,17 @@
           </el-form-item>
           <el-button type="primary" @click="submit">保存</el-button>
         </el-form>
+         <el-divider content-position="center">首页图片设置</el-divider>
+        <el-form :model="indexForm">
+          <el-form-item label="首页图片">
+              <el-input v-model="indexForm.imgUrl" placeholder="输入图片地址" ></el-input>
+          </el-form-item>
+          <el-button type="primary" @click="indexSubmit">保存</el-button>
+        </el-form>
     </div>
 </template>
 <script>
-import {getRedpackConfigApi,updateRedpackConfigApi} from '@/api/user'
+import {getRedpackConfigApi,updateRedpackConfigApi,getIndexImgApi,updateIndexImgApi} from '@/api/user'
 export default {
     data(){
         return {
@@ -23,6 +30,9 @@ export default {
                 imgUrl:'',
                 imgText:"",
                 buttonText:''
+            },
+            indexForm:{
+                imgUrl:""
             }
         }
     },
@@ -30,12 +40,20 @@ export default {
         getRedpackConfigApi().then((res) => {
             this.form = {...res}
         })
-    },
+        getIndexImgApi().then((res) => {
+            this.indexForm.imgUrl = res?.imgUrl || ''
+        })
+    }, 
     methods:{
         submit(){
             updateRedpackConfigApi(this.form).then(() => {
                 this.$message.success('编辑成功')
             })
+        },
+        indexSubmit(){
+updateIndexImgApi(this.indexForm).then(() => {
+    this.$message.success('编辑成功')
+})
         }
     }
 }
