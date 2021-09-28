@@ -15,7 +15,7 @@
     <el-dialog title="汇率编辑" :visible.sync="dialogVisible">
       <el-form label-position="left" label-width="100px" :model="form" :rules="rules" ref="form">
         <el-form-item label="汇率" prop="rate">
-          <el-input-number v-model="form.rate" :precision="4" placeholder="请输入汇率"></el-input-number>
+          <el-input-number v-model="form.rate" :precision="6" placeholder="请输入汇率"></el-input-number>
         </el-form-item>
       </el-form>
       <template #footer>
