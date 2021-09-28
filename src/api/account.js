@@ -141,3 +141,17 @@ export const updateCertApi = (data) => {
         data
     })
 }
+
+export const getPoolApi = () => {
+    return axios({
+        url:'/api/getPrizePool',
+        method:'get'
+    })
+}
+
+export const resetPoolApi = () => {
+    return axios({
+        url:'/api/resetPrizePool',
+        method:'get'
+    })
+}
