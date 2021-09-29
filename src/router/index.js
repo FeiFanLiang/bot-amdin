@@ -144,6 +144,14 @@ export const constantRoutes = [
           role:['bill']
         },
         component:() =>import('@/views/bill-list')
+      },
+      {
+        path:'redpack',
+        meta:{
+          title:'红包记录',
+          role:['bill']
+        },
+        component:() => import('@/views/repack-list')
       }
     ]
   },

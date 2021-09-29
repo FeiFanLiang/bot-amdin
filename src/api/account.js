@@ -155,3 +155,11 @@ export const resetPoolApi = () => {
         method:'get'
     })
 }
+
+export const getRedpackListApi = (data) => {
+    return axios({
+        url:'/api/getRedPackList',
+        method:'post',
+        data
+    })
+}

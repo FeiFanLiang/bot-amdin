@@ -26,6 +26,7 @@
       <el-table :data="tableList">
         <el-table-column label="用户名" prop="accountName"></el-table-column>
         <el-table-column label="用户ID" prop="userId"></el-table-column>
+        <el-table-column label="用户昵称" prop="nickName"></el-table-column>
         <el-table-column label="人民币余额" prop="cny_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="USDT余额" prop="usdt_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="USD余额" prop="usd_balance" :formatter="amountFormatter"></el-table-column>
@@ -275,7 +276,7 @@ export default {
       if (!value) {
         return 0;
       }
-      return Math.ceil(value / 100);
+      return (value / 100).toFixed(2) 
     },
     handleCurrentChange(val) {
       this.pagination.currentPage = val;
