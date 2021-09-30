@@ -3,32 +3,16 @@
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input
-            clearable
-            v-model.trim="filters.createUserId"
-            placeholder="红包创建人ID"
-          ></el-input>
+          <el-input clearable v-model.trim="filters.createUserId" placeholder="红包创建人ID"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-input
-            clearable
-            v-model.trim="filters.createUserName"
-            placeholder="红包创建人用户名"
-          ></el-input>
+          <el-input clearable v-model.trim="filters.createUserName" placeholder="红包创建人用户名"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-input
-            clearable
-            v-model="filters.acceptedUserId"
-            placeholder="红包领取人ID"
-          ></el-input>
+          <el-input clearable v-model="filters.acceptedUserId" placeholder="红包领取人ID"></el-input>
         </el-col>
-         <el-col :span="4">
-          <el-input
-            clearable
-            v-model="filters.acceptedUserName"
-            placeholder="红包领取人用户名"
-          ></el-input>
+        <el-col :span="4">
+          <el-input clearable v-model="filters.acceptedUserName" placeholder="红包领取人用户名"></el-input>
         </el-col>
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
@@ -69,8 +53,8 @@ export default {
       filters: {
         createUserId: "",
         createUserName: "",
-        acceptedUserId:'',
-        acceptedUserName:''
+        acceptedUserId: '',
+        acceptedUserName: ''
       },
       pagination: {
         currentPage: 1,
@@ -89,7 +73,7 @@ export default {
     this.fetchData();
   },
   methods: {
-      timeFormatter(row,column,value){
+    timeFormatter(row, column, value) {
       return dayjs(value).format('YYYY-MM-DD HH:mm:ss')
     },
     search() {
@@ -101,11 +85,11 @@ export default {
       this.pagination.currentPage = val;
       this.fetchData();
     },
-     amountFormatter(row, column, value) {
+    amountFormatter(row, column, value) {
       if (!value) {
         return 0;
       }
-      return  (value / 100 ).toFixed(2)
+      return (value / 100).toFixed(2)
     },
     fetchData() {
       const { query } = this;
@@ -132,8 +116,10 @@ export default {
         total: 0
       };
       this.filters = {
-        userId: "",
-        accountName: ""
+        createUserId: "",
+        createUserName: "",
+        acceptedUserId: '',
+        acceptedUserName: ''
       };
     },
     resetFilter() {

@@ -28,6 +28,23 @@
             ></el-option>
           </el-select>
         </el-col>
+        <el-col :span="4">
+          <el-date-picker
+            v-model="filters.startTime"
+            value-format="yyyy-MM-dd"
+            type="date"
+            placeholder="开始日期"
+          ></el-date-picker>
+        </el-col>
+        <el-col :span="4">
+          <el-date-picker
+            v-model="filters.endTime"
+            value-format="yyyy-MM-dd"
+            type="date"
+            clearable
+            placeholder="结束日期"
+          ></el-date-picker>
+        </el-col>
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
           <el-button @click="resetFilter">重置</el-button>
@@ -36,6 +53,13 @@
       </el-row>
     </div>
     <div class="table-box">
+      <div style="margin-bottom: 20px;" class="item-wrap">
+        <div v-for="item of countList" class="item">
+          <span>流水类型：{{ item.updateType | updateType }}</span>
+          <span>货币类型：{{ item.type.toUpperCase() }}</span>
+          <span>金额：{{ item.total }}</span>
+        </div>
+      </div>
       <el-table :data="tableList">
         <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
@@ -93,9 +117,20 @@ import { downLoadApi } from "@/api/account";
 import stringify from "csv-stringify";
 export default {
   mixins: [TableEditMixins],
+  filters: {
+    updateType(val) {
+      if (val === 'add') {
+        return '充值'
+      }
+      if (val === 'sub') {
+        return '提现'
+      }
+    }
+  },
   data() {
     return {
       dialogShow: false,
+      countList: [],
       successOptions: [
         {
           label: "成功",
@@ -136,7 +171,9 @@ export default {
         userId: "",
         type: "",
         success: "",
-        userName: ""
+        userName: "",
+        startTime: dayjs().format('YYYY-MM-DD'),
+        endTime: ''
       },
       downForm: {
         start: "",
@@ -249,7 +286,9 @@ export default {
         userId: "",
         type: "",
         success: "",
-        userName: ""
+        userName: "",
+        startTime: dayjs().format('YYYY-MM-DD'),
+        endTime: ''
       };
       this.pagination = {
         currentPage: 1,
@@ -263,7 +302,9 @@ export default {
     fetchData() {
       const { query } = this;
       getRechargeListApi(query).then(res => {
-        const { docs, page, totalDocs } = res;
+        const { list, totalCount } = res;
+        this.countList = totalCount;
+        const { docs, page, totalDocs } = list;
         this.pagination.total = totalDocs;
         this.tableList = docs;
         this.pagination.currentPage = page;
@@ -272,3 +313,16 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.item-wrap {
+  display: flex;
+  .item {
+    display: flex;
+    flex-direction: column;
+    & + .item {
+      margin-left: 20px;
+      border-left: 1px solid #ccc;
+    }
+  }
+}
+</style>
