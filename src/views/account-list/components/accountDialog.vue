@@ -153,7 +153,7 @@ export default {
       const { userId } = this;
       const filters = { ...query, userId }
       getRechargeListApi(filters).then(res => {
-        const { docs, page, totalDocs } = res;
+        const { docs, page, totalDocs } = res.list;
         this.pagination.total = totalDocs;
         this.tableList = docs;
         this.pagination.currentPage = page;
