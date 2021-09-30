@@ -54,11 +54,11 @@
     </div>
     <div class="table-box">
       <div style="margin-bottom: 20px;" class="item-wrap">
-        <div v-for="item of countList" class="item">
+        <el-card shadow="always" v-for="item of countList" class="item">
           <span>流水类型：{{ item.updateType | updateType }}</span>
-          <span>货币类型：{{ item.type.toUpperCase() }}</span>
+          <span>{{ item.updateType === 'trans' ? '兑换原币类型：' : '货币类型：' }} {{ item.type.toUpperCase() }}</span>
           <span>金额：{{ item.total }}</span>
-        </div>
+        </el-card>
       </div>
       <el-table :data="tableList">
         <el-table-column label="用户ID" prop="userId"></el-table-column>
@@ -124,6 +124,9 @@ export default {
       }
       if (val === 'sub') {
         return '提现'
+      }
+      if (val === 'trans') {
+        return '兑换'
       }
     }
   },
@@ -316,13 +319,15 @@ export default {
 <style lang="scss">
 .item-wrap {
   display: flex;
-  .item {
+  flex-wrap: wrap;
+  .item .el-card__body {
+    padding: 5px;
     display: flex;
     flex-direction: column;
-    & + .item {
-      margin-left: 20px;
-      border-left: 1px solid #ccc;
-    }
+    font-size: 12px;
+  }
+  .item + .item {
+    margin-left: 10px;
   }
 }
 </style>
