@@ -203,7 +203,7 @@
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
-          width="200px"
+          width="230px"
           label="是否成功"
           prop="success"
           align="center"
