@@ -153,9 +153,9 @@
         <el-table-column label="交易信息" align="center">
           <template v-slot="scope">
             <el-card shadow="hover" class="item">
-              <span>{{ scope.row.amount }}</span>
-              <span>{{ scope.row.type.toUpperCase() }}</span>
-              <span>{{ typeFormatter(scope.row.updateType) }}</span>
+              <span>订单金额：{{ scope.row.amount }}</span>
+              <span>订单币种： {{ scope.row.type.toUpperCase() }}</span>
+              <span>币种： {{ typeFormatter(scope.row.updateType) }}</span>
               <span>交易前余额：{{ scope.row.beforeAmount }}</span>
             </el-card>
           </template>
@@ -496,14 +496,24 @@ export default {
         });
     },
     typeFormatter(value) {
+      this.typeOptions.find(el => el.value === value)?.label;
+      
       return this.typeOptions.find(el => el.value === value)?.label;
     },
     reset() {
       this.filters = {
         userId: "",
+        updateType: "",
         type: "",
+        fromUserId: "",
+        fromUserName: "",
+        fromUserNickName: "",
+        toUserId: "",
+        toUserName: "",
+        toUserNickName: "",
+        originType: "",
+        exchangeType: "",
         success: "",
-        userName: "",
         startTime: dayjs().format("YYYY-MM-DD"),
         endTime: ""
       };
@@ -518,6 +528,12 @@ export default {
     },
     fetchData() {
       const { query } = this;
+      const loading = this.$loading({
+        lock: true,
+        text: "加载中.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
       getRechargeListApi(query).then(res => {
         const { list, totalCount } = res;
         this.countList = totalCount;
@@ -525,7 +541,10 @@ export default {
         this.pagination.total = totalDocs;
         this.tableList = docs;
         this.pagination.currentPage = page;
-      });
+      }).finally(() => {
+        loading.close()
+      })
+      
     }
   }
 };
