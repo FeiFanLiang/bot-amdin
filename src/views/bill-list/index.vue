@@ -126,6 +126,7 @@
       <el-button @click="resetFilter">重置</el-button>
       <el-button type="warning" @click="downLoad">按当前条件导出表格</el-button>
     </div>
+    
     <div class="table-box">
       <el-table
         :border="false"
@@ -155,7 +156,7 @@
             <el-card shadow="hover" class="item">
               <span>订单金额：{{ scope.row.amount }}</span>
               <span>订单币种： {{ scope.row.type.toUpperCase() }}</span>
-              <span>币种： {{ typeFormatter(scope.row.updateType) }}</span>
+              <span>类型： {{ typeFormatter(scope.row.updateType) }}</span>
               <span>交易前余额：{{ scope.row.beforeAmount }}</span>
             </el-card>
           </template>
@@ -231,6 +232,18 @@
           :formatter="timeFormatter"
           show-overflow-tooltip
         ></el-table-column>
+      </el-table>
+    </div>
+    <el-divider content-position="center">当前流水统计</el-divider>
+    <div class="table-box">
+      <el-table :data="countList" border>
+        <el-table-column label="交易类型" prop="updateType" align="center">
+          <template v-slot="scope">
+            {{typeFormatter(scope.row.updateType)}}
+          </template>
+        </el-table-column>
+        <el-table-column label="交易币种" prop="type" align="center"></el-table-column>
+        <el-table-column label="交易总金额" prop="total" align="center"></el-table-column>
       </el-table>
     </div>
     <div class="pagination-box">

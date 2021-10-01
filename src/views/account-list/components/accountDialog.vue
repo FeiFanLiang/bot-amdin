@@ -225,6 +225,18 @@
         ></el-table-column>
       </el-table>
     </div>
+    <el-divider content-position="center">当前流水统计</el-divider>
+    <div class="table-box">
+      <el-table :data="countList" border>
+        <el-table-column label="交易类型" prop="updateType" align="center">
+          <template v-slot="scope">
+            {{typeFormatter(scope.row.updateType)}}
+          </template>
+        </el-table-column>
+        <el-table-column label="交易币种" prop="type" align="center"></el-table-column>
+        <el-table-column label="交易总金额" prop="total" align="center"></el-table-column>
+      </el-table>
+    </div>
     <div class="pagination-box">
       <el-pagination
         :total="pagination.total"
