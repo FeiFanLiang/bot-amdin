@@ -482,17 +482,21 @@ export default {
 </script>
 <style lang="scss">
 .item .el-card__body {
-  padding: 5px;
+  padding: 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 12px;
 }
+.el-table--mini td, .el-table--mini th {
+  padding: 3px 0;
+}
 .item {
-  padding: 5px;
+  padding: 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 12px;
+  line-height: 14px;
 }
 </style>
