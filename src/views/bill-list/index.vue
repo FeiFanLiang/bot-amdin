@@ -135,7 +135,11 @@
       >
         <el-table-column label="付款人用户名">
           <template v-slot="scope">
-            <a class="userLink" :href="`https://t.me/${scope.row.fromUserName}`" target="__blank">
+            <a
+              class="userLink"
+              :href="`https://t.me/${scope.row.fromUserName}`"
+              target="__blank"
+            >
               <span> @{{ scope.row.fromUserName }}</span>
             </a>
           </template>
@@ -148,7 +152,7 @@
                 <span>用户名：{{ scope.row.fromUserName }}</span>
                 <span>ID：{{ scope.row.fromUserId }}</span>
               </div>
-             <el-button type="text" slot="reference" >{{
+              <el-button type="text" slot="reference">{{
                 scope.row.fromUserNickName
               }}</el-button>
             </el-popover>
@@ -158,35 +162,36 @@
           <template v-slot="scope">
             <el-popover placement="top" trigger="click">
               <div class="item">
-                <span>余额：{{ scope.row.afterAmount }}</span>
-                <span>交易前余额：{{ scope.row.beforeAmount }}</span>
-                 <span v-if="scope.row.rate"> 汇率： {{ scope.row.rate }} </span>
-              <span v-if="scope.row.exchangeType">
-                目标货币：{{ scope.row.exchangeType.toUpperCase() }}
-              </span>
-              <span v-if="scope.row.exchangeAmount">
-                兑换金额：{{ scope.row.exchangeAmount }}
-              </span>
-              <span v-if="scope.row.originType">
-                充值原币：{{ scope.row.originType.toUpperCase() }}
-              </span>
-              <span v-if="scope.row.orginAmount">
-                充值原币金额：{{ scope.row.orginAmount }}
-              </span>
-              <span v-if="scope.row.handingFee">
-                手续费：{{ scope.row.handingFee }}
-              </span>
-              <span v-if="scope.row.address">
-                提现地址：{{ scope.row.address }}
-              </span>
-              <span v-if="scope.row.name">
-                提现姓名：{{ scope.row.name }}
-              </span>
+                <span
+                  >余额：{{ scope.row.afterAmount }}
+                  {{ scope.row.type.toUpperCase() }}</span
+                >
+                <span v-if="scope.row.rate"> 汇率： {{ scope.row.rate }} </span>
+                <span v-if="scope.row.exchangeType">
+                  目标货币：{{ scope.row.exchangeType.toUpperCase() }}
+                </span>
+                <span v-if="scope.row.exchangeAmount">
+                  兑换金额：{{ scope.row.exchangeAmount }}
+                </span>
+                <span v-if="scope.row.orginAmount">
+                  充值原币金额：{{ scope.row.orginAmount }}
+                  {{ scope.row.originType.toUpperCase() }}
+                </span>
+                <span v-if="scope.row.handingFee">
+                  手续费：{{ scope.row.handingFee }}
+                </span>
+                <span v-if="scope.row.address">
+                  提现地址：{{ scope.row.address }}
+                </span>
+                <span v-if="scope.row.name">
+                  提现姓名：{{ scope.row.name }}
+                </span>
               </div>
-              <el-button type="text" slot="reference">{{getSymbol(scope.row.updateType)}} {{ scope.row.amount }} {{ scope.row.type.toUpperCase() }}</el-button>
-            
+              <el-button type="text" slot="reference"
+                >{{ getSymbol(scope.row.updateType) }} {{ scope.row.amount }}
+                {{ scope.row.type.toUpperCase() }}</el-button
+              >
             </el-popover>
-            
           </template>
         </el-table-column>
         <el-table-column label="类型" align="center">
@@ -201,13 +206,13 @@
         </el-table-column>
         <el-table-column label="收款人昵称" align="center">
           <template v-slot="scope">
-             <el-popover placement="top" trigger="click">
+            <el-popover placement="top" trigger="click">
               <div class="item">
                 <span>昵称：{{ scope.row.toUserNickName }}</span>
                 <span>用户名：{{ scope.row.toUserName }}</span>
                 <span>ID：{{ scope.row.toUserId }}</span>
               </div>
-             <el-button type="text" slot="reference" >{{
+              <el-button type="text" slot="reference">{{
                 scope.row.toUserNickName
               }}</el-button>
             </el-popover>
@@ -215,11 +220,15 @@
         </el-table-column>
         <el-table-column label="收款人用户名" align="center">
           <template v-slot="scope">
-             <a v-if="scope.row.toUserId"  class="userLink" :href="`https://t.me/${scope.row.toUserName}`" target="__blank">
+            <a
+              v-if="scope.row.toUserId"
+              class="userLink"
+              :href="`https://t.me/${scope.row.toUserName}`"
+              target="__blank"
+            >
               <span> @{{ scope.row.toUserName }}</span>
             </a>
           </template>
-         
         </el-table-column>
         <el-table-column
           width="80px"
@@ -234,13 +243,18 @@
           prop="success"
           align="center"
         >
-        <template v-slot="scope">
-        <span>{{ scope.row.success ? "成功" : "未完成" }}</span>
-        </template>
+          <template v-slot="scope">
+            <span>{{ scope.row.success ? "成功" : "未完成" }}</span>
+          </template>
         </el-table-column>
         <el-table-column label="处理人" align="center">
           <template v-slot="scope">
-             <a v-if="scope.row.confirmUserId"  class="userLink" :href="`https://t.me/${scope.row.confirmUserName}`" target="__blank">
+            <a
+              v-if="scope.row.confirmUserId"
+              class="userLink"
+              :href="`https://t.me/${scope.row.confirmUserName}`"
+              target="__blank"
+            >
               <span> @{{ scope.row.confirmNickName }}</span>
             </a>
           </template>
@@ -416,7 +430,7 @@ export default {
         toUserNickName: "",
         originType: "",
         exchangeType: "",
-        success: "",
+        success: "true",
         startTime: dayjs().format("YYYY-MM-DD"),
         endTime: ""
       },
@@ -427,11 +441,16 @@ export default {
     };
   },
   methods: {
-    getSymbol(type){
-      if(type === 'trans' || type === 'sub' || type === 'pack_out' || type === 'exchange'){
-        return '-'
-      }else {
-        return '+'
+    getSymbol(type) {
+      if (
+        type === "trans" ||
+        type === "sub" ||
+        type === "pack_out" ||
+        type === "exchange"
+      ) {
+        return "-";
+      } else {
+        return "+";
       }
     },
     getRecordType(value) {
@@ -562,7 +581,7 @@ export default {
         toUserNickName: "",
         originType: "",
         exchangeType: "",
-        success: "",
+        success: "true",
         startTime: dayjs().format("YYYY-MM-DD"),
         endTime: ""
       };
@@ -623,7 +642,7 @@ export default {
   }
 }
 .userLink {
-  color: #409EFF;
+  color: #409eff;
 }
 .count {
   font-size: 14px;
