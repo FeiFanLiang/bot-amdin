@@ -118,73 +118,107 @@
       <el-button type="primary" @click="search">搜索</el-button>
       <el-button @click="resetFilter">重置</el-button>
     </div>
-    <div class="table-box">
+   <div class="table-box">
       <el-table
         :border="false"
         :data="tableList"
         :highlight-current-row="false"
       >
-        <el-table-column label="付款信息" align="center">
+        <el-table-column label="付款人用户名">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>{{ scope.row.fromUserNickName }}</span>
-              <span>{{ scope.row.fromUserName }}</span>
-              <span>{{ scope.row.fromUserId }}</span>
-            </el-card>
+            <a
+              class="userLink"
+              :href="`https://t.me/${scope.row.fromUserName}`"
+              target="__blank"
+            >
+              <span> @{{ scope.row.fromUserName }}</span>
+            </a>
           </template>
         </el-table-column>
-        <el-table-column label="收款信息" align="center">
+        <el-table-column label="付款人" align="center">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>{{ scope.row.toUserNickName }}</span>
-              <span>{{ scope.row.toUserName }}</span>
-              <span>{{ scope.row.toUserId }}</span>
-            </el-card>
+            <el-popover placement="top" trigger="click">
+              <div class="item">
+                <span>昵称：{{ scope.row.fromUserNickName }}</span>
+                <span>用户名：{{ scope.row.fromUserName }}</span>
+                <span>ID：{{ scope.row.fromUserId }}</span>
+              </div>
+              <el-button type="text" slot="reference">{{
+                scope.row.fromUserNickName
+              }}</el-button>
+            </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="交易信息" align="center">
+        <el-table-column label="流水" align="center">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>{{ scope.row.amount }}</span>
-              <span>{{ scope.row.type.toUpperCase() }}</span>
-              <span>{{ typeFormatter(scope.row.updateType) }}</span>
-              <span>交易前余额：{{ scope.row.beforeAmount }}</span>
-            </el-card>
+            <el-popover placement="top" trigger="click">
+              <div class="item">
+                <span
+                  >余额：{{ scope.row.afterAmount }}
+                  {{ scope.row.type.toUpperCase() }}</span
+                >
+                <span v-if="scope.row.rate"> 汇率： {{ scope.row.rate }} </span>
+                <span v-if="scope.row.exchangeType">
+                  目标货币：{{ scope.row.exchangeType.toUpperCase() }}
+                </span>
+                <span v-if="scope.row.exchangeAmount">
+                  兑换金额：{{ scope.row.exchangeAmount }}
+                </span>
+                <span v-if="scope.row.orginAmount">
+                  充值原币金额：{{ scope.row.orginAmount }}
+                  {{ scope.row.originType.toUpperCase() }}
+                </span>
+                <span v-if="scope.row.handingFee">
+                  手续费：{{ scope.row.handingFee }}
+                </span>
+                <span v-if="scope.row.address">
+                  提现地址：{{ scope.row.address }}
+                </span>
+                <span v-if="scope.row.name">
+                  提现姓名：{{ scope.row.name }}
+                </span>
+              </div>
+              <el-button type="text" slot="reference"
+                >{{ getSymbol(scope.row.updateType) }} {{ scope.row.amount }}
+                {{ scope.row.type.toUpperCase() }}</el-button
+              >
+            </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="余额信息" align="center">
+        <el-table-column label="类型" align="center">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>{{ scope.row.afterAmount }}</span>
-            </el-card>
+            <span>{{ typeFormatter(scope.row.updateType) }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="附加信息" align="center">
+        <el-table-column label="余额" align="center">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span v-if="scope.row.rate"> 汇率： {{ scope.row.rate }} </span>
-              <span v-if="scope.row.exchangeType">
-                目标货币：{{ scope.row.exchangeType.toUpperCase() }}
-              </span>
-              <span v-if="scope.row.exchangeAmount">
-                兑换金额：{{ scope.row.exchangeAmount }}
-              </span>
-              <span v-if="scope.row.originType">
-                充值原币：{{ scope.row.originType.toUpperCase() }}
-              </span>
-              <span v-if="scope.row.orginAmount">
-                充值原币金额：{{ scope.row.orginAmount }}
-              </span>
-              <span v-if="scope.row.handingFee">
-                手续费：{{ scope.row.handingFee }}
-              </span>
-              <span v-if="scope.row.address">
-                提现地址：{{ scope.row.address }}
-              </span>
-              <span v-if="scope.row.name">
-                提现姓名：{{ scope.row.name }}
-              </span>
-            </el-card>
+            {{ scope.row.afterAmount }} {{ scope.row.type.toUpperCase() }}
+          </template>
+        </el-table-column>
+        <el-table-column label="收款人昵称" align="center">
+          <template v-slot="scope">
+            <el-popover placement="top" trigger="click">
+              <div class="item">
+                <span>昵称：{{ scope.row.toUserNickName }}</span>
+                <span>用户名：{{ scope.row.toUserName }}</span>
+                <span>ID：{{ scope.row.toUserId }}</span>
+              </div>
+              <el-button type="text" slot="reference">{{
+                scope.row.toUserNickName
+              }}</el-button>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column label="收款人用户名" align="center">
+          <template v-slot="scope">
+            <a
+              v-if="scope.row.toUserId"
+              class="userLink"
+              :href="`https://t.me/${scope.row.toUserName}`"
+              target="__blank"
+            >
+              <span> @{{ scope.row.toUserName }}</span>
+            </a>
           </template>
         </el-table-column>
         <el-table-column
@@ -195,24 +229,25 @@
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
-          width="200px"
+          width="230px"
           label="是否成功"
           prop="success"
           align="center"
         >
           <template v-slot="scope">
-            <div class="item">
-              <span>{{ scope.row.success ? "成功" : "未完成" }}</span>
-              <span v-if="scope.row.confirmNickName">
-                处理人昵称：{{ scope.row.confirmNickName }}
-              </span>
-              <span v-if="scope.row.confirmUserId">
-                处理人Id：{{ scope.row.confirmUserId }}
-              </span>
-              <span v-if="scope.row.fromBackEnd">
-                (后台操作)
-              </span>
-            </div>
+            <span>{{ scope.row.success ? "成功" : "未完成" }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="处理人" align="center">
+          <template v-slot="scope">
+            <a
+              v-if="scope.row.confirmUserId"
+              class="userLink"
+              :href="`https://t.me/${scope.row.confirmUserName}`"
+              target="__blank"
+            >
+              <span> @{{ scope.row.confirmNickName }}</span>
+            </a>
           </template>
         </el-table-column>
         <el-table-column
@@ -385,6 +420,18 @@ export default {
     }
   },
   methods: {
+    getSymbol(type) {
+      if (
+        type === "trans" ||
+        type === "sub" ||
+        type === "pack_out" ||
+        type === "exchange"
+      ) {
+        return "-";
+      } else {
+        return "+";
+      }
+    },
      getRecordType(value) {
       switch (value) {
         case "add":

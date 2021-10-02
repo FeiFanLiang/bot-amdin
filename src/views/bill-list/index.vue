@@ -430,7 +430,7 @@ export default {
         toUserNickName: "",
         originType: "",
         exchangeType: "",
-        success: "true",
+        success: "",
         startTime: dayjs().format("YYYY-MM-DD"),
         endTime: ""
       },
@@ -581,7 +581,7 @@ export default {
         toUserNickName: "",
         originType: "",
         exchangeType: "",
-        success: "true",
+        success: "",
         startTime: dayjs().format("YYYY-MM-DD"),
         endTime: ""
       };
