@@ -126,52 +126,41 @@
       <el-button @click="resetFilter">重置</el-button>
       <el-button type="warning" @click="downLoad">按当前条件导出表格</el-button>
     </div>
-    
+
     <div class="table-box">
       <el-table
         :border="false"
         :data="tableList"
         :highlight-current-row="false"
       >
-        <el-table-column label="付款信息" align="center">
+        <el-table-column label="付款人用户名">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>{{ scope.row.fromUserNickName }}</span>
-              <span>{{ scope.row.fromUserName }}</span>
-              <span>{{ scope.row.fromUserId }}</span>
-            </el-card>
+            <a class="userLink" :href="`https://t.me/${scope.row.fromUserName}`" target="__blank">
+              <span> @{{ scope.row.fromUserName }}</span>
+            </a>
           </template>
         </el-table-column>
-        <el-table-column label="收款信息" align="center">
+        <el-table-column label="付款人" align="center">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>{{ scope.row.toUserNickName }}</span>
-              <span>{{ scope.row.toUserName }}</span>
-              <span>{{ scope.row.toUserId }}</span>
-            </el-card>
+            <el-popover placement="top" trigger="click">
+              <div class="item">
+                <span>昵称：{{ scope.row.fromUserNickName }}</span>
+                <span>用户名：{{ scope.row.fromUserName }}</span>
+                <span>ID：{{ scope.row.fromUserId }}</span>
+              </div>
+             <el-button type="text" slot="reference" >{{
+                scope.row.fromUserNickName
+              }}</el-button>
+            </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="交易信息" align="center">
+        <el-table-column label="流水" align="center">
           <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>订单金额：{{ scope.row.amount }}</span>
-              <span>订单币种： {{ scope.row.type.toUpperCase() }}</span>
-              <span>类型： {{ typeFormatter(scope.row.updateType) }}</span>
-              <span>交易前余额：{{ scope.row.beforeAmount }}</span>
-            </el-card>
-          </template>
-        </el-table-column>
-        <el-table-column label="余额信息" align="center">
-          <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span>{{ scope.row.afterAmount }}</span>
-            </el-card>
-          </template>
-        </el-table-column>
-        <el-table-column label="附加信息" align="center">
-          <template v-slot="scope">
-            <el-card shadow="hover" class="item">
-              <span v-if="scope.row.rate"> 汇率： {{ scope.row.rate }} </span>
+            <el-popover placement="top" trigger="click">
+              <div class="item">
+                <span>余额：{{ scope.row.afterAmount }}</span>
+                <span>交易前余额：{{ scope.row.beforeAmount }}</span>
+                 <span v-if="scope.row.rate"> 汇率： {{ scope.row.rate }} </span>
               <span v-if="scope.row.exchangeType">
                 目标货币：{{ scope.row.exchangeType.toUpperCase() }}
               </span>
@@ -193,8 +182,44 @@
               <span v-if="scope.row.name">
                 提现姓名：{{ scope.row.name }}
               </span>
-            </el-card>
+              </div>
+              <el-button type="text" slot="reference">{{getSymbol(scope.row.updateType)}} {{ scope.row.amount }} {{ scope.row.type.toUpperCase() }}</el-button>
+            
+            </el-popover>
+            
           </template>
+        </el-table-column>
+        <el-table-column label="类型" align="center">
+          <template v-slot="scope">
+            <span>{{ typeFormatter(scope.row.updateType) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="余额" align="center">
+          <template v-slot="scope">
+            {{ scope.row.afterAmount }} {{ scope.row.type.toUpperCase() }}
+          </template>
+        </el-table-column>
+        <el-table-column label="收款人昵称" align="center">
+          <template v-slot="scope">
+             <el-popover placement="top" trigger="click">
+              <div class="item">
+                <span>昵称：{{ scope.row.toUserNickName }}</span>
+                <span>用户名：{{ scope.row.toUserName }}</span>
+                <span>ID：{{ scope.row.toUserId }}</span>
+              </div>
+             <el-button type="text" slot="reference" >{{
+                scope.row.toUserNickName
+              }}</el-button>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column label="收款人用户名" align="center">
+          <template v-slot="scope">
+             <a v-if="scope.row.toUserId"  class="userLink" :href="`https://t.me/${scope.row.toUserName}`" target="__blank">
+              <span> @{{ scope.row.toUserName }}</span>
+            </a>
+          </template>
+         
         </el-table-column>
         <el-table-column
           width="80px"
@@ -209,19 +234,15 @@
           prop="success"
           align="center"
         >
+        <template v-slot="scope">
+        <span>{{ scope.row.success ? "成功" : "未完成" }}</span>
+        </template>
+        </el-table-column>
+        <el-table-column label="处理人" align="center">
           <template v-slot="scope">
-            <div class="item">
-              <span>{{ scope.row.success ? "成功" : "未完成" }}</span>
-              <span v-if="scope.row.confirmNickName">
-                处理人昵称：{{ scope.row.confirmNickName }}
-              </span>
-              <span v-if="scope.row.confirmUserId">
-                处理人Id：{{ scope.row.confirmUserId }}
-              </span>
-              <span v-if="scope.row.fromBackEnd">
-                (后台操作)
-              </span>
-            </div>
+             <a v-if="scope.row.confirmUserId"  class="userLink" :href="`https://t.me/${scope.row.confirmUserName}`" target="__blank">
+              <span> @{{ scope.row.confirmNickName }}</span>
+            </a>
           </template>
         </el-table-column>
         <el-table-column
@@ -239,11 +260,19 @@
       <el-table :data="countList" border>
         <el-table-column label="交易类型" prop="updateType" align="center">
           <template v-slot="scope">
-            {{typeFormatter(scope.row.updateType)}}
+            {{ typeFormatter(scope.row.updateType) }}
           </template>
         </el-table-column>
-        <el-table-column label="交易币种" prop="type" align="center"></el-table-column>
-        <el-table-column label="交易总金额" prop="total" align="center"></el-table-column>
+        <el-table-column
+          label="交易币种"
+          prop="type"
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          label="交易总金额"
+          prop="total"
+          align="center"
+        ></el-table-column>
       </el-table>
     </div>
     <div class="pagination-box">
@@ -398,6 +427,13 @@ export default {
     };
   },
   methods: {
+    getSymbol(type){
+      if(type === 'trans' || type === 'sub' || type === 'pack_out' || type === 'exchange'){
+        return '-'
+      }else {
+        return '+'
+      }
+    },
     getRecordType(value) {
       switch (value) {
         case "add":
@@ -510,7 +546,7 @@ export default {
     },
     typeFormatter(value) {
       this.typeOptions.find(el => el.value === value)?.label;
-      
+
       return this.typeOptions.find(el => el.value === value)?.label;
     },
     reset() {
@@ -547,17 +583,18 @@ export default {
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)"
       });
-      getRechargeListApi(query).then(res => {
-        const { list, totalCount } = res;
-        this.countList = totalCount;
-        const { docs, page, totalDocs } = list;
-        this.pagination.total = totalDocs;
-        this.tableList = docs;
-        this.pagination.currentPage = page;
-      }).finally(() => {
-        loading.close()
-      })
-      
+      getRechargeListApi(query)
+        .then(res => {
+          const { list, totalCount } = res;
+          this.countList = totalCount;
+          const { docs, page, totalDocs } = list;
+          this.pagination.total = totalDocs;
+          this.tableList = docs;
+          this.pagination.currentPage = page;
+        })
+        .finally(() => {
+          loading.close();
+        });
     }
   }
 };
@@ -570,7 +607,8 @@ export default {
   align-items: center;
   font-size: 12px;
 }
-.el-table--mini td, .el-table--mini th {
+.el-table--mini td,
+.el-table--mini th {
   padding: 3px 0;
 }
 .item {
@@ -580,5 +618,14 @@ export default {
   align-items: center;
   font-size: 12px;
   line-height: 14px;
+  span {
+    margin-bottom: 2px;
+  }
+}
+.userLink {
+  color: #409EFF;
+}
+.count {
+  font-size: 14px;
 }
 </style>
