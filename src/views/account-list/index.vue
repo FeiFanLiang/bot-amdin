@@ -40,7 +40,7 @@
             <el-switch :value="scope.row.inBlack" @change="handleChange(scope.row)"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="300">
+        <el-table-column label="操作" width="400">
           <template v-slot="scope">
             <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
             <el-button type="primary" @click="handleChangeTitle(scope.row)">认证</el-button>
@@ -54,6 +54,9 @@
               @click="handleEditAmount('0', scope.row)"
               v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
             >提现</el-button>
+            <el-button type="warning" @click="handleResetPass(scope.row)">
+              重置密码
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -111,7 +114,8 @@ import {
   editAccountAmountApi,
   getAmountCountApi,
   updateAccessApi,
-  updateCertApi
+  updateCertApi,
+  restPassApi
 } from "@/api/account";
 import AccountDialog from "./components/accountDialog";
 export default {
@@ -225,6 +229,14 @@ export default {
     this.getAmount();
   },
   methods: {
+    handleResetPass(row){
+      const data = {
+        userId:row.userId
+      }
+      restPassApi(data).then(() => {
+        this.$message.success('操作成功')
+      })
+    },
     handleChange(row) {
       const data = {
         userId: row.userId,

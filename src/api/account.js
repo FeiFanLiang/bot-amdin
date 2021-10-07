@@ -163,3 +163,11 @@ export const getRedpackListApi = (data) => {
         data
     })
 }
+
+export const restPassApi = (data) => {
+    return axios({
+        url:'/api/resetSecureWord',
+        method:"post",
+        data
+    })
+}
