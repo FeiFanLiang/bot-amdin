@@ -54,7 +54,7 @@
               @click="handleEditAmount('0', scope.row)"
               v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
             >提现</el-button>
-            <el-button type="warning" @click="handleResetPass(scope.row)">
+            <el-button v-if="$store.getters.role === 'admin'" type="warning" @click="handleResetPass(scope.row)">
               重置密码
             </el-button>
           </template>
