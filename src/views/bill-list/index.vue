@@ -135,13 +135,7 @@
       >
         <el-table-column label="付款人用户名">
           <template v-slot="scope">
-            <a
-              class="userLink"
-              :href="`https://t.me/${scope.row.fromUserName}`"
-              target="__blank"
-            >
-              <span> @{{ scope.row.fromUserName }}</span>
-            </a>
+              <span style="cursor:pointer" v-clipboard:copy="scope.row.fromUserName"> @{{ scope.row.fromUserName }}</span>
           </template>
         </el-table-column>
         <el-table-column label="付款人" align="center">
@@ -220,14 +214,9 @@
         </el-table-column>
         <el-table-column label="收款人用户名" align="center">
           <template v-slot="scope">
-            <a
-              v-if="scope.row.toUserId"
-              class="userLink"
-              :href="`https://t.me/${scope.row.toUserName}`"
-              target="__blank"
-            >
-              <span> @{{ scope.row.toUserName }}</span>
-            </a>
+           
+              <span style="cursor:pointer" v-clipboard:copy="scope.row.toUserName"> @{{ scope.row.toUserName }}</span>
+           
           </template>
         </el-table-column>
         <el-table-column

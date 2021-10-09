@@ -11,7 +11,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import VueClipboard from 'vue-clipboard2'
 import '@/icons' // icon
 import '@/permission' // permission control
 
@@ -32,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, {
   size:"mini"
 })
+Vue.use(VueClipboard)
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 
