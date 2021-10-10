@@ -3,14 +3,20 @@
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input clearable v-model.trim="filters.userId" placeholder="用户ID"></el-input>
+          <el-input clearable v-model.trim="filters.userId" placeholder="用户ID" ></el-input>
         </el-col>
         <el-col :span="4">
-          <el-input clearable v-model="filters.accountName" placeholder="用户名"></el-input>
+          <el-input clearable v-model="filters.accountName" placeholder="用户名" ></el-input>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="filters.sort" placeholder="货币排序" clearable >
+            <el-option v-for="item of sortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
         </el-col>
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
           <el-button @click="resetFilter">重置</el-button>
+          <el-button type="warning" @click="download">按搜索条件导出</el-button>
         </el-col>
       </el-row>
     </div>
@@ -115,9 +121,12 @@ import {
   getAmountCountApi,
   updateAccessApi,
   updateCertApi,
-  restPassApi
+  restPassApi,
+  downloadAccountCsvApi
 } from "@/api/account";
 import AccountDialog from "./components/accountDialog";
+import stringify from "csv-stringify";
+import dayjs from 'dayjs';
 export default {
   components: {
     AccountDialog
@@ -171,9 +180,40 @@ export default {
           value: 'xb'
         }
       ],
+      sortOptions:[
+        {
+          value:'cny_balance',
+          label:'人民币'
+        },
+        {
+          value:'usd_balance',
+          label:'USD'
+        },
+        {
+          value:'usdt_balance',
+          label:'USDT'
+        },
+        {
+          value:'aed_balance',
+          label:'AED'
+        },
+        {
+          value:'php_balance',
+          label:'PHP'
+        },
+        {
+          value:"rm_balance",
+          label:"VND"
+        },
+        {
+          value:'xb_balance',
+          label:"XB"
+        }
+      ],
       filters: {
         userId: "",
-        accountName: ""
+        accountName: "",
+        sort:""
       },
       pagination: {
         currentPage: 1,
@@ -229,6 +269,68 @@ export default {
     this.getAmount();
   },
   methods: {
+    download(){
+      const loading = this.$loading({
+        lock: true,
+        text: "正在下载.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      downloadAccountCsvApi(this.filters).then((list) => {
+        list.forEach(item => {
+          item.cny_balance = (item.cny_balance / 100).toFixed(2)
+          item.usd_balance = item.usd_balance ? (item.usd_balance / 100).toFixed(2) : 0,
+          item.usdt_balance = (item.usdt_balance / 100).toFixed(2)
+          item.aed_balance = item.aed_balance ? (item.aed_balance / 100).toFixed(2) : 0
+          item.rm_balance = item.rm_balance ?  (item.rm_balance / 100).toFixed(2) : 0
+          item.php_balance = item.php_balance ? (item.php_balance / 100).toFixed(2) : 0
+          item.xb_balance = item.xb_balance ? (item.xb_balance / 100).toFixed(2) : 0
+          item.createTime = dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')
+        })
+        stringify(
+            list,
+            {
+              header: true,
+              columns: [
+                { key: "accountName", header: "用户名" },
+                { key: "nickName", header: "昵称" },
+                {key:"cny_balance",header:'人民币余额'},
+                {key:'usd_balance',header:'美元余额'},
+                {key:'usdt_balance',header:'USDT余额'},
+                {key:'xb_balance',header:'新币余额'},
+                {key:'aed_balance',header:'迪拉姆余额'},
+                {key:'rm_balance',header:'越南盾余额'},
+                {key:'php_balance',header:'比索余额'},
+                {key:'cny_account',header:'人民币账户'},
+                {
+                  key:"cny_name",header:'人民币提现姓名'
+                },
+                {key:"trc_account",header:'TRC20提现地址'},
+                {key:'createTime',header:'创建时间'}
+              ]
+            },
+            function(err, output) {
+              if (err) {
+                loading.close();
+              }
+              loading.close();
+              const dataBlob = new Blob([`\ufeff${output}`], {
+                type: "text/plain;charset=utf-8"
+              });
+              const url = window.URL.createObjectURL(dataBlob);
+              let a = document.createElement("a");
+              a.href = url;
+              a.download = `${dayjs().format("YYYY-MM-DD导出数据")}.csv`;
+              a.click();
+              setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+              });
+            }
+          );
+      }).finally(() => {
+        loading.close()
+      })
+    },
     handleResetPass(row){
       const data = {
         userId:row.userId
@@ -320,7 +422,8 @@ export default {
       };
       this.filters = {
         userId: "",
-        accountName: ""
+        accountName: "",
+        sort:""
       };
     },
     resetFilter() {

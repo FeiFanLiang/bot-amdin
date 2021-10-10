@@ -171,3 +171,11 @@ export const restPassApi = (data) => {
         data
     })
 }
+
+export const downloadAccountCsvApi = (data) => {
+    return axios({
+        url:"/api/downloadAccountCsv",
+        method:'post',
+        data
+    })
+}
