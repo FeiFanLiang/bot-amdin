@@ -187,3 +187,11 @@ export const updateUserLinkApi = (data) => {
         data
     })
 }
+
+export const batchUpdateRateApi = (data) => {
+    return axios({
+        url:'/api/batchEditRate',
+        method:"post",
+        data
+    })
+}

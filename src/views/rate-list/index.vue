@@ -1,10 +1,15 @@
 <template>
   <div class="app-container">
+    <el-button @click="hanldeBatchEdit">批量编辑</el-button>
     <div class="table-box">
-      <el-table :data="tableList">
-        <el-table-column label="兑换货币" prop="fromType"></el-table-column>
-        <el-table-column label="目标货币" prop="toType"></el-table-column>
-        <el-table-column label="汇率" prop="rate"></el-table-column>
+      <el-table :data="tableList" @selection-change="handleChange" >
+        <el-table-column
+      type="selection"
+      width="55">
+    </el-table-column>
+        <el-table-column label="兑换货币" sortable prop="fromType"></el-table-column>
+        <el-table-column label="目标货币" sortable prop="toType"></el-table-column>
+        <el-table-column label="汇率" sortable prop="rate"></el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="success" @click="handleEdit(scope.row)">编辑</el-button>
@@ -23,22 +28,38 @@
         <el-button>取消操作</el-button>
       </template>
     </el-dialog>
+    <el-dialog title="汇率" :visible.sync="batchDialogVisible">
+      <el-form :model="batchForm">
+        <el-form-item label="汇率" prop="rate" required>
+          <el-input-number v-model="batchForm.rate" :precision="6" placeholder="请输入汇率"></el-input-number>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="batchEditSave">确认修改</el-button>
+      </template>
+
+    </el-dialog>
   </div>
 </template>
 <script>
 
 import {
   getRateApi,
-  updateRateApi
+  updateRateApi,
+  batchUpdateRateApi
 } from "@/api/account";
 
 export default {
   data() {
     return {
+      batchDialogVisible:false,
       dialogVisible: false,
-
-
+      selects:[],
       tableList: [],
+      batchForm:{
+        ids:[],
+        rate:0
+      },
       form: {
         id: "",
         rate: ''
@@ -65,6 +86,23 @@ export default {
     this.fetchData();
   },
   methods: {
+    batchEditSave(){
+      batchUpdateRateApi(this.batchForm).then(() => {
+        this.$message.success('更新成功')
+        this.batchDialogVisible = false;
+        this.fetchData()
+      })
+    },
+    hanldeBatchEdit(){
+      this.batchForm = {
+        ids:this.selects.map(el => el._id),
+        rate:0
+      }
+      this.batchDialogVisible = true
+    },
+    handleChange(selects){
+      this.selects = selects;
+    },
     fetchData() {
       getRateApi().then(res => {
         this.tableList = res;
