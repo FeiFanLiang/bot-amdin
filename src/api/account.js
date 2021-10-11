@@ -179,3 +179,11 @@ export const downloadAccountCsvApi = (data) => {
         data
     })
 }
+
+export const updateUserLinkApi = (data) => {
+    return axios({
+        url:'/api/updateLinks',
+        method:'post',
+        data
+    })
+}

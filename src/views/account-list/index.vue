@@ -3,14 +3,19 @@
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input clearable v-model.trim="filters.userId" placeholder="用户ID" ></el-input>
+          <el-input clearable v-model.trim="filters.userId" placeholder="用户ID"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-input clearable v-model="filters.accountName" placeholder="用户名" ></el-input>
+          <el-input clearable v-model="filters.accountName" placeholder="用户名"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-select v-model="filters.sort" placeholder="货币排序" clearable >
-            <el-option v-for="item of sortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="filters.sort" placeholder="货币排序" clearable>
+            <el-option
+              v-for="item of sortOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </el-col>
         <el-col :span="8">
@@ -60,9 +65,12 @@
               @click="handleEditAmount('0', scope.row)"
               v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
             >提现</el-button>
-            <el-button v-if="$store.getters.role === 'admin'" type="warning" @click="handleResetPass(scope.row)">
-              重置密码
-            </el-button>
+            <el-button
+              v-if="$store.getters.role === 'admin'"
+              type="warning"
+              @click="handleResetPass(scope.row)"
+            >重置密码</el-button>
+            <el-button>通知频道</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -109,7 +117,7 @@
     </el-dialog>
     <el-dialog title="用户认证信息" :visible.sync="titleDialogVisible">
       <el-input v-model="userTitle.title" type="textarea" placeholder="输入认证信息"></el-input>
-      <el-button style="margin-top:20px"  @click="titleSubmit">保存</el-button>
+      <el-button style="margin-top:20px" @click="titleSubmit">保存</el-button>
     </el-dialog>
     <account-dialog :visible.sync="accountDialogShow" :userId="userId"></account-dialog>
   </div>
@@ -122,7 +130,8 @@ import {
   updateAccessApi,
   updateCertApi,
   restPassApi,
-  downloadAccountCsvApi
+  downloadAccountCsvApi,
+  updateUserLinkApi
 } from "@/api/account";
 import AccountDialog from "./components/accountDialog";
 import stringify from "csv-stringify";
@@ -134,11 +143,11 @@ export default {
   data() {
     return {
       accountDialogShow: false,
-      titleDialogVisible:false,
+      titleDialogVisible: false,
       dialogVisible: false,
-      userTitle:{
-        userId:'',
-        title:""
+      userTitle: {
+        userId: '',
+        title: ""
       },
       typeOptions: [
         {
@@ -180,40 +189,40 @@ export default {
           value: 'xb'
         }
       ],
-      sortOptions:[
+      sortOptions: [
         {
-          value:'cny_balance',
-          label:'人民币'
+          value: 'cny_balance',
+          label: '人民币'
         },
         {
-          value:'usd_balance',
-          label:'USD'
+          value: 'usd_balance',
+          label: 'USD'
         },
         {
-          value:'usdt_balance',
-          label:'USDT'
+          value: 'usdt_balance',
+          label: 'USDT'
         },
         {
-          value:'aed_balance',
-          label:'AED'
+          value: 'aed_balance',
+          label: 'AED'
         },
         {
-          value:'php_balance',
-          label:'PHP'
+          value: 'php_balance',
+          label: 'PHP'
         },
         {
-          value:"rm_balance",
-          label:"VND"
+          value: "rm_balance",
+          label: "VND"
         },
         {
-          value:'xb_balance',
-          label:"XB"
+          value: 'xb_balance',
+          label: "XB"
         }
       ],
       filters: {
         userId: "",
         accountName: "",
-        sort:""
+        sort: ""
       },
       pagination: {
         currentPage: 1,
@@ -269,7 +278,7 @@ export default {
     this.getAmount();
   },
   methods: {
-    download(){
+    download() {
       const loading = this.$loading({
         lock: true,
         text: "正在下载.....",
@@ -280,60 +289,60 @@ export default {
         list.forEach(item => {
           item.cny_balance = (item.cny_balance / 100).toFixed(2)
           item.usd_balance = item.usd_balance ? (item.usd_balance / 100).toFixed(2) : 0,
-          item.usdt_balance = (item.usdt_balance / 100).toFixed(2)
+            item.usdt_balance = (item.usdt_balance / 100).toFixed(2)
           item.aed_balance = item.aed_balance ? (item.aed_balance / 100).toFixed(2) : 0
-          item.rm_balance = item.rm_balance ?  (item.rm_balance / 100).toFixed(2) : 0
+          item.rm_balance = item.rm_balance ? (item.rm_balance / 100).toFixed(2) : 0
           item.php_balance = item.php_balance ? (item.php_balance / 100).toFixed(2) : 0
           item.xb_balance = item.xb_balance ? (item.xb_balance / 100).toFixed(2) : 0
           item.createTime = dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')
         })
         stringify(
-            list,
-            {
-              header: true,
-              columns: [
-                { key: "accountName", header: "用户名" },
-                { key: "nickName", header: "昵称" },
-                {key:"cny_balance",header:'人民币余额'},
-                {key:'usd_balance',header:'美元余额'},
-                {key:'usdt_balance',header:'USDT余额'},
-                {key:'xb_balance',header:'新币余额'},
-                {key:'aed_balance',header:'迪拉姆余额'},
-                {key:'rm_balance',header:'越南盾余额'},
-                {key:'php_balance',header:'比索余额'},
-                {key:'cny_account',header:'人民币账户'},
-                {
-                  key:"cny_name",header:'人民币提现姓名'
-                },
-                {key:"trc_account",header:'TRC20提现地址'},
-                {key:'createTime',header:'创建时间'}
-              ]
-            },
-            function(err, output) {
-              if (err) {
-                loading.close();
-              }
+          list,
+          {
+            header: true,
+            columns: [
+              { key: "accountName", header: "用户名" },
+              { key: "nickName", header: "昵称" },
+              { key: "cny_balance", header: '人民币余额' },
+              { key: 'usd_balance', header: '美元余额' },
+              { key: 'usdt_balance', header: 'USDT余额' },
+              { key: 'xb_balance', header: '新币余额' },
+              { key: 'aed_balance', header: '迪拉姆余额' },
+              { key: 'rm_balance', header: '越南盾余额' },
+              { key: 'php_balance', header: '比索余额' },
+              { key: 'cny_account', header: '人民币账户' },
+              {
+                key: "cny_name", header: '人民币提现姓名'
+              },
+              { key: "trc_account", header: 'TRC20提现地址' },
+              { key: 'createTime', header: '创建时间' }
+            ]
+          },
+          function (err, output) {
+            if (err) {
               loading.close();
-              const dataBlob = new Blob([`\ufeff${output}`], {
-                type: "text/plain;charset=utf-8"
-              });
-              const url = window.URL.createObjectURL(dataBlob);
-              let a = document.createElement("a");
-              a.href = url;
-              a.download = `${dayjs().format("YYYY-MM-DD导出数据")}.csv`;
-              a.click();
-              setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-              });
             }
-          );
+            loading.close();
+            const dataBlob = new Blob([`\ufeff${output}`], {
+              type: "text/plain;charset=utf-8"
+            });
+            const url = window.URL.createObjectURL(dataBlob);
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = `${dayjs().format("YYYY-MM-DD导出数据")}.csv`;
+            a.click();
+            setTimeout(() => {
+              window.URL.revokeObjectURL(url);
+            });
+          }
+        );
       }).finally(() => {
         loading.close()
       })
     },
-    handleResetPass(row){
+    handleResetPass(row) {
       const data = {
-        userId:row.userId
+        userId: row.userId
       }
       restPassApi(data).then(() => {
         this.$message.success('操作成功')
@@ -364,10 +373,10 @@ export default {
         }
       });
     },
-    handleChangeTitle(row){
+    handleChangeTitle(row) {
       this.userTitle = {
-        userId:row.userId,
-        title:row.title
+        userId: row.userId,
+        title: row.title
       }
       this.titleDialogVisible = true
     },
@@ -390,7 +399,7 @@ export default {
       if (!value) {
         return 0;
       }
-      return (value / 100).toFixed(2) 
+      return (value / 100).toFixed(2)
     },
     handleCurrentChange(val) {
       this.pagination.currentPage = val;
@@ -423,7 +432,7 @@ export default {
       this.filters = {
         userId: "",
         accountName: "",
-        sort:""
+        sort: ""
       };
     },
     resetFilter() {
