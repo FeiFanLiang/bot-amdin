@@ -51,7 +51,7 @@
             <el-switch :value="scope.row.inBlack" @change="handleChange(scope.row)"></el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="400">
+        <el-table-column label="操作" align="center" width="500">
           <template v-slot="scope">
             <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
             <el-button type="primary" @click="handleChangeTitle(scope.row)">认证</el-button>
@@ -70,7 +70,7 @@
               type="warning"
               @click="handleResetPass(scope.row)"
             >重置密码</el-button>
-            <el-button>通知频道</el-button>
+            <el-button v-if="$store.getters.role === 'admin'" type="warning" @click="handleLink(scope.row)">通知频道</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -115,6 +115,16 @@
         <el-button>取消操作</el-button>
       </template>
     </el-dialog>
+    <el-dialog title="收款通知频道" :visible.sync="linkDialogShow">
+      <el-form :model="linkForm">
+        <el-form-item label="频道号" prop="link">
+          <el-input v-model="linkForm.link" placeholder="频道号"></el-input>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="updateLink" >保存</el-button>
+      </template>
+    </el-dialog>
     <el-dialog title="用户认证信息" :visible.sync="titleDialogVisible">
       <el-input v-model="userTitle.title" type="textarea" placeholder="输入认证信息"></el-input>
       <el-button style="margin-top:20px" @click="titleSubmit">保存</el-button>
@@ -142,9 +152,14 @@ export default {
   },
   data() {
     return {
+      linkDialogShow:false,
       accountDialogShow: false,
       titleDialogVisible: false,
       dialogVisible: false,
+      linkForm:{
+        userId:"",
+        link:""
+      },
       userTitle: {
         userId: '',
         title: ""
@@ -278,6 +293,20 @@ export default {
     this.getAmount();
   },
   methods: {
+    handleLink(row){
+      this.linkForm = {
+        userId:row.userId,
+        link:row.link
+      }
+      this.linkDialogShow = true
+    },
+    updateLink(){
+      updateUserLinkApi(this.linkForm).then(() => {
+        this.$message.success('操作成功')
+        this.linkDialogShow = false
+        this.fetchData()
+      })
+    },
     download() {
       const loading = this.$loading({
         lock: true,
