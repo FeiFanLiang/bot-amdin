@@ -3,18 +3,10 @@
     <div class="table-form">
       <el-form inline>
         <el-form-item>
-          <el-input
-            v-model.trim="filters.userId"
-            clearable
-            placeholder="用户ID"
-          ></el-input>
+          <el-input v-model.trim="filters.userId" clearable placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select
-            v-model="filters.updateType"
-            clearable
-            placeholder="流水类型"
-          >
+          <el-select v-model="filters.updateType" clearable placeholder="流水类型">
             <el-option
               v-for="item of typeOptions"
               :key="item.value"
@@ -34,53 +26,25 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="filters.fromUserId"
-            clearable
-            placeholder="付款人ID"
-          ></el-input>
+          <el-input v-model="filters.fromUserId" clearable placeholder="付款人ID"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="filters.fromUserName"
-            clearable
-            placeholder="付款人用户名"
-          ></el-input>
+          <el-input v-model="filters.fromUserName" clearable placeholder="付款人用户名"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="filters.fromUserNickName"
-            clearable
-            placeholder="付款人昵称"
-          ></el-input>
+          <el-input v-model="filters.fromUserNickName" clearable placeholder="付款人昵称"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="filters.toUserId"
-            clearable
-            placeholder="收款人ID"
-          ></el-input>
+          <el-input v-model="filters.toUserId" clearable placeholder="收款人ID"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="filters.toUserName"
-            clearable
-            placeholder="收款人用户名"
-          ></el-input>
+          <el-input v-model="filters.toUserName" clearable placeholder="收款人用户名"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="filters.toUserNickName"
-            clearable
-            placeholder="收款人昵称"
-          ></el-input>
+          <el-input v-model="filters.toUserNickName" clearable placeholder="收款人昵称"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select
-            v-model="filters.originType"
-            clearable
-            placeholder="充值原币类型"
-          >
+          <el-select v-model="filters.originType" clearable placeholder="充值原币类型">
             <el-option
               v-for="item of accountType"
               :key="item.value"
@@ -90,11 +54,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-select
-            v-model="filters.exchangeType"
-            clearable
-            placeholder="兑换目标货币"
-          >
+          <el-select v-model="filters.exchangeType" clearable placeholder="兑换目标货币">
             <el-option
               v-for="item of accountType"
               :key="item.value"
@@ -128,14 +88,13 @@
     </div>
 
     <div class="table-box">
-      <el-table
-        :border="false"
-        :data="tableList"
-        :highlight-current-row="false"
-      >
+      <el-table :border="false" :data="tableList" :highlight-current-row="false">
         <el-table-column label="付款人用户名">
           <template v-slot="scope">
-              <span style="cursor:pointer" v-clipboard:copy="scope.row.fromUserName"> @{{ scope.row.fromUserName }}</span>
+            <span
+              style="cursor:pointer"
+              v-clipboard:copy="scope.row.fromUserName"
+            >@{{ scope.row.fromUserName }}</span>
           </template>
         </el-table-column>
         <el-table-column label="付款人" align="center">
@@ -146,9 +105,11 @@
                 <span>用户名：{{ scope.row.fromUserName }}</span>
                 <span>ID：{{ scope.row.fromUserId }}</span>
               </div>
-              <el-button type="text" slot="reference">{{
-                scope.row.fromUserNickName
-              }}</el-button>
+              <el-button type="text" slot="reference">
+                {{
+                  scope.row.fromUserNickName
+                }}
+              </el-button>
             </el-popover>
           </template>
         </el-table-column>
@@ -156,47 +117,38 @@
           <template v-slot="scope">
             <el-popover placement="top" trigger="click">
               <div class="item">
-                <span
-                  >余额：{{ scope.row.afterAmount }}
-                  {{ scope.row.type.toUpperCase() }}</span
-                >
-                <span v-if="scope.row.rate"> 汇率： {{ scope.row.rate }} </span>
-                <span v-if="scope.row.exchangeType">
-                  目标货币：{{ scope.row.exchangeType.toUpperCase() }}
+                <span>
+                  余额：{{ scope.row.afterAmount }}
+                  {{ scope.row.type.toUpperCase() }}
                 </span>
-                <span v-if="scope.row.exchangeAmount">
-                  兑换金额：{{ scope.row.exchangeAmount }}
-                </span>
+                <span v-if="scope.row.rate">汇率： {{ scope.row.rate }}</span>
+                <span v-if="scope.row.exchangeType">目标货币：{{ scope.row.exchangeType.toUpperCase() }}</span>
+                <span v-if="scope.row.exchangeAmount">兑换金额：{{ scope.row.exchangeAmount }}</span>
                 <span v-if="scope.row.orginAmount">
                   充值原币金额：{{ scope.row.orginAmount }}
                   {{ scope.row.originType.toUpperCase() }}
                 </span>
-                <span v-if="scope.row.handingFee">
-                  手续费：{{ scope.row.handingFee }}
-                </span>
-                <span v-if="scope.row.address">
-                  提现地址：{{ scope.row.address }}
-                </span>
-                <span v-if="scope.row.name">
-                  提现姓名：{{ scope.row.name }}
-                </span>
+                <span v-if="scope.row.handingFee">手续费：{{ scope.row.handingFee }}</span>
+                <span v-if="scope.row.address">提现地址：{{ scope.row.address }}</span>
+                <span v-if="scope.row.name">提现姓名：{{ scope.row.name }}</span>
               </div>
-              <el-button type="text" slot="reference"
-                >{{ getSymbol(scope.row.updateType) }} {{ scope.row.amount }}
-                {{ scope.row.type.toUpperCase() }}</el-button
-              >
+              <el-button type="text" slot="reference">
+                {{ getSymbol(scope.row.updateType) }} {{ scope.row.amount }}
+                {{ scope.row.type.toUpperCase() }}
+              </el-button>
             </el-popover>
           </template>
         </el-table-column>
         <el-table-column label="类型" align="center">
           <template v-slot="scope">
-            <span>{{ typeFormatter(scope.row.updateType) }}</span>
+            <span>
+              <i :class="`typeIcon ${scope.row.updateType}`"></i>
+              {{ typeFormatter(scope.row.updateType) }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="余额" align="center">
-          <template v-slot="scope">
-            {{ scope.row.afterAmount }} {{ scope.row.type.toUpperCase() }}
-          </template>
+          <template v-slot="scope">{{ scope.row.afterAmount }} {{ scope.row.type.toUpperCase() }}</template>
         </el-table-column>
         <el-table-column label="收款人昵称" align="center">
           <template v-slot="scope">
@@ -206,32 +158,24 @@
                 <span>用户名：{{ scope.row.toUserName }}</span>
                 <span>ID：{{ scope.row.toUserId }}</span>
               </div>
-              <el-button type="text" slot="reference">{{
-                scope.row.toUserNickName
-              }}</el-button>
+              <el-button type="text" slot="reference">
+                {{
+                  scope.row.toUserNickName
+                }}
+              </el-button>
             </el-popover>
           </template>
         </el-table-column>
         <el-table-column label="收款人用户名" align="center">
           <template v-slot="scope">
-           
-              <span style="cursor:pointer" v-clipboard:copy="scope.row.toUserName"> @{{ scope.row.toUserName }}</span>
-           
+            <span
+              style="cursor:pointer"
+              v-clipboard:copy="scope.row.toUserName"
+            >@{{ scope.row.toUserName }}</span>
           </template>
         </el-table-column>
-        <el-table-column
-          width="80px"
-          label="备注"
-          prop="remark"
-          align="center"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          width="230px"
-          label="是否成功"
-          prop="success"
-          align="center"
-        >
+        <el-table-column width="80px" label="备注" prop="remark" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column width="230px" label="是否成功" prop="success" align="center">
           <template v-slot="scope">
             <span>{{ scope.row.success ? "成功" : "未完成" }}</span>
           </template>
@@ -244,7 +188,7 @@
               :href="`https://t.me/${scope.row.confirmUserName}`"
               target="__blank"
             >
-              <span> @{{ scope.row.confirmNickName }}</span>
+              <span>@{{ scope.row.confirmNickName }}</span>
             </a>
           </template>
         </el-table-column>
@@ -262,20 +206,10 @@
     <div class="table-box">
       <el-table :data="countList" border>
         <el-table-column label="交易类型" prop="updateType" align="center">
-          <template v-slot="scope">
-            {{ typeFormatter(scope.row.updateType) }}
-          </template>
+          <template v-slot="scope">{{ typeFormatter(scope.row.updateType) }}</template>
         </el-table-column>
-        <el-table-column
-          label="交易币种"
-          prop="type"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="交易总金额"
-          prop="total"
-          align="center"
-        ></el-table-column>
+        <el-table-column label="交易币种" prop="type" align="center"></el-table-column>
+        <el-table-column label="交易总金额" prop="total" align="center"></el-table-column>
       </el-table>
     </div>
     <div class="pagination-box">
@@ -290,16 +224,10 @@
     <el-dialog title="导出表格" :visible.sync="dialogShow">
       <el-form :model="downForm">
         <el-form-item label="开始时间">
-          <el-date-picker
-            v-model="downForm.start"
-            placeholder="开始时间"
-          ></el-date-picker>
+          <el-date-picker v-model="downForm.start" placeholder="开始时间"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间">
-          <el-date-picker
-            v-model="downForm.end"
-            placeholder="结束时间"
-          ></el-date-picker>
+          <el-date-picker v-model="downForm.end" placeholder="结束时间"></el-date-picker>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -430,6 +358,7 @@ export default {
     };
   },
   methods: {
+
     getSymbol(type) {
       if (
         type === "trans" ||
@@ -529,7 +458,7 @@ export default {
                 { key: "createTime", header: "创建时间" }
               ]
             },
-            function(err, output) {
+            function (err, output) {
               if (err) {
                 loading.close();
               }
@@ -635,5 +564,31 @@ export default {
 }
 .count {
   font-size: 14px;
+}
+.typeIcon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  &.trans {
+    background: #67c23a;
+  }
+  &.rTrans {
+    background: #909399;
+  }
+  &.add {
+    background: red;
+  }
+  &.sub {
+    background: #409eff;
+  }
+  &.pack_in {
+    background: #67c23a;
+  }
+  &.pack_out {
+    background: #909399;
+  }
+  &.exchange {
+    background: #e6a23c;
+  }
 }
 </style>
