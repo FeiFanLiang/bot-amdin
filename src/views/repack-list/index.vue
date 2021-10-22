@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     timeFormatter(row, column, value) {
-      return dayjs(value).format('YYYY-MM-DD HH:mm:ss')
+      return value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : ''
     },
     search() {
       this.pagination.currentPage = 0;
