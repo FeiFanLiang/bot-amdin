@@ -382,7 +382,7 @@ export default {
         originType: "",
         exchangeType: "",
         success: "",
-        startTime: dayjs().format("YYYY-MM-DD"),
+        startTime: '',
         endTime: ""
       },
     };
@@ -479,7 +479,7 @@ export default {
         originType: "",
         exchangeType: "",
         success: "",
-        startTime: dayjs().format("YYYY-MM-DD"),
+        startTime: '',
         endTime: ""
       };
       this.pagination = {

@@ -348,7 +348,7 @@ export default {
         originType: "",
         exchangeType: "",
         success: "",
-        startTime: dayjs().format("YYYY-MM-DD"),
+        startTime: '',
         endTime: ""
       },
       downForm: {
@@ -500,7 +500,7 @@ export default {
         originType: "",
         exchangeType: "",
         success: "",
-        startTime: dayjs().format("YYYY-MM-DD"),
+        startTime: '',
         endTime: ""
       };
       this.pagination = {
