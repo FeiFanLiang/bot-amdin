@@ -85,6 +85,7 @@
       <el-button type="primary" @click="search">搜索</el-button>
       <el-button @click="resetFilter">重置</el-button>
       <el-button type="warning" @click="downLoad">按当前条件导出表格</el-button>
+      <el-button type="warning" @click="countData">按当前条件查看统计</el-button>
     </div>
 
     <div class="table-box">
@@ -202,16 +203,21 @@
         ></el-table-column>
       </el-table>
     </div>
-    <el-divider content-position="center">当前流水统计</el-divider>
-    <div class="table-box">
+    <el-dialog title="流水统计" :visible.sync="countDialogShow">
+      <div class="table-box">
       <el-table :data="countList" border>
         <el-table-column label="交易类型" prop="updateType" align="center">
           <template v-slot="scope">{{ typeFormatter(scope.row.updateType) }}</template>
         </el-table-column>
-        <el-table-column label="交易币种" prop="type" align="center"></el-table-column>
+        <el-table-column label="交易币种" prop="type" align="center">
+          <template v-slot="scope">
+            {{getAmountType(scope.row.type)}}
+          </template>
+        </el-table-column>
         <el-table-column label="交易总金额" prop="total" align="center"></el-table-column>
       </el-table>
     </div>
+    </el-dialog>
     <div class="pagination-box">
       <el-pagination
         :total="pagination.total"
@@ -238,7 +244,7 @@
 </template>
 <script>
 import TableEditMixins from "@/components/tableEditMixins";
-import { getRechargeListApi } from "@/api/recharge";
+import { getRechargeListApi,getCountDataApi } from "@/api/recharge";
 import dayjs from "dayjs";
 import { downLoadApi } from "@/api/account";
 import stringify from "csv-stringify";
@@ -248,6 +254,7 @@ export default {
   data() {
     return {
       dialogShow: false,
+      countDialogShow:false,
       countList: [],
       successOptions: [
         {
@@ -358,7 +365,20 @@ export default {
     };
   },
   methods: {
-
+    countData(){
+      this.countDialogShow = true;
+      const loading = this.$loading({
+        lock: true,
+        text: "加载中.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      getCountDataApi(this.filters).then((res) => {
+        this.countList = res;
+      }).finally(() => {
+        loading.close()
+      })
+    },
     getSymbol(type) {
       if (
         type === "trans" ||
@@ -405,10 +425,18 @@ export default {
           return "迪拜迪拉姆(AED)";
         case "usdt":
           return "USDT";
+        case 'xb':
+          return '新币';
+        case 'trc20':
         case "trc":
           return "USDT-TRC";
+        case 'erc20':
         case "erc":
           return "USDT-ERC";
+        case 'trx':
+          return 'TRX';
+        case 'eth':
+          return 'ETH';
         default:
           return "";
       }
@@ -522,9 +550,7 @@ export default {
       });
       getRechargeListApi(query)
         .then(res => {
-          const { list, totalCount } = res;
-          this.countList = totalCount;
-          const { docs, page, totalDocs } = list;
+          const { docs, page, totalDocs } = res;
           this.pagination.total = totalDocs;
           this.tableList = docs;
           this.pagination.currentPage = page;

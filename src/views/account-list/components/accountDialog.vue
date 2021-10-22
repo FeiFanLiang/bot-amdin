@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="流水信息" width="80%" :visible.sync="popVisible">
+  <el-dialog title="流水信息" width="80%" append-to-body :visible.sync="popVisible">
      <div class="table-form">
       <el-form inline>
         <el-form-item>
@@ -117,6 +117,7 @@
 
       <el-button type="primary" @click="search">搜索</el-button>
       <el-button @click="resetFilter">重置</el-button>
+      <el-button type="warning" @click="countData">按当前条件查看统计</el-button>
     </div>
    <div class="table-box">
       <el-table
@@ -247,18 +248,21 @@
         ></el-table-column>
       </el-table>
     </div>
-    <el-divider content-position="center">当前流水统计</el-divider>
-    <div class="table-box">
+    <el-dialog title="流水统计" :visible.sync="countDialogShow" append-to-body>
+      <div class="table-box">
       <el-table :data="countList" border>
         <el-table-column label="交易类型" prop="updateType" align="center">
+          <template v-slot="scope">{{ typeFormatter(scope.row.updateType) }}</template>
+        </el-table-column>
+        <el-table-column label="交易币种" prop="type" align="center">
           <template v-slot="scope">
-            {{typeFormatter(scope.row.updateType)}}
+            {{getAmountType(scope.row.type)}}
           </template>
         </el-table-column>
-        <el-table-column label="交易币种" prop="type" align="center"></el-table-column>
         <el-table-column label="交易总金额" prop="total" align="center"></el-table-column>
       </el-table>
     </div>
+    </el-dialog>
     <div class="pagination-box">
       <el-pagination
         :total="pagination.total"
@@ -272,7 +276,7 @@
 </template>
 <script>
 import TableEditMixins from "@/components/tableEditMixins";
-import { getRechargeListApi } from "@/api/recharge";
+import { getRechargeListApi,getCountDataApi } from "@/api/recharge";
 import dayjs from 'dayjs'
 export default {
   mixins: [TableEditMixins],
@@ -283,6 +287,7 @@ export default {
   data() {
     return {
      countList: [],
+     countDialogShow:false,
       successOptions: [
         {
           label: "成功",
@@ -407,6 +412,20 @@ export default {
     }
   },
   methods: {
+    countData(){
+      this.countDialogShow = true;
+      const loading = this.$loading({
+        lock: true,
+        text: "加载中.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      getCountDataApi(this.filters).then((res) => {
+        this.countList = res;
+      }).finally(() => {
+        loading.close()
+      })
+    },
     getSymbol(type) {
       if (
         type === "trans" ||
@@ -501,12 +520,10 @@ export default {
         background: "rgba(0, 0, 0, 0.7)"
       });
       getRechargeListApi(query).then(res => {
-        const { list, totalCount } = res;
-        this.countList = totalCount;
-        const { docs, page, totalDocs } = list;
-        this.pagination.total = totalDocs;
-        this.tableList = docs;
-        this.pagination.currentPage = page;
+        const { docs, page, totalDocs } = res;
+          this.pagination.total = totalDocs;
+          this.tableList = docs;
+          this.pagination.currentPage = page;
       }).finally(() => {
         loading.close()
       })

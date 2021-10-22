@@ -23,3 +23,10 @@ export const getRechargeListApi = (data) => {
         data
     })
 }
+export const getCountDataApi = (data) => {
+    return axios({
+        url:'/api/getAggregate',
+        method:"post",
+        data
+    })
+}

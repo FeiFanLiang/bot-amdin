@@ -195,3 +195,4 @@ export const batchUpdateRateApi = (data) => {
         data
     })
 }
+
