@@ -289,7 +289,7 @@ export default {
         },
         {
           value: "aed",
-          label: "迪拉姆"
+          label: "越南盾"
         },
         {
           value: "xb",
@@ -309,7 +309,7 @@ export default {
         },
         {
           value: "rm",
-          label: "越南盾"
+          label: "令吉"
         }
       ],
       typeOptions: [

@@ -31,7 +31,7 @@
       <span>美金总计:{{ countData.usd }}</span>
       <span>披索总计:{{ countData.php }}</span>
       <span>令吉总计:{{ countData.rm }}</span>
-      <span>迪拉姆总计:{{ countData.aed }}</span>
+      <span>越南盾总计:{{ countData.aed }}</span>
     </div>
     <div class="table-box">
       <el-table :data="tableList">
@@ -43,7 +43,7 @@
         <el-table-column label="USD余额" prop="usd_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="令吉余额" prop="rm_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="披索余额" prop="php_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="迪拉姆余额" prop="aed_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="越南盾余额" prop="aed_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="新币余额" prop="xb_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="认证标签" prop="title" show-overflow-tooltip></el-table-column>
         <el-table-column label="黑名单状态">
@@ -196,7 +196,7 @@ export default {
           value: "rm"
         },
         {
-          label: "AED",
+          label: "VND",
           value: "aed"
         },
         {
@@ -219,7 +219,7 @@ export default {
         },
         {
           value: 'aed_balance',
-          label: 'AED'
+          label: 'VND'
         },
         {
           value: 'php_balance',
@@ -227,7 +227,7 @@ export default {
         },
         {
           value: "rm_balance",
-          label: "VND"
+          label: "RM"
         },
         {
           value: 'xb_balance',
