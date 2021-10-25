@@ -18,6 +18,16 @@
             ></el-option>
           </el-select>
         </el-col>
+        <el-col :span="4">
+          <el-select v-model="filters.hasTitle" clearable placeholder="是否认证">
+            <el-option v-for="item of [{value:'true',label:'已认证'}]" :key="item.label" :value="item.value" :label="item.label"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="filters.hasBlock" clearable placeholder="是否在黑名单">
+            <el-option v-for="item of [{value:'true',label:'已拉黑'}]" :key="item.label" :value="item.value" :label="item.label"></el-option>
+          </el-select>
+        </el-col>
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
           <el-button @click="resetFilter">重置</el-button>
@@ -237,7 +247,9 @@ export default {
       filters: {
         userId: "",
         accountName: "",
-        sort: ""
+        sort: "",
+        hasTitle:'',
+        hasBlock:''
       },
       pagination: {
         currentPage: 1,
@@ -461,7 +473,9 @@ export default {
       this.filters = {
         userId: "",
         accountName: "",
-        sort: ""
+        sort: "",
+        hasTitle:'',
+        hasBlock:''
       };
     },
     resetFilter() {

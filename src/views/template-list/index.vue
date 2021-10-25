@@ -97,6 +97,7 @@
             <el-select
               class="select"
               multiple
+              filterable
               v-model="form.buttons[index]"
               value-key="_id"
               placeholder="选择按钮"
@@ -169,7 +170,7 @@ export default {
   },
   created() {
     getAllButtonApi().then(res => {
-      this.buttons = res;
+      this.buttons = res.sort((a,b) => a.key.slice(0,1) < b.key.slice(0,1) ? -1 : 1)
     });
     this.fetchData();
   },
