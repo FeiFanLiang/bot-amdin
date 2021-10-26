@@ -348,8 +348,8 @@ export default {
               { key: 'usd_balance', header: '美元余额' },
               { key: 'usdt_balance', header: 'USDT余额' },
               { key: 'xb_balance', header: '新币余额' },
-              { key: 'aed_balance', header: '迪拉姆余额' },
-              { key: 'rm_balance', header: '越南盾余额' },
+              { key: 'aed_balance', header: '越南盾余额' },
+              { key: 'rm_balance', header: '令吉余额' },
               { key: 'php_balance', header: '比索余额' },
               { key: 'cny_account', header: '人民币账户' },
               {

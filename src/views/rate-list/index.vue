@@ -10,6 +10,7 @@
         <el-table-column label="兑换货币" sortable prop="fromType"></el-table-column>
         <el-table-column label="目标货币" sortable prop="toType"></el-table-column>
         <el-table-column label="汇率" sortable prop="rate"></el-table-column>
+        <el-table-column label="备注" prop="remark"></el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="success" @click="handleEdit(scope.row)">编辑</el-button>
@@ -21,6 +22,9 @@
       <el-form label-position="left" label-width="100px" :model="form" :rules="rules" ref="form">
         <el-form-item label="汇率" prop="rate">
           <el-input-number v-model="form.rate" :precision="6" placeholder="请输入汇率"></el-input-number>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input type="textarea" v-model="form.remark" placeholder="请输入备注"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -62,7 +66,8 @@ export default {
       },
       form: {
         id: "",
-        rate: ''
+        rate: '',
+        remark:''
       },
       rules: {
         rate: [

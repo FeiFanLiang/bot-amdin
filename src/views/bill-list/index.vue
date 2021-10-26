@@ -416,13 +416,13 @@ export default {
         case "usd":
           return "美元(USD)";
         case "rm":
-          return "越南盾";
+          return "令吉";
         case "cny":
           return "人民币(CNY)";
         case "php":
           return "菲律宾披索(PHP)";
         case "aed":
-          return "迪拜迪拉姆(AED)";
+          return "越南盾";
         case "usdt":
           return "USDT";
         case 'xb':

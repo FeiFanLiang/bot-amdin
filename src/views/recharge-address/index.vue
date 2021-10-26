@@ -49,7 +49,7 @@
             </el-form-item>
         </el-form>
         <el-form :model="aedForm">
-            <el-form-item label="迪拜迪拉姆收款地址"  prop="address">
+            <el-form-item label="越南盾收款地址"  prop="address">
                 <el-input v-model="aedForm.address" placeholder="请输入地址"></el-input>
             </el-form-item>
             <el-form-item>
