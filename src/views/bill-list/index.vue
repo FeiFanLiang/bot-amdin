@@ -3,7 +3,7 @@
     <div class="table-form">
       <el-form inline>
         <el-form-item>
-          <el-input v-model.trim="filters.userId" clearable placeholder="用户ID"></el-input>
+          <el-input v-model.trim="filters.userId" @change="hanldeChange" clearable placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item>
           <el-select collapse-tags multiple v-model="filters.updateType" clearable placeholder="流水类型">
@@ -364,14 +364,14 @@ export default {
       }
     };
   },
-  watch:{
-    'filters.userId'(val){
+  methods: {
+    hanldeChange(val){
       if(val){
         this.filters.updateType = []
+      }else {
+        this.filters.updateType = ['add','sub','trans','exchange','pack_out','pack_in']
       }
-    }
-  },
-  methods: {
+    },
     countData(){
       this.countDialogShow = true;
       const loading = this.$loading({
