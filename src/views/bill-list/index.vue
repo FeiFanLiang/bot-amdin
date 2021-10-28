@@ -6,7 +6,7 @@
           <el-input v-model.trim="filters.userId" clearable placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="filters.updateType" clearable placeholder="流水类型">
+          <el-select collapse-tags multiple v-model="filters.updateType" clearable placeholder="流水类型">
             <el-option
               v-for="item of typeOptions"
               :key="item.value"
@@ -344,7 +344,7 @@ export default {
       ],
       filters: {
         userId: "",
-        updateType: "",
+        updateType: ['add','sub','trans','exchange','pack_out','pack_in'],
         type: "",
         fromUserId: "",
         fromUserName: "",
@@ -363,6 +363,13 @@ export default {
         end: ""
       }
     };
+  },
+  watch:{
+    'filters.userId'(val){
+      if(val){
+        this.filters.updateType = []
+      }
+    }
   },
   methods: {
     countData(){
@@ -517,7 +524,7 @@ export default {
     reset() {
       this.filters = {
         userId: "",
-        updateType: "",
+        updateType: ['add','sub','trans','exchange','pack_out','pack_in'],
         type: "",
         fromUserId: "",
         fromUserName: "",

@@ -4,6 +4,8 @@
       <el-form inline>
         <el-form-item>
           <el-select
+            multiple
+            collapse-tags
             v-model="filters.updateType"
             clearable
             placeholder="流水类型"
@@ -376,7 +378,7 @@ export default {
       ],
       filters: {
         userId: "",
-        updateType: "",
+        updateType: [],
         type: "",
         fromUserId: "",
         fromUserName: "",
@@ -487,7 +489,7 @@ export default {
      reset() {
       this.filters = {
         userId: "",
-        updateType: "",
+        updateType: [],
         type: "",
         fromUserId: "",
         fromUserName: "",
