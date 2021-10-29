@@ -196,3 +196,19 @@ export const batchUpdateRateApi = (data) => {
     })
 }
 
+export const getLogsApi = (data) => {
+    return axios({
+        url:"/api/getLogsList",
+        method:"post",
+        data
+    })
+}
+
+export const getCodeApi = (data) => {
+    return axios({
+        url:'/api/getCode',
+        method:'post',
+        data
+    })
+}
+
