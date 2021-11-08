@@ -21,6 +21,7 @@
             <el-button type="success" @click="handleEdit(scope.row)"
               >编辑</el-button
             >
+            <el-button type="danger" @click="delTem(scope.row)" v-if="scope.row.deleteAble">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -137,7 +138,8 @@
 import {
   getTemplateListApi,
   updateTemplateApi,
-  getAllButtonApi
+  getAllButtonApi,
+  delTemplateApi
 } from "@/api/template";
 import { restartBotApi } from "@/api/account";
 export default {
@@ -175,6 +177,12 @@ export default {
     this.fetchData();
   },
   methods: {
+    delTem(row){
+      delTemplateApi({_id:row._id}).then(() => {
+        this.$message.success('删除成功')
+        this.fetchData();
+      })
+    },
     restart() {
       restartBotApi().then(() => {
         this.$message.success("机器人重启成功");

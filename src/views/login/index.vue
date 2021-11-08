@@ -144,7 +144,7 @@ export default {
   methods: {
     getCode() {
       if (!this.timer) {
-        getCodeApi({ username: this.loginForm.username });
+        getCodeApi({ username: this.loginForm.username })
         this.disabled = true;
         this.count = 1;
         this.timer = setInterval(this.setCount, 1000);

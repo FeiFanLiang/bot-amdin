@@ -22,3 +22,11 @@ export const getAllButtonApi = () => {
         method:'get'
     })
 }
+
+export const delTemplateApi = (params) => {
+    return axios({
+        url:'/api/delTemplate',
+        method:'get',
+        params
+    })
+}
