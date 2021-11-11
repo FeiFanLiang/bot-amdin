@@ -7,9 +7,16 @@
       type="selection"
       width="55">
     </el-table-column>
-        <el-table-column label="兑换货币" sortable prop="fromType"></el-table-column>
-        <el-table-column label="目标货币" sortable prop="toType"></el-table-column>
-        <el-table-column label="汇率" sortable prop="rate"></el-table-column>
+        <el-table-column label="兑换货币" sortable prop="fromType">
+          <template v-slot="scope">
+            {{`1 ${(scope.fromType === 'aed' ? 'VND' : scope.row.fromType).toUpperCase()}`}}
+          </template>
+        </el-table-column>
+        <el-table-column label="目标货币" sortable prop="toType">
+          <template v-slot="scope">
+            {{`${scope.row.rate} ${(scope.row.toType === 'aed' ? 'VND' : scope.row.toType).toUpperCase()}`}}
+          </template>
+        </el-table-column>
         <el-table-column label="备注" prop="remark"></el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
