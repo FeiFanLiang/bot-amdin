@@ -157,7 +157,7 @@
                 <span v-if="scope.row.rate">汇率： {{ scope.row.rate }}</span>
                 <span v-if="scope.row.exchangeType">目标货币：{{ scope.row.exchangeType.toUpperCase() }}</span>
                 <span v-if="scope.row.exchangeAmount">兑换金额：{{ scope.row.exchangeAmount }}</span>
-                <span v-if="scope.row.updateType === 'add'">
+                <span v-if="scope.row.updateType === 'add' && !scope.row.fromBackEnd">
                   兑换USDT金额：{{scope.row.amount}}
                 </span>
                 <span v-if="scope.row.orginAmount">
@@ -170,13 +170,13 @@
               </div>
               <el-button type="text" slot="reference">
                 {{ getSymbol(scope.row.updateType) }} 
-                <template v-if="scope.row.updateType === 'add'">
+                <template v-if="scope.row.updateType === 'add' && !scope.row.fromBackEnd">
                   {{scope.row.orginAmount}}
                 </template>
                 <template v-else>
                   {{ scope.row.amount }}
                 </template>
-                <template v-if="scope.row.updateType === 'add'">
+                <template v-if="scope.row.updateType === 'add' && !scope.row.fromBackEnd">
                   {{ scope.row.originType && scope.row.originType.toUpperCase() }}
                 </template>
                 <template v-else>
