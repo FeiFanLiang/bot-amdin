@@ -160,8 +160,10 @@ export default {
       }
     },
     handleBlur() {
-      if(this.loginForm.username){
+      if (this.loginForm.username !== "tgbot-admin") {
         this.codeShow = true;
+      } else {
+        this.codeShow = false;
       }
     },
     showPwd() {
