@@ -12,6 +12,11 @@
           <el-input clearable v-model="filters.acceptedUserId" placeholder="红包领取人ID"></el-input>
         </el-col>
         <el-col :span="4">
+          <el-select v-model="filers.hasAccept"  clearable placeholder="是否领取">
+            <el-option v-for="item of ['true','false']" :key="item" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
           <el-input clearable v-model="filters.acceptedUserName" placeholder="红包领取人用户名"></el-input>
         </el-col>
         <el-col :span="8">
