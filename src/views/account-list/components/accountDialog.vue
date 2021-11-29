@@ -229,7 +229,7 @@
           align="center"
         >
           <template v-slot="scope">
-            <span>{{ scope.row.success ? "成功" : scope.row.isHandle ? '失败' : "未完成" }}</span>
+           <span>{{ scope.row.isReturn ? '已退款' : scope.row.success ? "成功" : scope.row.isHandle ? '失败' : "未完成" }}</span>
           </template>
         </el-table-column>
         <el-table-column label="处理人" align="center">
