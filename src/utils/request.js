@@ -51,6 +51,17 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000
       })
+      if(res.code === 50007){
+        MessageBox.confirm('有其他用户异地登录，你被踢下线了',{
+          confirmButtonText: 'Re-Login',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('user/resetToken').then(() => {
+            location.reload()
+          })
+        })
+      }
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login

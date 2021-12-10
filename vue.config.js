@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
-const JavaScriptObfuscator = require('webpack-obfuscator');
+const JavaScriptObfuscator = require('mangle-js-webpack-plugin');
 
 
 function resolve(dir) {
@@ -90,8 +90,7 @@ module.exports = {
       .end()
     config.when(process.env.NODE_ENV !== 'development',config => {
       config.plugin('obfuscation').use(JavaScriptObfuscator,[{
-        sourceMap: false,
-        rotateUnicodeArray:true
+        algorithm: 'obfuscator'
       }])
     })
     config
