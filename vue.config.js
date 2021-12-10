@@ -1,6 +1,8 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
+const JavaScriptObfuscator = require('webpack-obfuscator');
+
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -86,7 +88,12 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
       .end()
-
+    config.when(process.env.NODE_ENV !== 'development',config => {
+      config.plugin('obfuscation').use(JavaScriptObfuscator,[{
+        sourceMap: false,
+        rotateUnicodeArray:true
+      }])
+    })
     config
       .when(process.env.NODE_ENV !== 'development',
         config => {
