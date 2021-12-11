@@ -558,7 +558,7 @@ export default {
     reset() {
       this.filters = {
         userId: "",
-        updateType: ['add','sub','trans','exchange','pack_out','pack_in'],
+        updateType: ['add','sub'],
         type: "",
         fromUserId: "",
         fromUserName: "",
