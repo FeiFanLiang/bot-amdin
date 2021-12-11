@@ -6,7 +6,7 @@
           <el-input v-model.trim="filters.userId" @change="hanldeChange" clearable placeholder="用户ID"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select collapse-tags multiple v-model="filters.updateType" clearable placeholder="流水类型">
+          <el-select collapse-tags multiple v-model="filters.updateType" @change="handleUpdateTypeChange" clearable placeholder="流水类型">
             <el-option
               v-for="item of typeOptions"
               :key="item.value"
@@ -55,6 +55,16 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="filters.exchangeType" clearable placeholder="兑换目标货币">
+            <el-option
+              v-for="item of accountType"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="filters.type" clearable placeholder="出入账币种">
             <el-option
               v-for="item of accountType"
               :key="item.value"
@@ -358,7 +368,7 @@ export default {
       ],
       filters: {
         userId: "",
-        updateType: ['add','sub','trans','exchange','pack_out','pack_in'],
+        updateType: ['add','sub'],
         type: "",
         fromUserId: "",
         fromUserName: "",
@@ -383,7 +393,17 @@ export default {
       if(val){
         this.filters.updateType = []
       }else {
-        this.filters.updateType = ['add','sub','trans','exchange','pack_out','pack_in']
+        this.filters.updateType = ['add','sub']
+      }
+    },
+    handleUpdateTypeChange(){
+      if(this.filters.updateType.length === 1 && this.filters.updateType[0] === 'add'){
+        this.filters.originType = 'cny'
+      }else if(this.filters.updateType.length === 1 && this.filters.updateType[0] === 'sub'){
+        this.filters.type = 'cny'
+      }else {
+        this.filters.originType = ''
+        this.filters.type = ''
       }
     },
     countData(){

@@ -8,6 +8,15 @@
         <el-col :span="4">
           <el-input clearable v-model="filters.accountName" placeholder="用户名"></el-input>
         </el-col>
+        <el-col :span="3">
+          <el-input clearable v-model="filters.cny_account" placeholder="支付宝收款账号"></el-input>
+        </el-col>
+         <el-col :span="3">
+          <el-input clearable v-model="filters.trc_account" placeholder="TRC20收款账号"></el-input>
+        </el-col>
+        <el-col :span="3">
+          <el-input clearable v-model="filters.erc_account" placeholder="ERC20收款账号"></el-input>
+        </el-col>
         <el-col :span="4">
           <el-select v-model="filters.sort" placeholder="货币排序" clearable>
             <el-option
@@ -18,12 +27,14 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="4">
+        </el-row>
+        <el-row :gutter="20" :style="{'margin-top':'20px'}">
+        <el-col :span="3">
           <el-select v-model="filters.hasTitle" clearable placeholder="是否认证">
             <el-option v-for="item of [{value:'true',label:'已认证'}]" :key="item.label" :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="3">
           <el-select v-model="filters.hasBlock" clearable placeholder="是否在黑名单">
             <el-option v-for="item of [{value:'true',label:'已拉黑'}]" :key="item.label" :value="item.value" :label="item.label"></el-option>
           </el-select>
@@ -48,8 +59,11 @@
         <el-table-column label="用户名" prop="accountName"></el-table-column>
         <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户昵称" prop="nickName"></el-table-column>
+        <el-table-column label="支付宝账户" prop="cny_account" show-overflow-tooltip></el-table-column>
         <el-table-column label="人民币余额" prop="cny_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="USDT余额" prop="usdt_balance" :formatter="amountFormatter"></el-table-column>
+        <el-table-column label="TRC20地址" prop="trc_account" show-overflow-tooltip></el-table-column>
+        <el-table-column label="ERC20地址" prop="erc_account" show-overflow-tooltip></el-table-column>
         <el-table-column label="USD余额" prop="usd_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="令吉余额" prop="rm_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="披索余额" prop="php_balance" :formatter="amountFormatter"></el-table-column>
@@ -247,6 +261,9 @@ export default {
       filters: {
         userId: "",
         accountName: "",
+        cny_account:"",
+        trc_account:'',
+        erc_account:'',
         sort: "",
         hasTitle:'',
         hasBlock:''
@@ -471,8 +488,11 @@ export default {
         total: 0
       };
       this.filters = {
-        userId: "",
+         userId: "",
         accountName: "",
+        cny_account:"",
+        trc_account:'',
+        erc_account:'',
         sort: "",
         hasTitle:'',
         hasBlock:''

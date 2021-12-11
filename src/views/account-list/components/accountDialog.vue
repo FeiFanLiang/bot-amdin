@@ -7,6 +7,7 @@
             multiple
             collapse-tags
             v-model="filters.updateType"
+            @change="handleUpdateTypeChange"
             clearable
             placeholder="流水类型"
           >
@@ -90,6 +91,16 @@
             clearable
             placeholder="兑换目标货币"
           >
+            <el-option
+              v-for="item of accountType"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="filters.type" clearable placeholder="出入账币种">
             <el-option
               v-for="item of accountType"
               :key="item.value"
@@ -418,6 +429,16 @@ export default {
     }
   },
   methods: {
+     handleUpdateTypeChange(){
+      if(this.filters.updateType.length === 1 && this.filters.updateType[0] === 'add'){
+        this.filters.originType = 'cny'
+      }else if(this.filters.updateType.length === 1 && this.filters.updateType[0] === 'sub'){
+        this.filters.type = 'cny'
+      }else {
+        this.filters.originType = ''
+        this.filters.type = ''
+      }
+    },
     countData(){
       this.countDialogShow = true;
       const loading = this.$loading({
