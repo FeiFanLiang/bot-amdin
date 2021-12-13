@@ -288,7 +288,7 @@ export default {
         userId: "",
         amount: "",
         type: "",
-        balanceType: ""
+        balanceType: "cny"
       },
       rules: {
         amount: [
