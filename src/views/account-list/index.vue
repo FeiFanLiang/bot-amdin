@@ -59,11 +59,8 @@
         <el-table-column label="用户名" prop="accountName"></el-table-column>
         <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户昵称" prop="nickName"></el-table-column>
-        <el-table-column label="支付宝账户" prop="cny_account" show-overflow-tooltip></el-table-column>
         <el-table-column label="人民币余额" prop="cny_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="USDT余额" prop="usdt_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="TRC20地址" prop="trc_account" show-overflow-tooltip></el-table-column>
-        <el-table-column label="ERC20地址" prop="erc_account" show-overflow-tooltip></el-table-column>
         <el-table-column label="USD余额" prop="usd_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="令吉余额" prop="rm_balance" :formatter="amountFormatter"></el-table-column>
         <el-table-column label="披索余额" prop="php_balance" :formatter="amountFormatter"></el-table-column>
