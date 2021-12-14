@@ -48,7 +48,7 @@
       </template>
     </el-dialog>
     <el-dialog :visible.sync="passDialogShow">
-      <el-form :model="passForm" :rules="rules">
+      <el-form :model="passForm" :rules="rules" ref="resetForm">
         <el-form-item label="新密码" prop="password">
           <el-input
             v-model="passForm.password"
@@ -213,10 +213,13 @@ export default {
       });
     },
     resetPass() {
-      resetPassApi(this.passForm).then(() => {
+      this.$refs['resetForm'].validate().then(() => {
+         resetPassApi(this.passForm).then(() => {
         this.$message.success("重置成功");
         this.passDialogShow = false;
       });
+      })
+     
     }
   }
 };
