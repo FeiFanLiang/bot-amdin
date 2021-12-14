@@ -53,7 +53,7 @@
           <el-input
             v-model="passForm.password"
             :min="6"
-            :max="12"
+            :max="20"
             show-password
             placeholder="新密码"
           ></el-input>
