@@ -24,7 +24,7 @@
       </el-table-column>
     </el-table>
     <el-dialog :visible.sync="dialogShow">
-      <el-form :model="form" :rules="rules">
+      <el-form :model="form" :rules="rules" ref="userForm">
         <el-form-item label="用户名" prop="username" v-if="!isEdit">
           <el-input v-model="form.username" placeholder="用户名"></el-input>
         </el-form-item>
@@ -32,7 +32,7 @@
           <el-input
             v-model="form.password"
             :min="6"
-            :max="12"
+            :max="20"
             show-password
             placeholder="密码"
           ></el-input>
@@ -121,9 +121,9 @@ export default {
           },
           {
             type: "string",
-            max: 12,
+            max: 16,
             min: 3,
-            message: "3-12位长度",
+            message: "3-16位长度",
             trigger:'blur'
           }
         ],
@@ -135,7 +135,7 @@ export default {
           },
           {
             type: "string",
-            max: 12,
+            max: 20,
             min: 6,
             message: "6-12位长度",
             trigger:'blur'
@@ -206,11 +206,14 @@ export default {
       this.passDialogShow = true;
     },
     submit() {
-      editUserApi(this.form).then(() => {
+      this.$refs['userForm'].validate().then(() => {
+         editUserApi(this.form).then(() => {
         this.$message.success("编辑成功");
         this.dialogShow = false;
         this.fetchData();
       });
+      })
+     
     },
     resetPass() {
       this.$refs['resetForm'].validate().then(() => {
