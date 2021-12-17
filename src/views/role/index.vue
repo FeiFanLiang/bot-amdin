@@ -121,9 +121,8 @@ export default {
           },
           {
             type: "string",
-            max: 16,
-            min: 3,
-            message: "3-16位长度",
+            min: 4,
+            message: "4-16位长度",
             trigger:'blur'
           }
         ],
