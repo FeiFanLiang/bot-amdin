@@ -203,9 +203,7 @@
           </template>
         </el-table-column>
         <el-table-column label="余额" align="center">
-          <template v-slot="scope">
-            {{ scope.row.afterAmount }} {{ scope.row.type.toUpperCase() }}
-          </template>
+         <template v-slot="scope"><div v-if="scope.row.exchangeAmount"><p class="p">兑换金额：</p><p class="p">{{ scope.row.exchangeAmount }}</p></div><div><p class="p">余额：</p><p class="p">{{ scope.row.afterAmount }} {{ scope.row.type.toUpperCase() }}</p></div></template>
         </el-table-column>
         <el-table-column label="收款人昵称" align="center">
           <template v-slot="scope">
@@ -576,5 +574,9 @@ export default {
   align-items: center;
   font-size: 12px;
   line-height: 14px;
+}
+.p {
+  line-height: 1;
+  margin: 4px 0;
 }
 </style>

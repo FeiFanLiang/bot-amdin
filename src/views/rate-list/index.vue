@@ -46,6 +46,7 @@
           <el-input-number
             v-model="form.rate"
             :precision="6"
+            :max="maxLimit"
             placeholder="请输入汇率"
           ></el-input-number>
         </el-form-item>
@@ -116,6 +117,16 @@ export default {
   },
   created() {
     this.fetchData();
+  },
+  computed:{
+    maxLimit({form}){
+      const {fromType,toType} = form
+      const limits = [{fromType:'usdt',toType:'usd'},{fromType:'rm',toType:'usdt'},{fromType:'usd',toType:'usdt'},{fromType:'xb',toType:'usdt'},{fromType:'php',toType:'usdt'},{fromType:'cny',toType:'usdt'},{fromType:'aed',toType:'usdt'}]
+      if(limits.some(el => el.fromType === fromType && el.toType === toType)){
+        return 0.99
+      }
+      return undefined
+    }
   },
   methods: {
     batchEditSave() {
