@@ -30,14 +30,10 @@
         </el-row>
         <el-row :gutter="20" :style="{'margin-top':'20px'}">
         <el-col :span="3">
-          <el-select v-model="filters.hasTitle" clearable placeholder="是否认证">
-            <el-option v-for="item of [{value:'true',label:'已认证'}]" :key="item.label" :value="item.value" :label="item.label"></el-option>
-          </el-select>
+         <el-checkbox label="已认证" :true-label="'true'" :false-label="''" v-model="filters.hasTitle"></el-checkbox>
         </el-col>
         <el-col :span="3">
-          <el-select v-model="filters.hasBlock" clearable placeholder="是否在黑名单">
-            <el-option v-for="item of [{value:'true',label:'已拉黑'}]" :key="item.label" :value="item.value" :label="item.label"></el-option>
-          </el-select>
+          <el-checkbox label="已拉黑" v-model="filters.hasBlock" :true-label="'true'" :false-label="''"></el-checkbox>
         </el-col>
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
