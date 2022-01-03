@@ -212,3 +212,13 @@ export const getCodeApi = (data) => {
     })
 }
 
+export const downloadHistoryApi = (month) => {
+    return axios({
+        url:'/api/downloadHistory',
+        method:'get',
+        params:{
+            month
+        }
+    })
+}
+

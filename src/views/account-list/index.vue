@@ -3,19 +3,39 @@
     <div class="table-form">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input clearable v-model.trim="filters.userId" placeholder="用户ID"></el-input>
+          <el-input
+            clearable
+            v-model.trim="filters.userId"
+            placeholder="用户ID"
+          ></el-input>
         </el-col>
         <el-col :span="4">
-          <el-input clearable v-model="filters.accountName" placeholder="用户名"></el-input>
+          <el-input
+            clearable
+            v-model="filters.accountName"
+            placeholder="用户名"
+          ></el-input>
         </el-col>
         <el-col :span="3">
-          <el-input clearable v-model="filters.cny_account" placeholder="支付宝收款账号"></el-input>
-        </el-col>
-         <el-col :span="3">
-          <el-input clearable v-model="filters.trc_account" placeholder="TRC20收款账号"></el-input>
+          <el-input
+            clearable
+            v-model="filters.cny_account"
+            placeholder="支付宝收款账号"
+          ></el-input>
         </el-col>
         <el-col :span="3">
-          <el-input clearable v-model="filters.erc_account" placeholder="ERC20收款账号"></el-input>
+          <el-input
+            clearable
+            v-model="filters.trc_account"
+            placeholder="TRC20收款账号"
+          ></el-input>
+        </el-col>
+        <el-col :span="3">
+          <el-input
+            clearable
+            v-model="filters.erc_account"
+            placeholder="ERC20收款账号"
+          ></el-input>
         </el-col>
         <el-col :span="4">
           <el-select v-model="filters.sort" placeholder="货币排序" clearable>
@@ -27,18 +47,49 @@
             ></el-option>
           </el-select>
         </el-col>
-        </el-row>
-        <el-row :gutter="20" :style="{'margin-top':'20px'}">
+      </el-row>
+      <el-row :gutter="20" :style="{ 'margin-top': '20px' }">
         <el-col :span="3">
-         <el-checkbox label="已认证" :true-label="'true'" :false-label="''" v-model="filters.hasTitle"></el-checkbox>
+          <el-checkbox
+            label="已认证"
+            :true-label="'true'"
+            :false-label="''"
+            v-model="filters.hasTitle"
+          ></el-checkbox>
         </el-col>
         <el-col :span="3">
-          <el-checkbox label="已拉黑" v-model="filters.hasBlock" :true-label="'true'" :false-label="''"></el-checkbox>
+          <el-checkbox
+            label="已拉黑"
+            v-model="filters.hasBlock"
+            :true-label="'true'"
+            :false-label="''"
+          ></el-checkbox>
         </el-col>
         <el-col :span="8">
           <el-button type="primary" @click="search">搜索</el-button>
           <el-button @click="resetFilter">重置</el-button>
           <el-button type="warning" @click="download">按搜索条件导出</el-button>
+          <el-popover
+            v-if="$store.getters.permission.includes('billHistory') || $store.getters.role === 'admin'"
+            placement="bottom"
+            title="选择导出月份"
+            width="300"
+            trigger="click"
+          >
+            <el-date-picker
+              v-model="downloadHistoryMonth"
+              type="month"
+              value-format="YYYY-MM-DD"
+              placeholder="选择月"
+            >
+            </el-date-picker>
+            <el-button type="warning" style="margin-top:20px" @click="downloadHistory"
+              >导出</el-button
+            >
+            <el-button type="warning" slot="reference" style="margin-left: 20px"
+              >按月导出余额表</el-button
+            >
+          </el-popover>
         </el-col>
       </el-row>
     </div>
@@ -55,39 +106,92 @@
         <el-table-column label="用户名" prop="accountName"></el-table-column>
         <el-table-column label="用户ID" prop="userId"></el-table-column>
         <el-table-column label="用户昵称" prop="nickName"></el-table-column>
-        <el-table-column label="人民币余额" prop="cny_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="USDT余额" prop="usdt_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="USD余额" prop="usd_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="令吉余额" prop="rm_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="披索余额" prop="php_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="越南盾余额" prop="aed_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="新币余额" prop="xb_balance" :formatter="amountFormatter"></el-table-column>
-        <el-table-column label="认证标签" prop="title" show-overflow-tooltip></el-table-column>
+        <el-table-column
+          label="人民币余额"
+          prop="cny_balance"
+          :formatter="amountFormatter"
+        ></el-table-column>
+        <el-table-column
+          label="USDT余额"
+          prop="usdt_balance"
+          :formatter="amountFormatter"
+        ></el-table-column>
+        <el-table-column
+          label="USD余额"
+          prop="usd_balance"
+          :formatter="amountFormatter"
+        ></el-table-column>
+        <el-table-column
+          label="令吉余额"
+          prop="rm_balance"
+          :formatter="amountFormatter"
+        ></el-table-column>
+        <el-table-column
+          label="披索余额"
+          prop="php_balance"
+          :formatter="amountFormatter"
+        ></el-table-column>
+        <el-table-column
+          label="越南盾余额"
+          prop="aed_balance"
+          :formatter="amountFormatter"
+        ></el-table-column>
+        <el-table-column
+          label="新币余额"
+          prop="xb_balance"
+          :formatter="amountFormatter"
+        ></el-table-column>
+        <el-table-column
+          label="认证标签"
+          prop="title"
+          show-overflow-tooltip
+        ></el-table-column>
         <el-table-column label="黑名单状态">
           <template v-slot="scope">
-            <el-switch :value="scope.row.inBlack" @change="handleChange(scope.row)"></el-switch>
+            <el-switch
+              :value="scope.row.inBlack"
+              @change="handleChange(scope.row)"
+            ></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="500">
           <template v-slot="scope">
-            <el-button type="primary" @click="handleShowBill(scope.row)">流水信息</el-button>
-            <el-button type="primary" @click="handleChangeTitle(scope.row)">认证</el-button>
+            <el-button type="primary" @click="handleShowBill(scope.row)"
+              >流水信息</el-button
+            >
+            <el-button type="primary" @click="handleChangeTitle(scope.row)"
+              >认证</el-button
+            >
             <el-button
               type="success"
               @click="handleEditAmount('1', scope.row)"
-              v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
-            >充值</el-button>
+              v-if="
+                $store.getters.role === 'admin' ||
+                $store.getters.permission.includes('amount_edit')
+              "
+              >充值</el-button
+            >
             <el-button
               type="warning"
               @click="handleEditAmount('0', scope.row)"
-              v-if="$store.getters.role === 'admin' || $store.getters.permission.includes('amount_edit')"
-            >提现</el-button>
+              v-if="
+                $store.getters.role === 'admin' ||
+                $store.getters.permission.includes('amount_edit')
+              "
+              >提现</el-button
+            >
             <el-button
               v-if="$store.getters.role === 'admin'"
               type="warning"
               @click="handleResetPass(scope.row)"
-            >重置密码</el-button>
-            <el-button v-if="$store.getters.role === 'admin'" type="warning" @click="handleLink(scope.row)">通知频道</el-button>
+              >重置密码</el-button
+            >
+            <el-button
+              v-if="$store.getters.role === 'admin'"
+              type="warning"
+              @click="handleLink(scope.row)"
+              >通知频道</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -102,7 +206,13 @@
       ></el-pagination>
     </div>
     <el-dialog title="余额变动" :visible.sync="dialogVisible">
-      <el-form label-position="left" label-width="100px" :rules="rules" :model="form" ref="form">
+      <el-form
+        label-position="left"
+        label-width="100px"
+        :rules="rules"
+        :model="form"
+        ref="form"
+      >
         <el-form-item label="余额操作" prop="type">
           <el-select v-model="form.type" disabled placeholder="请选择">
             <el-option
@@ -124,7 +234,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="金额" prop="amount">
-          <el-input-number :min="0.01" :precision="2" v-model="form.amount" placeholder="输入金额"></el-input-number>
+          <el-input-number
+            :min="0.01"
+            :precision="2"
+            v-model="form.amount"
+            placeholder="输入金额"
+          ></el-input-number>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -139,14 +254,21 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button type="primary" @click="updateLink" >保存</el-button>
+        <el-button type="primary" @click="updateLink">保存</el-button>
       </template>
     </el-dialog>
     <el-dialog title="用户认证信息" :visible.sync="titleDialogVisible">
-      <el-input v-model="userTitle.title" type="textarea" placeholder="输入认证信息"></el-input>
-      <el-button style="margin-top:20px" @click="titleSubmit">保存</el-button>
+      <el-input
+        v-model="userTitle.title"
+        type="textarea"
+        placeholder="输入认证信息"
+      ></el-input>
+      <el-button style="margin-top: 20px" @click="titleSubmit">保存</el-button>
     </el-dialog>
-    <account-dialog :visible.sync="accountDialogShow" :userId="userId"></account-dialog>
+    <account-dialog
+      :visible.sync="accountDialogShow"
+      :userId="userId"
+    ></account-dialog>
   </div>
 </template>
 <script>
@@ -158,112 +280,114 @@ import {
   updateCertApi,
   restPassApi,
   downloadAccountCsvApi,
-  updateUserLinkApi
+  updateUserLinkApi,
+  downloadHistoryApi,
 } from "@/api/account";
 import AccountDialog from "./components/accountDialog";
 import stringify from "csv-stringify";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 export default {
   components: {
-    AccountDialog
+    AccountDialog,
   },
   data() {
     return {
-      linkDialogShow:false,
+      linkDialogShow: false,
       accountDialogShow: false,
       titleDialogVisible: false,
       dialogVisible: false,
-      linkForm:{
-        userId:"",
-        link:""
+      downloadHistoryMonth: dayjs().format("YYYY-MM-DD"),
+      linkForm: {
+        userId: "",
+        link: "",
       },
       userTitle: {
-        userId: '',
-        title: ""
+        userId: "",
+        title: "",
       },
       typeOptions: [
         {
           label: "充值",
-          value: "1"
+          value: "1",
         },
         {
           label: "提现",
-          value: "0"
-        }
+          value: "0",
+        },
       ],
       accountTypeOptions: [
         {
           label: "人民币",
-          value: "cny"
+          value: "cny",
         },
         {
           label: "USDT",
-          value: "usdt"
+          value: "usdt",
         },
         {
           label: "美元",
-          value: "usd"
+          value: "usd",
         },
         {
           label: "PHP",
-          value: "php"
+          value: "php",
         },
         {
           label: "RM",
-          value: "rm"
+          value: "rm",
         },
         {
           label: "VND",
-          value: "aed"
+          value: "aed",
         },
         {
           label: "XB",
-          value: 'xb'
-        }
+          value: "xb",
+        },
       ],
       sortOptions: [
         {
-          value: 'cny_balance',
-          label: '人民币'
+          value: "cny_balance",
+          label: "人民币",
         },
         {
-          value: 'usd_balance',
-          label: 'USD'
+          value: "usd_balance",
+          label: "USD",
         },
         {
-          value: 'usdt_balance',
-          label: 'USDT'
+          value: "usdt_balance",
+          label: "USDT",
         },
         {
-          value: 'aed_balance',
-          label: 'VND'
+          value: "aed_balance",
+          label: "VND",
         },
         {
-          value: 'php_balance',
-          label: 'PHP'
+          value: "php_balance",
+          label: "PHP",
         },
         {
           value: "rm_balance",
-          label: "RM"
+          label: "RM",
         },
         {
-          value: 'xb_balance',
-          label: "XB"
-        }
+          value: "xb_balance",
+          label: "XB",
+        },
       ],
       filters: {
         userId: "",
         accountName: "",
-        cny_account:"",
-        trc_account:'',
-        erc_account:'',
+        cny_account: "",
+        trc_account: "",
+        erc_account: "",
         sort: "",
-        hasTitle:'',
-        hasBlock:''
+        hasTitle: "",
+        hasBlock: "",
       },
       pagination: {
         currentPage: 1,
-        total: 0
+        total: 0,
       },
       countData: {
         cny: "",
@@ -271,7 +395,7 @@ export default {
         usd: "",
         aed: "",
         php: "",
-        rm: ""
+        rm: "",
       },
       tableList: [],
       editUser: {},
@@ -281,136 +405,219 @@ export default {
         userId: "",
         amount: "",
         type: "",
-        balanceType: "cny"
+        balanceType: "cny",
       },
       rules: {
         amount: [
           {
             required: true,
-            message: "金额必填"
+            message: "金额必填",
           },
           {
             type: "number",
             min: 0.01,
-            message: "最小金额0.01"
-          }
+            message: "最小金额0.01",
+          },
         ],
         balanceType: [
           {
             required: true,
             message: "账户类型必选",
-            trigger: "blur"
-          }
-        ]
-      }
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   computed: {
     query({ filters, pagination }) {
       return { ...filters, ...pagination };
-    }
+    },
   },
   created() {
     this.fetchData();
     this.getAmount();
   },
   methods: {
-    handleLink(row){
-      this.linkForm = {
-        userId:row.userId,
-        link:row.link
-      }
-      this.linkDialogShow = true
-    },
-    updateLink(){
-      updateUserLinkApi(this.linkForm).then(() => {
-        this.$message.success('操作成功')
-        this.linkDialogShow = false
-        this.fetchData()
+    downloadHistory() {
+      const loading = this.$loading({
+        lock: true,
+        text: "正在下载.....",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      downloadHistoryApi(this.downloadHistoryMonth).then((list) => {
+        if(!list.length){
+          this.$message.warning('当前月份暂无数据')
+          return
+        }
+        list.forEach(item => {
+            item.time = `${item.year}-${item.month}-${item.day}`
+           item.cny_total = (item.data.cny_total / 100).toFixed(2);
+            (item.usd_total = item.data.usd_total
+              ? (item.data.usd_total / 100).toFixed(2)
+              : 0),
+              (item.usdt_total = (item.data.usdt_total / 100).toFixed(2));
+            item.aed_total = item.data.aed_total
+              ? (item.data.aed_total / 100).toFixed(2)
+              : 0;
+            item.rm_total = item.data.rm_total
+              ? (item.data.rm_total / 100).toFixed(2)
+              : 0;
+            item.php_total = item.data.php_total
+              ? (item.data.php_total / 100).toFixed(2)
+              : 0;
+            item.xb_total = item.data.xb_total
+              ? (item.data.xb_total / 100).toFixed(2)
+              : 0;
+           
+        });
+        stringify(
+            list,
+            {
+              header: true,
+              columns: [
+                { key: "time", header: "年/月/日" },
+                { key: "cny_total", header: "人民币总额" },
+                { key: "usd_total", header: "美元总额" },
+                { key: "usdt_total", header: "USDT总额" },
+                { key: "xb_total", header: "新币总额" },
+                { key: "aed_total", header: "越南盾总额" },
+                { key: "rm_total", header: "令吉总额" },
+                { key: "php_total", header: "比索总额" },
+              ],
+            },
+            function (err, output) {
+              if (err) {
+                loading.close();
+              }
+              loading.close();
+              const dataBlob = new Blob([`\ufeff${output}`], {
+                type: "text/plain;charset=utf-8",
+              });
+              const url = window.URL.createObjectURL(dataBlob);
+              let a = document.createElement("a");
+              a.href = url;
+              a.download = `${dayjs().format("YYYY-MM-DD导出余额汇总")}.csv`;
+              a.click();
+              setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+              });
+            }
+          );
       })
+    },
+    handleLink(row) {
+      this.linkForm = {
+        userId: row.userId,
+        link: row.link,
+      };
+      this.linkDialogShow = true;
+    },
+    updateLink() {
+      updateUserLinkApi(this.linkForm).then(() => {
+        this.$message.success("操作成功");
+        this.linkDialogShow = false;
+        this.fetchData();
+      });
     },
     download() {
       const loading = this.$loading({
         lock: true,
         text: "正在下载.....",
         spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)"
+        background: "rgba(0, 0, 0, 0.7)",
       });
-      downloadAccountCsvApi(this.filters).then((list) => {
-        list.forEach(item => {
-          item.cny_balance = (item.cny_balance / 100).toFixed(2)
-          item.usd_balance = item.usd_balance ? (item.usd_balance / 100).toFixed(2) : 0,
-            item.usdt_balance = (item.usdt_balance / 100).toFixed(2)
-          item.aed_balance = item.aed_balance ? (item.aed_balance / 100).toFixed(2) : 0
-          item.rm_balance = item.rm_balance ? (item.rm_balance / 100).toFixed(2) : 0
-          item.php_balance = item.php_balance ? (item.php_balance / 100).toFixed(2) : 0
-          item.xb_balance = item.xb_balance ? (item.xb_balance / 100).toFixed(2) : 0
-          item.createTime = dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')
-        })
-        stringify(
-          list,
-          {
-            header: true,
-            columns: [
-              { key: "accountName", header: "用户名" },
-              { key: "nickName", header: "昵称" },
-              { key: "cny_balance", header: '人民币余额' },
-              { key: 'usd_balance', header: '美元余额' },
-              { key: 'usdt_balance', header: 'USDT余额' },
-              { key: 'xb_balance', header: '新币余额' },
-              { key: 'aed_balance', header: '越南盾余额' },
-              { key: 'rm_balance', header: '令吉余额' },
-              { key: 'php_balance', header: '比索余额' },
-              { key: 'cny_account', header: '人民币账户' },
-              {
-                key: "cny_name", header: '人民币提现姓名'
-              },
-              { key: "trc_account", header: 'TRC20提现地址' },
-              { key: 'createTime', header: '创建时间' }
-            ]
-          },
-          function (err, output) {
-            if (err) {
+      downloadAccountCsvApi(this.filters)
+        .then((list) => {
+          list.forEach((item) => {
+            item.cny_balance = (item.cny_balance / 100).toFixed(2);
+            (item.usd_balance = item.usd_balance
+              ? (item.usd_balance / 100).toFixed(2)
+              : 0),
+              (item.usdt_balance = (item.usdt_balance / 100).toFixed(2));
+            item.aed_balance = item.aed_balance
+              ? (item.aed_balance / 100).toFixed(2)
+              : 0;
+            item.rm_balance = item.rm_balance
+              ? (item.rm_balance / 100).toFixed(2)
+              : 0;
+            item.php_balance = item.php_balance
+              ? (item.php_balance / 100).toFixed(2)
+              : 0;
+            item.xb_balance = item.xb_balance
+              ? (item.xb_balance / 100).toFixed(2)
+              : 0;
+            item.createTime = dayjs(item.createTime).format(
+              "YYYY/MM/DD HH:mm:ss"
+            );
+          });
+          stringify(
+            list,
+            {
+              header: true,
+              columns: [
+                { key: "accountName", header: "用户名" },
+                { key: "nickName", header: "昵称" },
+                { key: "cny_balance", header: "人民币余额" },
+                { key: "usd_balance", header: "美元余额" },
+                { key: "usdt_balance", header: "USDT余额" },
+                { key: "xb_balance", header: "新币余额" },
+                { key: "aed_balance", header: "越南盾余额" },
+                { key: "rm_balance", header: "令吉余额" },
+                { key: "php_balance", header: "比索余额" },
+                { key: "cny_account", header: "人民币账户" },
+                {
+                  key: "cny_name",
+                  header: "人民币提现姓名",
+                },
+                { key: "trc_account", header: "TRC20提现地址" },
+                { key: "createTime", header: "创建时间" },
+              ],
+            },
+            function (err, output) {
+              if (err) {
+                loading.close();
+              }
               loading.close();
+              const dataBlob = new Blob([`\ufeff${output}`], {
+                type: "text/plain;charset=utf-8",
+              });
+              const url = window.URL.createObjectURL(dataBlob);
+              let a = document.createElement("a");
+              a.href = url;
+              a.download = `${dayjs().format("YYYY-MM-DD导出数据")}.csv`;
+              a.click();
+              setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+              });
             }
-            loading.close();
-            const dataBlob = new Blob([`\ufeff${output}`], {
-              type: "text/plain;charset=utf-8"
-            });
-            const url = window.URL.createObjectURL(dataBlob);
-            let a = document.createElement("a");
-            a.href = url;
-            a.download = `${dayjs().format("YYYY-MM-DD导出数据")}.csv`;
-            a.click();
-            setTimeout(() => {
-              window.URL.revokeObjectURL(url);
-            });
-          }
-        );
-      }).finally(() => {
-        loading.close()
-      })
+          );
+        })
+        .finally(() => {
+          loading.close();
+        });
     },
     handleResetPass(row) {
       const data = {
-        userId: row.userId
-      }
+        userId: row.userId,
+      };
       restPassApi(data).then(() => {
-        this.$message.success('操作成功')
-      })
+        this.$message.success("操作成功");
+      });
     },
     handleChange(row) {
       const data = {
         userId: row.userId,
-        inBlack: !row.inBlack
+        inBlack: !row.inBlack,
       };
       updateAccessApi(data).then(() => {
-        this.$message.success('操作成功')
+        this.$message.success("操作成功");
         this.fetchData();
       });
     },
     getAmount() {
-      getAmountCountApi().then(res => {
+      getAmountCountApi().then((res) => {
         if (res[0]) {
           this.countData = {
             cny: res[0].cny_total / 100,
@@ -419,7 +626,7 @@ export default {
             rm: res[0].rm_total / 100,
             php: res[0].php_total / 100,
             aed: res[0].aed_total / 100,
-            xb: res[0].xb_total / 100
+            xb: res[0].xb_total / 100,
           };
         }
       });
@@ -427,16 +634,16 @@ export default {
     handleChangeTitle(row) {
       this.userTitle = {
         userId: row.userId,
-        title: row.title
-      }
-      this.titleDialogVisible = true
+        title: row.title,
+      };
+      this.titleDialogVisible = true;
     },
     titleSubmit() {
       updateCertApi(this.userTitle).then(() => {
-        this.$message.success('操作成功')
-        this.fetchData()
+        this.$message.success("操作成功");
+        this.fetchData();
         this.titleDialogVisible = false;
-      })
+      });
     },
     search() {
       this.pagination.currentPage = 0;
@@ -450,7 +657,7 @@ export default {
       if (!value) {
         return 0;
       }
-      return (value / 100).toFixed(2)
+      return (value / 100).toFixed(2);
     },
     handleCurrentChange(val) {
       this.pagination.currentPage = val;
@@ -462,10 +669,10 @@ export default {
         lock: true,
         text: "正在搜索.....",
         spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)"
+        background: "rgba(0, 0, 0, 0.7)",
       });
       getAccountListApi(query)
-        .then(res => {
+        .then((res) => {
           const { docs, page, totalDocs } = res;
           this.pagination.total = totalDocs;
           this.tableList = docs;
@@ -478,17 +685,17 @@ export default {
     reset() {
       this.pagination = {
         currentPage: 1,
-        total: 0
+        total: 0,
       };
       this.filters = {
-         userId: "",
+        userId: "",
         accountName: "",
-        cny_account:"",
-        trc_account:'',
-        erc_account:'',
+        cny_account: "",
+        trc_account: "",
+        erc_account: "",
         sort: "",
-        hasTitle:'',
-        hasBlock:''
+        hasTitle: "",
+        hasBlock: "",
       };
     },
     resetFilter() {
@@ -513,8 +720,8 @@ export default {
           this.$message.success("操作成功");
           this.fetchData();
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

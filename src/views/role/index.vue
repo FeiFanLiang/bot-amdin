@@ -110,6 +110,10 @@ export default {
             {
                 label:'机器人模板',
                 value:'template'
+            },
+            {
+              label:'导出余额表',
+              value:"billHistory"
             }
       ],
       rules: {
