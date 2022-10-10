@@ -7,55 +7,38 @@
         <el-table-column label="兑换货币" sortable prop="fromType">
           <template v-slot="scope">
             {{
-              `1 ${(scope.row.fromType === "aed"
-                ? "VND"
-                : scope.row.fromType
-              ).toUpperCase()}`
+            `1 ${(scope.row.fromType === "aed"
+            ? "VND"
+            : scope.row.fromType
+            ).toUpperCase()}`
             }}
           </template>
         </el-table-column>
         <el-table-column label="目标货币" sortable prop="toType">
           <template v-slot="scope">
             {{
-              `${scope.row.rate} ${(scope.row.toType === "aed"
-                ? "VND"
-                : scope.row.toType
-              ).toUpperCase()}`
+            `${scope.row.rate} ${(scope.row.toType === "aed"
+            ? "VND"
+            : scope.row.toType
+            ).toUpperCase()}`
             }}
           </template>
         </el-table-column>
         <el-table-column label="备注" prop="remark"></el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
-            <el-button type="success" @click="handleEdit(scope.row)"
-              >编辑</el-button
-            >
+            <el-button type="success" @click="handleEdit(scope.row)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <el-dialog title="汇率编辑" :visible.sync="dialogVisible">
-      <el-form
-        label-position="left"
-        label-width="100px"
-        :model="form"
-        :rules="rules"
-        ref="form"
-      >
+      <el-form label-position="left" label-width="100px" :model="form" :rules="rules" ref="form">
         <el-form-item label="汇率" prop="rate">
-          <el-input-number
-            v-model="form.rate"
-            :precision="6"
-            :max="maxLimit"
-            placeholder="请输入汇率"
-          ></el-input-number>
+          <el-input-number v-model="form.rate" :precision="6" :max="maxLimit" placeholder="请输入汇率"></el-input-number>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input
-            type="textarea"
-            v-model="form.remark"
-            placeholder="请输入备注"
-          ></el-input>
+          <el-input type="textarea" v-model="form.remark" placeholder="请输入备注"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -66,11 +49,7 @@
     <el-dialog title="汇率" :visible.sync="batchDialogVisible">
       <el-form :model="batchForm">
         <el-form-item label="汇率" prop="rate" required>
-          <el-input-number
-            v-model="batchForm.rate"
-            :precision="6"
-            placeholder="请输入汇率"
-          ></el-input-number>
+          <el-input-number v-model="batchForm.rate" :precision="6" placeholder="请输入汇率"></el-input-number>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -118,12 +97,12 @@ export default {
   created() {
     this.fetchData();
   },
-  computed:{
-    maxLimit({form}){
-      const {fromType,toType} = form
-      const limits = [{fromType:'usdt',toType:'usd'},{fromType:'rm',toType:'usdt'},{fromType:'usd',toType:'usdt'},{fromType:'xb',toType:'usdt'},{fromType:'php',toType:'usdt'},{fromType:'cny',toType:'usdt'},{fromType:'aed',toType:'usdt'}]
-      if(limits.some(el => el.fromType === fromType && el.toType === toType)){
-        return 0.99
+  computed: {
+    maxLimit({ form }) {
+      const { fromType, toType } = form
+      const limits = [{ fromType: 'usdt', toType: 'usd' }, { fromType: 'rm', toType: 'usdt' }, { fromType: 'usd', toType: 'usdt' }, { fromType: 'xb', toType: 'usdt' }, { fromType: 'php', toType: 'usdt' }, { fromType: 'cny', toType: 'usdt' }, { fromType: 'aed', toType: 'usdt' }]
+      if (limits.some(el => el.fromType === fromType && el.toType === toType)) {
+        return 0.999999
       }
       return undefined
     }
